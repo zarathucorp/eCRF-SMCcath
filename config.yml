@@ -1,0 +1,4 @@
+default:
+  app_name: "eCRFexam"
+  db:
+    dbname: 'data/data.sqlite3'
