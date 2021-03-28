@@ -17,7 +17,10 @@
 #' @param data data to extract pid
 #' @return None
 #'
-car_edit_module <- function(input, output, session, modal_title, car_to_edit, modal_trigger, tbl = "rct", data, sessionid) {
+#'
+
+# car_edit_module
+demographics_edit_module <- function(input, output, session, modal_title, car_to_edit, modal_trigger, tbl = "rct", data, sessionid) {
   ns <- session$ns
 
   observeEvent(modal_trigger(), {
@@ -78,24 +81,21 @@ car_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               min = 0, max = 200,
               step = 0.1
             ),
-            numericInput(
-              ns('BMI'),
-              'BMI',
-              value = ifelse(is.null(hold), NA, hold$BMI),
-              min = 10, max = 40,
-              step = 0.01
-            ),
+            #sliderInput( ns('BMI'), 'BMI', value = ifelse(is.null(hold), 20, hold$BMI), min = 10, max = 40, step = 0.01),
+            sliderInput( ns('BMI'), 'BMI', value = 20, min = 10, max = 40, step = 0.01),
+            #numericInput( ns('BMI'), 'BMI', value = ifelse(is.null(hold), NA, hold$BMI), min = 10, max = 40, step = 0.01 ),
             radioButtons(
               ns('Smoking'),
               'Smoking',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
               selected = ifelse(is.null(hold), "", hold$Smoking), inline = T
             ),
-            selectInput(
-              ns('AMI_Type'),
-              'AMI Type',
-              choices = c("0"=0, "1"=1, "2"=2, 'Unknown' = ""), selected = ifelse(is.null(hold), "", hold$AMI_Type)
-            )
+            radioButtons( ns("AMI_Type"), "AMI Type", choices = c( "0" = 0, "1"= 1, "2" = 2), selected = ifelse(is.null(hold), "", hold$AMI_Type), inline = T),
+            #selectInput(
+            #  ns('AMI_Type'),
+            #  'AMI Type',
+            #  choices = c("X"=0, "Y"=1, "Z"=2, 'Unknown' = ""), selected = ifelse(is.null(hold), "", hold$AMI_Type)
+            #)
           ),
           column(
             width = 6,
@@ -210,10 +210,6 @@ car_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     })
 
   })
-
-
-
-
 
   edit_car_dat <- reactive({
     hold <- car_to_edit()
