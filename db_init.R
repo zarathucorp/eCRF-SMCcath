@@ -11,7 +11,8 @@ conn <- dbConnect(
 # & the 4 created/modified columns
 create_rct_query = "CREATE TABLE rct (
   pid                             TEXT PRIMARY KEY,
-  'Group'                           TEXT,
+  'Group'                         TEXT,
+  Index_PCI_Date                  DATE,
   Initial                         TEXT,
   Age                             REAL,
   Sex                             TEXT,
@@ -33,12 +34,6 @@ create_rct_query = "CREATE TABLE rct (
   Hx_CABG                         TEXT,
   Hx_CVA                          TEXT,
   Hx_AF                           TEXT,
-  SBP_Cathlab_Pre_PCI             REAL,
-  DBP_Cathlab_Pre_PCI             REAL,
-  HR_Cathlab_Pre_PCI              REAL,
-  SBP_Cathlab_Post_PCI            REAL,
-  DBP_Cathlab_Post_PCI            REAL,
-  HR_Cathlab_Post_PCI             REAL,
   Last_FU_Date                    DATE,
   Death                           TEXT,
   Death_Date                      DATE,
@@ -61,6 +56,7 @@ create_rct_query = "CREATE TABLE rct (
 )"
 
 
+## same to "rct"
 create_pros_query <- gsub(" rct ", " pros ", create_rct_query)
 
 # dbExecute() executes a SQL statement with a connection object
@@ -72,10 +68,11 @@ dbExecute(conn, create_rct_query)
 dbExecute(conn, create_pros_query)
 
 
-dat <- readRDS("data/eCRFexam.RDS")[, 1:29][, -1]
+dat <- readRDS("data/eCRFexam.RDS")[, 1:23][, -1]
 names(dat)[1] <- "pid"
 dat[, 1] <- readRDS("data/random.RDS")[1, 1]
-dat <- cbind(tibble(pid = dat[, 1]), tibble(readRDS("data/random.RDS")[1, 2]), dat[, -1],
+dat <- cbind(tibble(pid = dat[, 1]), Group = readRDS("data/random.RDS")[1, 2], tibble(Index_PCI_Date = as.character(as.Date(Sys.time()))), 
+             dat[, -1],
              tibble(Last_FU_Date = as.character(as.Date(Sys.time())),
                     Death = "1",
                     Death_Date = as.character(as.Date(Sys.time())),
@@ -97,9 +94,10 @@ dat <- cbind(tibble(pid = dat[, 1]), tibble(readRDS("data/random.RDS")[1, 2]), d
                     modified_at = as.character(lubridate::with_tz(Sys.time(), tzone = "UTC")),
                     modified_by = "jinseob2kim@gmail.com",))
 
-for (i in c(1, 9:23)){
+for (i in c(1, 10:24)){
   class(dat[, i]) <- "character"
 }
+dat$AMI_Type <- "NSTEMI"
 
 rdat <- tibble(dat)
 pdat <- tibble(dat)
@@ -130,3 +128,4 @@ dbListTables(conn)
 
  # disconnect from SQLite before continuing
 dbDisconnect(conn)
+

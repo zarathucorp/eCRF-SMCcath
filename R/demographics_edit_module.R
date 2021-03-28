@@ -17,20 +17,27 @@
 #' @param data data to extract pid
 #' @return None
 #'
-car_edit_module <- function(input, output, session, modal_title, car_to_edit, modal_trigger, tbl = "rct", data, sessionid) {
+demographics_edit_module <- function(input, output, session, modal_title, car_to_edit, modal_trigger, tbl = "rct", data, sessionid) {
   ns <- session$ns
 
   observeEvent(modal_trigger(), {
     hold <- car_to_edit()
-    idlist <- setdiff(rd$pid, data()$pid)
     
-    choices.group <- rd[rd$pid == idlist[1], ]$Group
-    if (tbl == "pros"){
-      idlist <- setdiff(paste0("P-", 1:100000), data()$pid)
-      choices.group <- levels(rd$Group)
+    choiceNames.DM <- c("No", "Yes")
+    choiceValues.DM <- c("0" ,"1")
+    selected.DM <- NULL
+    
+    choices.AMI_Type <- c("NSTEMI", "STEMI")
+    selected.AMI_Type <- NULL
+    if (tbl == "rct"){
+      choiceNames.DM <- ifelse(hold$DM == "0", "No", "Yes")
+      choiceValues.DM <- hold$DM
+      choices.AMI_Type <- hold$AMI_Type
+      selected.AMI_Type <- hold$AMI_Type
     }
     
-    choices.pid <- ifelse(is.null(hold), idlist[1], hold$pid)  
+    
+    
 
     showModal(
       modalDialog(
@@ -40,48 +47,49 @@ car_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             selectInput(
               ns("pid"),
               'pid',
-              choices = choices.pid,
-              selected = choices.pid[1],
+              choices = hold$pid,
+              selected = hold$pid,
             ),
             radioButtons(
-              ns("Group"), "Group", choices.group, choices.group[1], inline = T
+              ns("Group"), "Group", hold$Group, hold$Group, inline = T
             ),
             textInput(
               ns("Initial"),
               'Initial',
-              value = ifelse(is.null(hold), "", hold$Initial)
+              value = hold$Initial
             ),
+            dateInput(ns("Index_PCI_Date"), "Index PCI Date",  value = hold$Index_PCI_Date, language = "kr"),
             numericInput(
               ns('Age'),
               'Age',
-              value = ifelse(is.null(hold), NA, hold$Age),
-              min = 0, max = 120,
+              value = hold$Age,
+              min = 19, max = 120,
               step = 1
             ),
             radioButtons(
               ns('Sex'),
               'Sex',
               choices = c('M', 'F'),
-              selected = ifelse(is.null(hold), "M", hold$Sex), inline =T
+              selected = hold$Sex, inline =T
             ),
             numericInput(
               ns('Height'),
               'Height(cm)',
-              value = ifelse(is.null(hold), NA, hold$Height),
+              value = hold$Height,
               min = 50, max = 300,
               step = 0.1
             ),
             numericInput(
               ns('Weight'),
               'Weight(kg)',
-              value = ifelse(is.null(hold), NA, hold$Weight),
+              value = hold$Weight,
               min = 0, max = 200,
               step = 0.1
             ),
             numericInput(
               ns('BMI'),
               'BMI',
-              value = ifelse(is.null(hold), NA, hold$BMI),
+              value = hold$BMI,
               min = 10, max = 40,
               step = 0.01
             ),
@@ -89,93 +97,93 @@ car_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns('Smoking'),
               'Smoking',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$Smoking), inline = T
+              selected = hold$Smoking, inline = T
             ),
-            selectInput(
+            radioButtons(
               ns('AMI_Type'),
               'AMI Type',
-              choices = c("0"=0, "1"=1, "2"=2, 'Unknown' = ""), selected = ifelse(is.null(hold), "", hold$AMI_Type)
+              choices = choices.AMI_Type, selected.AMI_Type, inline = T
             )
           ),
           column(
             width = 6,
             radioButtons(
               ns('HTN'),
-              'HTN',
+              'Previous HTN',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$HTN), inline = T
+              selected = hold$HTN, inline = T
             ),
             radioButtons(
               ns('DM'),
-              'DM',
-              choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$DM), inline = T
+              'Previous DM',
+              choiceNames = choiceNames.DM, choiceValues = choiceValues.DM,
+              selected = selected.DM, inline = T
             ),
             radioButtons(
               ns('DM_Tx'),
-              'DM_Tx',
+              'Previous DM treatment',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$DM_Tx), inline = T
+              selected = hold$DM_Tx, inline = T
             ),
             radioButtons(
               ns('Dyslipidemia'),
-              'Dyslipidemia',
+              'Previous Dyslipidemia',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$Dyslipidemia), inline = T
+              selected = hold$Dyslipidemia, inline = T
             ),
             radioButtons(
               ns('CKD'),
-              'CKD',
+              'Previous CKD',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$CKD), inline = T
+              selected = hold$CKD, inline = T
             ),
             radioButtons(
               ns('Dialysis'),
-              'Dialysis',
+              'Previous Dialysis',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$Dialysis), inline = T
+              selected = hold$Dialysis, inline = T
             ),
             radioButtons(
               ns('Prev_Bleeding'),
               'Previous Bleeding',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$Prev_Bleeding), inline = T
+              selected = hold$Prev_Bleeding, inline = T
             ),
             radioButtons(
               ns('Prev_HF_Adm'),
-              'Prev_HF_Adm',
+              'Previous Heart failure admission',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$Prev_HF_Adm), inline = T
+              selected = hold$Prev_HF_Adm, inline = T
             ),
             radioButtons(
               ns('Hx_MI'),
-              'Hx_MI',
+              'Previous MI',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$Hx_MI), inline = T
+              selected = hold$Hx_MI, inline = T
             ),
             radioButtons(
               ns('Hx_PCI'),
-              'Hx_PCI',
+              'Previous PCI',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$Hx_PCI), inline = T
+              selected = hold$Hx_PCI, inline = T
             ),
             radioButtons(
               ns('Hx_CABG'),
-              'Hx_CABG',
+              'Previous CABG',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$Hx_CABG), inline = T
+              selected = hold$Hx_CABG, inline = T
             ),
             radioButtons(
               ns('Hx_CVA'),
-              'Hx_CVA',
+              'Previous CVA',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$Hx_CVA), inline = T
+              selected = hold$Hx_CVA, inline = T
             ),
             radioButtons(
               ns('Hx_AF'),
-              'Hx_AF',
+              'Previous AF',
               choices = c('No' = 0, 'Yes' = 1, 'Unknown' = ""),
-              selected = ifelse(is.null(hold), "", hold$Hx_AF), inline = T
+              selected = hold$Hx_AF, inline = T
             )
             
           )
@@ -218,53 +226,39 @@ car_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
   edit_car_dat <- reactive({
     hold <- car_to_edit()
 
-    out <- list(
-      data = list(
-        "pid" = input$pid,
-        "Group" = input$Group,
-        "Initial" = input$Initial,
-        "Age" = input$Age,
-        "Sex" = input$Sex,
-        "Height" = input$Height,
-        "Weight" = input$Weight,
-        "BMI" = input$BMI,
-        "Smoking" = input$Smoking,
-        "AMI_Type" = input$AMI_Type,
-        "HTN" = input$HTN,
-        "DM" = input$DM,
-        "DM_Tx" = input$DM_Tx,
-        "Dyslipidemia" = input$Dyslipidemia,
-        "CKD" = input$CKD,
-        "Dialysis" = input$Dialysis,
-        "Prev_Bleeding" = input$Prev_Bleeding,
-        "Prev_HF_Adm" = input$Prev_HF_Adm,
-        "Hx_MI" = input$Hx_MI,
-        "Hx_PCI" = input$Hx_PCI,
-        "Hx_CABG" = input$Hx_CABG,
-        "Hx_CVA" = input$Hx_CVA,
-        "Hx_AF" = input$Hx_AF
-        
-      )
+    dat = list(
+      "Initial" = input$Initial,
+      "Index_PCI_Date" = ifelse(is.null(input$Index_PCI_Date), "", as.character(input$Index_PCI_Date)),
+      "Age" = input$Age, 
+      "Sex" = ifelse(is.null(input$Sex), "", input$Sex),
+      "Height" = input$Height,
+      "Weight" = input$Weight,
+      "BMI" = input$BMI,
+      "Smoking" = ifelse(is.null(input$Smoking), "", input$Smoking),
+      "HTN" = ifelse(is.null(input$HTN), "", input$HTN),
+      "DM_Tx" = ifelse(is.null(input$DM_Tx), "", input$DM_Tx),
+      "Dyslipidemia" = ifelse(is.null(input$Dyslipidemia), "", input$Dyslipidemia),
+      "CKD" = ifelse(is.null(input$CKD), "", input$CKD),
+      "Dialysis" = ifelse(is.null(input$Dialysis), "", input$Dialysis),
+      "Prev_Bleeding" = ifelse(is.null(input$Prev_Bleeding), "", input$Prev_Bleeding),
+      "Prev_HF_Adm" = ifelse(is.null(input$Prev_HF_Adm), "", input$Prev_HF_Adm),
+      "Hx_MI" = ifelse(is.null(input$Hx_MI), "", input$Hx_MI),
+      "Hx_PCI" = ifelse(is.null(input$Hx_PCI), "", input$Hx_PCI),
+      "Hx_CABG" = ifelse(is.null(input$Hx_CABG), "", input$Hx_CABG),
+      "Hx_CVA" = ifelse(is.null(input$Hx_CVA), "", input$Hx_CVA),
+      "Hx_AF" = ifelse(is.null(input$Hx_AF), "", input$Hx_AF)
+      
     )
 
     time_now <- as.character(lubridate::with_tz(Sys.time(), tzone = "UTC"))
 
-    if (is.null(hold)) {
-      # adding a new car
+    dat$created_at <- as.character(hold$created_at)
+    dat$created_by <- hold$created_by
 
-      out$data$created_at <- time_now
-      out$data$created_by <- sessionid
-    } else {
-      # Editing existing car
+    dat$modified_at <- time_now
+    dat$modified_by <- sessionid
 
-      out$data$created_at <- as.character(hold$created_at)
-      out$data$created_by <- hold$created_by
-    }
-
-    out$data$modified_at <- time_now
-    out$data$modified_by <- sessionid
-
-    out
+    return(dat)
   })
 
   validate_edit <- eventReactive(input$submit, {
@@ -282,30 +276,13 @@ car_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
 
     tryCatch({
 
-      if (is.null(hold)) {
-
-        dbExecute(
-          conn,
-          paste0("INSERT INTO ", tbl," (pid, 'Group', Initial,Age,Sex,Height,Weight,BMI,Smoking,AMI_Type,HTN,DM,DM_Tx,Dyslipidemia,
-          CKD,Dialysis,Prev_Bleeding,Prev_HF_Adm,Hx_MI,Hx_PCI,Hx_CABG,Hx_CVA, Hx_AF, 
-          created_at, created_by, modified_at, modified_by) VALUES
-          ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)"),
-          params = c(
-            unname(dat$data)
-          )
-        )
-      } else {
-        # editing an existing car
-        dbExecute(
-          conn,
-          paste0("UPDATE ", tbl," SET 'Group'=$2, Initial=$3, Age=$4, Sex=$5, Height=$6, Weight=$7, BMI=$8, Smoking=$9, AMI_Type=$10, HTN=$11,
-          DM=$12, DM_Tx=$13, Dyslipidemia=$14, CKD=$15, Dialysis=$16, Prev_Bleeding=$17, Prev_HF_Adm=$18, Hx_MI=$19,Hx_PCI=$20,Hx_CABG=$21,Hx_CVA=$22, Hx_AF=$23,
-          created_at=$24, created_by=$25,modified_at=$26, modified_by=$27 WHERE pid='", dat$data[1], "'"),
-          params = c(
-            unname(dat$data)[-1]
-          )
-        )
-      }
+      dbExecute(
+        conn,
+        paste0("UPDATE ", tbl," SET 'Initial'=$1, Index_PCI_Date=$2, Age=$3, Sex=$4, Height=$5, Weight=$6, BMI=$7, Smoking=$8, HTN=$9,
+          DM_Tx=$10, Dyslipidemia=$11, CKD=$12, Dialysis=$13, Prev_Bleeding=$14, Prev_HF_Adm=$15, Hx_MI=$16,Hx_PCI=$17,Hx_CABG=$18,Hx_CVA=$19, Hx_AF=$20,
+          created_at=$21, created_by=$22,modified_at=$23, modified_by=$24 WHERE pid='", hold$pid, "'"),
+        params = unname(dat)
+      )
 
       session$userData$mtcars_trigger(session$userData$mtcars_trigger() + 1)
       showToast("success", paste0(modal_title, " Successs"))

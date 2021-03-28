@@ -19,7 +19,7 @@ cars_table_module_ui <- function(id) {
       column(
         width = 2,
         actionButton(
-          ns("add_car"),
+          ns("add_patient"),
           "Add",
           class = "btn-success",
           style = "color: #fff;",
@@ -112,7 +112,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       )
     })
     
-    ids.na.event <- ids[apply(select(out, Last_FU_Date:Death), 1, function(x){any(is.na(x) | x == "")})]
+    ids.na.event <- ids[apply(select(out, Last_FU_Date:TLF_Date), 1, function(x){any(is.na(x) | x == "")})]
     
     events <- sapply(ids, function(id_) {
       btn.demo <- ifelse(id_ %in% ids.na.event, "warning", "success")
@@ -141,11 +141,11 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     # Set the Action Buttons row to the first column of the `mtcars` table
     out <- cbind(
       tibble(" " = deletes),
-      out[, 1:5], 
+      out[, 1:4], 
       `Demographics` = actions,
-      out[, 6:29],
+      out[, 5:24],
       `Events` = events,
-      out[, 30:ncol(out)]
+      out[, 25:ncol(out)]
     )
     
   
@@ -209,12 +209,11 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
   car_table_proxy <- DT::dataTableProxy('car_table')
 
   callModule(
-    car_edit_module,
-    "add_car",
+    add_initialedit_module,
+    "add_patient",
     modal_title = "Add Patient",
     car_to_edit = function() NULL,
-    data = cars, 
-    modal_trigger = reactive({input$add_car}), tbl = tbl, sessionid = sessionid
+    modal_trigger = reactive({input$add_patient}), tbl = tbl, data = cars, sessionid = sessionid, rd = rd
   )
 
   car_to_edit <- eventReactive(input$car_id_to_edit, {
@@ -224,12 +223,11 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
   })
 
   callModule(
-    car_edit_module,
+    demographics_edit_module,
     "edit_car",
     modal_title = "Edit Demographics",
     car_to_edit = car_to_edit,
-    data = cars, 
-    modal_trigger = reactive({input$car_id_to_edit}), tbl = tbl, sessionid = sessionid
+    modal_trigger = reactive({input$car_id_to_edit}), tbl = tbl, data = cars, sessionid = sessionid
   )
   
   car_to_edit_event <- eventReactive(input$car_id_to_edit_event, {
