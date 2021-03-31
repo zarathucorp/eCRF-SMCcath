@@ -120,7 +120,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       btn.demo <- ifelse(id_ %in% ids.na, "warning", "success")
       paste0(
 		'<center>',
-			'<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit demographics">'
+			'<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit demographics">',
 				'<button class="btn btn-', btn.demo, ' edits_btn" data-toggle="tooltip" data-placement="top" title="Edit demographics" id = ', id_, ' style="margin: 0">',
 					'<i class="fa fa-pencil-square-o"></i>',
 				'</button>',
