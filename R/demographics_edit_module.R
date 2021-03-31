@@ -104,7 +104,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
           ),
           column(
             width = 6,
-            actionButton(ns('CYfA'), "Check Yes for All", class = 'btn btn-default'), 
+            actionButton(ns('CNfA'), "Check No for All", class = 'btn btn-default'), 
             radioButtons(
               ns("HTN"),
               "Previous HTN",
@@ -215,10 +215,20 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
     })
   })
   
-  observeEvent(input$CYfA, {
-    print("CYFA!!!")
-    updateRadioButtons(session, "DM_Tx", selected = 0, inline = TRUE)
-    updateRadioButtons(session, "Dyslipidemia", selected = 0, inline = TRUE)
+  observeEvent(input$CNfA, {
+    print("CNFA!!!")
+    updateRadioButtons(session, "HTN", selected = 0)
+    updateRadioButtons(session, "DM_Tx", selected = 0)
+    updateRadioButtons(session, "Dyslipidemia", selected = 0)
+    updateRadioButtons(session, "CKD", selected = 0)
+    updateRadioButtons(session, "Dialysis", selected = 0)
+    updateRadioButtons(session, "Prev_Bleeding", selected = 0)
+    updateRadioButtons(session, "Prev_HF_Adm", selected = 0)
+    updateRadioButtons(session, "Hx_MI", selected = 0)
+    updateRadioButtons(session, "Hx_PCI", selected = 0)
+    updateRadioButtons(session, "Hx_CABG", selected = 0)
+    updateRadioButtons(session, "Hx_CVA", selected = 0)
+    updateRadioButtons(session, "Hx_AF", selected = 0)
   })
 
   edit_car_dat <- reactive({
