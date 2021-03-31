@@ -10,7 +10,15 @@
 #'
 #' @return a \code{shiny::\link[shiny]{tagList}} containing UI elements
 #'
-library(magrittr);library(shinycssloaders);library(DT);library(tibble);library(shiny);library(purrr);library(dplyr)
+
+library(magrittr)
+library(shinycssloaders)
+library(DT)
+library(tibble)
+library(shiny)
+library(purrr)
+library(dplyr)
+
 cars_table_module_ui <- function(id) {
   ns <- NS(id)
 
@@ -23,8 +31,8 @@ cars_table_module_ui <- function(id) {
           "Add",
           class = "btn-success",
           style = "color: #fff;",
-          icon = icon('plus'),
-          width = '100%'
+          icon = icon("plus"),
+          width = "100%"
         ),
         tags$br(),
         tags$br()
@@ -34,14 +42,14 @@ cars_table_module_ui <- function(id) {
       column(
         width = 12,
         title = "Data",
-        DTOutput(ns('car_table')) %>%
+        DTOutput(ns("car_table")) %>%
           withSpinner(),
         tags$br(),
         tags$br()
       )
     ),
     tags$script(src = "cars_table_module.js"),
-    tags$script(paste0("cars_table_module_js('", ns(''), "')"))
+    tags$script(paste0("cars_table_module_js('", ns(""), "')"))
   )
 }
 
@@ -69,97 +77,113 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     session$userData$mtcars_trigger()
 
     out <- NULL
-    tryCatch({
-      out <- conn %>%
-        tbl(tbl) %>%
-        collect() %>%
-        mutate(
-          created_at = as.POSIXct(created_at, tz = "UTC"),
-          modified_at = as.POSIXct(modified_at, tz = "UTC")
-        ) %>%
-        arrange(desc(modified_at))
-    }, error = function(err) {
-
-
-      msg <- "Database Connection Error"
-      # print `msg` so that we can find it in the logs
-      print(msg)
-      # print the actual error to log it
-      print(error)
-      # show error `msg` to user.  User can then tell us about error and we can
-      # quickly identify where it cam from based on the value in `msg`
-      showToast("error", msg)
-    })
+    tryCatch(
+      {
+        out <- conn %>%
+          tbl(tbl) %>%
+          collect() %>%
+          mutate(
+            created_at = as.POSIXct(created_at, tz = "UTC"),
+            modified_at = as.POSIXct(modified_at, tz = "UTC")
+          ) %>%
+          arrange(desc(modified_at))
+      },
+      error = function(err) {
+        msg <- "Database Connection Error"
+        # print `msg` so that we can find it in the logs
+        print(msg)
+        # print the actual error to log it
+        print(error)
+        # show error `msg` to user.  User can then tell us about error and we can
+        # quickly identify where it cam from based on the value in `msg`
+        showToast("error", msg)
+      }
+    )
 
     out
   })
 
-
   car_table_prep <- reactiveVal(NULL)
 
   observeEvent(cars(), {
-    out <- cars()
+    out <- cars() # one observation
 
     ids <- out$pid
-    ids.na <- ids[apply(select(out, Initial:Hx_AF), 1, function(x){any(is.na(x) | x == "")})]
+	
+	# data에 입력 없을시 Error
+    ids.na <- ids[apply(select(out, Initial:Hx_AF), 1, function(x) {
+      any(is.na(x) | x == "")
+    })]
 
+	# button color
     actions <- sapply(ids, function(id_) {
       btn.demo <- ifelse(id_ %in% ids.na, "warning", "success")
       paste0(
-        '<center><div class="btn-group" style="width: 75px;" role="group" aria-label="Edit demographics">
-          <button class="btn btn-', btn.demo,' edits_btn" data-toggle="tooltip" data-placement="top" title="Edit demographics" id = ', id_, ' style="margin: 0"><i class="fa fa-pencil-square-o"></i></button>
-        </div></center>'
+		'<center>',
+			'<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit demographics">',
+				'<button class="btn btn-', btn.demo, ' edits_btn" data-toggle="tooltip" data-placement="top" title="Edit demographics" id = ', id_, ' style="margin: 0">',
+					'<i class="fa fa-pencil-square-o"></i>',
+				'</button>',
+			'</div>',
+		'</center>'
       )
     })
-    
-    ids.na.event <- ids[apply(select(out, Last_FU_Date:TLF_Date), 1, function(x){any(is.na(x) | x == "")})]
-    
+
+	# Event에 입력 없을시 Warning
+    ids.na.event <- ids[apply(select(out, Last_FU_Date:TLF_Date), 1, function(x) {
+      any(is.na(x) | x == "")
+    })]
+
+	# event button color
     events <- sapply(ids, function(id_) {
       btn.demo <- ifelse(id_ %in% ids.na.event, "warning", "success")
       paste0(
-        '<center><div class="btn-group" style="width: 75px;" role="group" aria-label="Edit events">
-          <button class="btn btn-', btn.demo,' edit_btn" data-toggle="tooltip" data-placement="top" title="Edit events" id = ', id_, ' style="margin: 0"><i class="fa fa-pencil-square-o"></i></button>
-        </div></center>'
+        '<center>',
+			'<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit events">',
+				'<button class="btn btn-', btn.demo, ' edit_btn" data-toggle="tooltip" data-placement="top" title="Edit events" id = ', id_, ' style="margin: 0">',
+					'<i class="fa fa-pencil-square-o"></i>',
+				'</button>',
+			'</div>',
+		'</center>'
       )
     })
-    
+	
+	# delete button 
     deletes <- sapply(ids, function(id_) {
       paste0(
         '<div class="btn-group" style="width: 75px;" role="group" aria-label="Delete row">
-          <button class="btn btn-danger delete_btn" data-toggle="tooltip" data-placement="top" title="Delete row" id = ', id_, ' style="margin: 0"><i class="fa fa-trash-o"></i></button>
-        </div>'
+          <button class="btn btn-danger delete_btn" data-toggle="tooltip" data-placement="top" title="Delete row" id = ', id_, ' style="margin: 0">',
+			'<i class="fa fa-trash-o"></i>',
+		  '</button>',
+		'</div>'
       )
     })
-    
-   
-    
+
 
     # Remove the `uid` column. We don't want to show this column to the user
-    #out <- out %>%
+    # out <- out %>%
     #  select(-pid)
 
     # Set the Action Buttons row to the first column of the `mtcars` table
     out <- cbind(
       tibble(" " = deletes),
-      out[, 1:4], 
+      out[, 1:4],
       `Demographics` = actions,
       out[, 5:24],
       `Events` = events,
       out[, 25:ncol(out)]
     )
-    
-  
+
+	# Data is empty
     if (is.null(car_table_prep())) {
       # loading data into the table for the first time, so we render the entire table
       # rather than using a DT proxy
       car_table_prep(out)
-
     } else {
 
       # table has already rendered, so use DT proxy to update the data in the
       # table without rerendering the entire table
       replaceData(car_table_proxy, out, resetPaging = FALSE, rownames = FALSE)
-
     }
   })
 
@@ -178,7 +202,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       extensions = c("Buttons"),
       options = list(
         scrollX = TRUE,
-        dom = 'Bftip',
+        dom = "Bftip",
         buttons = list(
           list(
             extend = "csv",
@@ -191,7 +215,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
         ),
         columnDefs = list(
           list(targets = which(names(out) %in% c(" ", "Demographics", "Events")) - 1, orderable = FALSE),
-          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Events", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)  
+          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Events", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
         ),
         drawCallback = JS("function(settings) {
           // removes any lingering tooltips
@@ -201,23 +225,27 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ) %>%
       formatDate(
         columns = c("created_at", "modified_at"),
-        method = 'toLocaleString'
+        method = "toLocaleString"
       )
-
   })
 
-  car_table_proxy <- DT::dataTableProxy('car_table')
+  car_table_proxy <- DT::dataTableProxy("car_table")
 
   callModule(
     add_initialedit_module,
     "add_patient",
     modal_title = "Add Patient",
     car_to_edit = function() NULL,
-    modal_trigger = reactive({input$add_patient}), tbl = tbl, data = cars, sessionid = sessionid, rd = rd
+    modal_trigger = reactive({
+      input$add_patient
+    }), 
+	tbl = tbl, 
+	data = cars, 
+	sessionid = sessionid, 
+	rd = rd
   )
 
   car_to_edit <- eventReactive(input$car_id_to_edit, {
-
     cars() %>%
       filter(pid == input$car_id_to_edit)
   })
@@ -227,26 +255,33 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     "edit_car",
     modal_title = "Edit Demographics",
     car_to_edit = car_to_edit,
-    modal_trigger = reactive({input$car_id_to_edit}), tbl = tbl, data = cars, sessionid = sessionid
+    modal_trigger = reactive({
+      input$car_id_to_edit
+    }), 
+	tbl = tbl, 
+	data = cars, 
+	sessionid = sessionid
   )
-  
+
   car_to_edit_event <- eventReactive(input$car_id_to_edit_event, {
-    
     cars() %>%
       filter(pid == input$car_id_to_edit_event)
   })
-  
+
   callModule(
     event_edit_module,
     "edit_event",
     modal_title = "Edit Event",
     car_to_edit = car_to_edit_event,
-    data = cars, 
-    modal_trigger = reactive({input$car_id_to_edit_event}), tbl = tbl, sessionid = sessionid
+    data = cars,
+    modal_trigger = reactive({
+      input$car_id_to_edit_event
+    }), 
+	tbl = tbl, 
+	sessionid = sessionid
   )
 
   car_to_delete <- eventReactive(input$car_id_to_delete, {
-
     out <- cars() %>%
       filter(pid == input$car_id_to_delete) %>%
       as.list()
@@ -257,7 +292,10 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     "delete_car",
     modal_title = "Delete Patient",
     car_to_delete = car_to_delete,
-    modal_trigger = reactive({input$car_id_to_delete}), tbl = tbl, sessionid = sessionid
+    modal_trigger = reactive({
+      input$car_id_to_delete
+    }), 
+	tbl = tbl, 
+	sessionid = sessionid
   )
-
 }
