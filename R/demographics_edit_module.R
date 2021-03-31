@@ -104,6 +104,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
           ),
           column(
             width = 6,
+            actionButton(ns('CYfA'), "Check Yes for All", class = 'btn btn-default'), 
             radioButtons(
               ns("HTN"),
               "Previous HTN",
@@ -212,6 +213,12 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
         shinyjs::enable("submit")
       }
     })
+  })
+  
+  observeEvent(input$CYfA, {
+    print("CYFA!!!")
+    updateRadioButtons(session, "DM_Tx", selected = 0, inline = TRUE)
+    updateRadioButtons(session, "Dyslipidemia", selected = 0, inline = TRUE)
   })
 
   edit_car_dat <- reactive({
