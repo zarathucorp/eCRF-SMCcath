@@ -36,7 +36,6 @@ server <- function(input, output, session) {
     check_credentials = check_credentials("database.sqlite")
   )
 
-
   # the Shiny application
   # session$userData$email <- res_auth$user
 
