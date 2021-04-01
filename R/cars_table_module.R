@@ -109,56 +109,74 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     out <- cars() # one observation
 
     ids <- out$pid
-	
-	# data에 입력 없을시 Error
+
+    # data에 입력 없을시 Error
     ids.na <- ids[apply(select(out, Initial:Hx_AF), 1, function(x) {
       any(is.na(x) | x == "")
     })]
 
-	# button color
+    # button color
     actions <- sapply(ids, function(id_) {
       btn.demo <- ifelse(id_ %in% ids.na, "warning", "success")
       paste0(
-		'<center>',
-			'<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit demographics">',
-				'<button class="btn btn-', btn.demo, ' edits_btn" data-toggle="tooltip" data-placement="top" title="Edit demographics" id = ', id_, ' style="margin: 0">',
-					'<i class="fa fa-pencil-square-o"></i>',
-				'</button>',
-			'</div>',
-		'</center>'
+        "<center>",
+        '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit demographics">',
+        '<button class="btn btn-', btn.demo, ' edits_btn" data-toggle="tooltip" data-placement="top" title="Edit demographics" id = ', id_, ' style="margin: 0">',
+        '<i class="fa fa-pencil-square-o"></i>',
+        "</button>",
+        "</div>",
+        "</center>"
       )
     })
 
-	# Event에 입력 없을시 Warning
+    # Event에 입력 없을시 Warning
     ids.na.event <- ids[apply(select(out, Last_FU_Date:TLF_Date), 1, function(x) {
       any(is.na(x) | x == "")
     })]
 
-	# event button color
+    # event button color
     events <- sapply(ids, function(id_) {
       btn.demo <- ifelse(id_ %in% ids.na.event, "warning", "success")
       paste0(
-        '<center>',
-			'<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit events">',
-				'<button class="btn btn-', btn.demo, ' edit_btn" data-toggle="tooltip" data-placement="top" title="Edit events" id = ', id_, ' style="margin: 0">',
-					'<i class="fa fa-pencil-square-o"></i>',
-				'</button>',
-			'</div>',
-		'</center>'
+        "<center>",
+        '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit events">',
+        '<button class="btn btn-', btn.demo, ' edit_btn" data-toggle="tooltip" data-placement="top" title="Edit events" id = ', id_, ' style="margin: 0">',
+        '<i class="fa fa-pencil-square-o"></i>',
+        "</button>",
+        "</div>",
+        "</center>"
       )
     })
-	
-	# delete button 
+
+    # Lab에 입력 없을시 Warning
+    ids.na.lab <- ids[apply(select(out, Lab_Date:Lactic_Acid_Peak), 1, function(x) {
+      any(is.na(x) | x == "")
+    })]
+
+    # Lab button color
+    labs <- sapply(ids, function(id_) {
+      btn.demo <- ifelse(id_ %in% ids.na.lab, "warning", "success")
+      paste0(
+        "<center>",
+        '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit labs">',
+        '<button class="btn btn-', btn.demo, ' editl_btn" data-toggle="tooltip" data-placement="top" title="Edit labs" id = ', id_, ' style="margin: 0">',
+        '<i class="fa fa-pencil-square-o"></i>',
+        "</button>",
+        "</div>",
+        "</center>"
+      )
+    })
+
+    # delete button
     deletes <- sapply(ids, function(id_) {
       paste0(
         '<div class="btn-group" style="width: 75px;" role="group" aria-label="Delete row">
           <button class="btn btn-danger delete_btn" data-toggle="tooltip" data-placement="top" title="Delete row" id = ', id_, ' style="margin: 0">',
-			'<i class="fa fa-trash-o"></i>',
-		  '</button>',
-		'</div>'
+        '<i class="fa fa-trash-o"></i>',
+        "</button>",
+        "</div>"
       )
     })
-
 
     # Remove the `uid` column. We don't want to show this column to the user
     # out <- out %>%
@@ -169,18 +187,19 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       tibble(" " = deletes),
       out[, 1:4],
       `Demographics` = actions,
-      out[, 5:24],
+      out[, 5:24], # Initial ~ Hx_AF
       `Events` = events,
-      out[, 25:ncol(out)]
+      out[, 25:40], # Last_FU_Date ~ TLF_Date
+      `Labs` = labs, 
+      out[, 41:ncol(out)] # Lab_Date:Lactic_Acid_Peak
     )
 
-	# Data is empty
+    # Data is empty
     if (is.null(car_table_prep())) {
       # loading data into the table for the first time, so we render the entire table
       # rather than using a DT proxy
       car_table_prep(out)
     } else {
-
       # table has already rendered, so use DT proxy to update the data in the
       # table without rerendering the entire table
       replaceData(car_table_proxy, out, resetPaging = FALSE, rownames = FALSE)
@@ -198,7 +217,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       selection = "none",
       class = "compact stripe row-border nowrap",
       # Escape the HTML in all except 1st column (which has the buttons)
-      escape = -which(names(out) %in% c(" ", "Demographics", "Events")),
+      escape = -which(names(out) %in% c(" ", "Demographics", "Events", "Labs")),
       extensions = c("Buttons"),
       options = list(
         scrollX = TRUE,
@@ -214,8 +233,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
           )
         ),
         columnDefs = list(
-          list(targets = which(names(out) %in% c(" ", "Demographics", "Events")) - 1, orderable = FALSE),
-          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Events", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
+          list(targets = which(names(out) %in% c(" ", "Demographics", "Events", "Labs")) - 1, orderable = FALSE),
+          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Events", "Labs", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
         ),
         drawCallback = JS("function(settings) {
           // removes any lingering tooltips
@@ -238,11 +257,11 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     car_to_edit = function() NULL,
     modal_trigger = reactive({
       input$add_patient
-    }), 
-	tbl = tbl, 
-	data = cars, 
-	sessionid = sessionid, 
-	rd = rd
+    }),
+    tbl = tbl,
+    data = cars,
+    sessionid = sessionid,
+    rd = rd
   )
 
   car_to_edit <- eventReactive(input$car_id_to_edit, {
@@ -257,10 +276,10 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     car_to_edit = car_to_edit,
     modal_trigger = reactive({
       input$car_id_to_edit
-    }), 
-	tbl = tbl, 
-	data = cars, 
-	sessionid = sessionid
+    }),
+    tbl = tbl,
+    data = cars,
+    sessionid = sessionid
   )
 
   car_to_edit_event <- eventReactive(input$car_id_to_edit_event, {
@@ -276,11 +295,29 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     data = cars,
     modal_trigger = reactive({
       input$car_id_to_edit_event
-    }), 
-	tbl = tbl, 
-	sessionid = sessionid
+    }),
+    tbl = tbl,
+    sessionid = sessionid
   )
 
+  car_to_edit_lab <- eventReactive(input$car_id_to_edit_lab, {
+    cars() %>%
+      filter(pid == input$car_id_to_edit_lab)
+  })
+  
+  callModule(
+    lab_edit_module,
+    "edit_lab",
+    modal_title = "Edit Lab",
+    car_to_edit = car_to_edit_lab,
+    data = cars,
+    modal_trigger = reactive({
+      input$car_id_to_edit_lab
+    }),
+    tbl = tbl,
+    sessionid = sessionid
+  )
+  
   car_to_delete <- eventReactive(input$car_id_to_delete, {
     out <- cars() %>%
       filter(pid == input$car_id_to_delete) %>%
@@ -294,8 +331,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     car_to_delete = car_to_delete,
     modal_trigger = reactive({
       input$car_id_to_delete
-    }), 
-	tbl = tbl, 
-	sessionid = sessionid
+    }),
+    tbl = tbl,
+    sessionid = sessionid
   )
 }
