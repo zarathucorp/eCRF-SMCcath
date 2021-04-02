@@ -244,7 +244,7 @@ lab_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     
     out <- list(
       data = list(
-        "Lab_DATE" = input$Lab_DATE,
+        "Lab_Date" = as.character(input$Lab_Date),
         "WBC" = input$WBC,
         "Hb" = input$Hb,
         "Plt" = input$Plt,
