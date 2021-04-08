@@ -1,6 +1,6 @@
 library(RSQLite)
 library(tibble)
-# setwd("~/ShinyApps/SMC-cardio/eCRFexam")
+#setwd("~/zarathu/eCRF-SMCcath")
 # Create a connection object with SQLite
 conn <- dbConnect(
   RSQLite::SQLite(),
@@ -178,7 +178,7 @@ dat <- cbind(
   # M3
   tibble(
     FU_M3 = '0',
-    Visit_Date_M3 = as.character(as.Date(Sys.time() + days(90))),
+    Visit_Date_M3 = as.character(as.Date(Sys.time() + lubridate::days(90))),
     Visit_M3 = '0',
     SBP_M3 = 120,
     DBP_M3 = 80,
