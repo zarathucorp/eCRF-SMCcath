@@ -173,20 +173,20 @@ m3_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
 
     out <- list(
       data = list(
-        "FU_M3" = as.character(input$FU_M3),
-        "Visit_Date_M3" = input$Visit_Date_M3,
-        "Visit_M3" = input$Visit_M3,
-        "Reason_M3" = input$Reason_M3,
-        "Other_M3" = input$Other_M3,
-        "LastFU_M3" = input$LastFU_M3,
-        "SBP_M3" = input$SBP_M3,
-        "DBP_M3" = input$DBP_M3,
-        "HRT_M3" = input$HRT_M3,
-        "Event_M3" = input$Event_M3,
-        "Withdrawal_M3" = input$Withdrawal_M3,
-        "Withdrawal_Date_M3" = input$Withdrawal_Date_M3,
-        "Cause_M3" = input$Cause_M3,
-        "Comment_M3" = input$Comment_M3
+        "FU_M3" = input$FU_M3,
+        "Visit_Date_M3" = ifelse(is.null(input$Visit_Date_M3), "", as.character(input$Visit_Date_M3)),
+        "Visit_M3" = ifelse(is.null(input$Visit_M3),"", input$Visit_M3),
+        "Reason_M3" = ifelse(is.null(input$Reason_M3),"", input$Reason_M3),
+        "Other_M3" = ifelse(is.null(input$Other_M3),"", input$Other_M3),
+        "LastFU_M3" = ifelse(is.null(input$LastFU_M3), "",as.character(input$LastFU_M3)),
+        "SBP_M3" = ifelse(is.null(input$SBP_M3),"",input$SBP_M3),
+        "DBP_M3" = ifelse(is.null(input$DBP_M3),"",input$DBP_M3),
+        "HRT_M3" = ifelse(is.null(input$HRT_M3),"",input$HRT_M3),
+        "Event_M3" = ifelse(is.null(input$Event_M3),"",input$Event_M3),
+        "Withdrawal_M3" = ifelse(is.null(input$Withdrawal_M3),"", input$Withdrawal_M3),
+        "Withdrawal_Date_M3" = ifelse(is.null(input$Withdrawal_Date_M3), "",as.character(input$Withdrawal_Date_M3)),
+        "Cause_M3" = ifelse(is.null(input$Cause_M3),"",input$Cause_M3),
+        "Comment_M3" = ifelse(is.null(input$Comment_M3), "", input$Comment_M3)
       )
     )
 
