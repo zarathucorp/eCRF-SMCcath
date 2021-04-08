@@ -51,6 +51,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
             )
           ),
           h3("Inclusion"),
+          actionButton(ns('CYfA'), "Check Yes for All", class = 'btn btn-default'),
           radioButtons(ns("in_1"), "1. 만 19세 이상", choices = c("Yes" , "No"), selected = NULL, inline = T),
           radioButtons(ns("in_2"), "2.	관상동맥 질환으로 경피적 관상동맥 중재시술이 필요한 환자", choices = c("Yes" , "No"), selected = NULL, inline = T),
           radioButtons(ns("in_3"), "3. 관상동맥 복잡 병변이 있는 환자", choices = c("Yes" , "No"), selected = NULL, inline = T),
@@ -66,6 +67,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
           h5("9) 좌측관상동맥(LAD, LCX) 및 우측관상동맥(RCA)의 개구부 병변 (ostial lesion)"),
           br(),
           h3("Exclusion"),
+          actionButton(ns('CNfA'), "Check No for All", class = 'btn btn-default'),
           radioButtons(ns("ex_1"), "1.	시술자에 의해 표적혈관의 협착이 관상동맥 중재시술에 적합하지 않다고 판단되는 경우
 (Target lesion not amenable for PCI by operators decision)", choices = c("Yes" , "No"), selected = NULL, inline = T),
           radioButtons(ns("ex_2"), "2. 심혈관성 쇼크 상태인 경우 (Cardiogenic shock (Killip class IV) at presentation)", choices = c("Yes" , "No"), selected = NULL, inline = T),
@@ -136,10 +138,11 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
         )
         shinyjs::disable('submit')
       } else {
-        shinyFeedback::hideFeedback("model")
+        shinyFeedback::hideFeedback("Initial")
         shinyjs::enable('submit')
       }
     })
+  
 
   })
   
@@ -178,6 +181,25 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
     
     
   })
+  
+  observeEvent(input$CYfA, {
+    print("CYFA!!!")
+    updateRadioButtons(session, "in_1", selected = "Yes")
+    updateRadioButtons(session, "in_2", selected = "Yes")
+    updateRadioButtons(session, "in_3", selected = "Yes")
+  })
+  
+  observeEvent(input$CNfA, {
+    print("CNFA!!!")
+    updateRadioButtons(session, "ex_1", selected = "No")
+    updateRadioButtons(session, "ex_2", selected = "No")
+    updateRadioButtons(session, "ex_3", selected = "No")
+    updateRadioButtons(session, "ex_4", selected = "No")
+    updateRadioButtons(session, "ex_5", selected = "No")
+    updateRadioButtons(session, "ex_6", selected = "No")
+    updateRadioButtons(session, "ex_7", selected = "No")
+  })
+  
   
   
 
