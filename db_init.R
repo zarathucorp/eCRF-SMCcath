@@ -78,6 +78,22 @@ create_rct_query <- "CREATE TABLE rct (
   Lactic_Acid_Pre                 REAL,
   Lactic_Acid_Peak                REAL,
 
+  -- M3 --
+  FU_M3                           TEXT,
+  Visit_Date_M3                   DATE, 
+  Visit_M3                        TEXT,
+  Reason_M3                       TEXT,
+  Other_M3                        TEXT,
+  LastFU_M3                       DATE,
+  SBP_M3                          REAL,
+  DBP_M3                          REAL,
+  HRT_M3                          REAL,
+  Event_M3                        TEXT,
+  Withdrawal_M3                   TEXT,
+  Withdrawal_Date_M3              DATE,
+  Cause_M3                        TEXT,
+  Comment_M3                      TEXT,
+  
   -- Infomation --
   created_at                      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   created_by                      TEXT,
@@ -159,6 +175,19 @@ dat <- cbind(
     Lactic_Acid_Peak = 3
   ),
   
+  # M3
+  tibble(
+    FU_M3 = '0',
+    Visit_Date_M3 = as.character(as.Date(Sys.time() + days(90))),
+    Visit_M3 = '0',
+    SBP_M3 = 120,
+    DBP_M3 = 80,
+    HRT_M3 = 60,
+    Event_M3 = '1',
+    Withdrawal_M3 = '1',
+    Comment_M3 = 'This is Comment Month 3'
+  ),
+  
   # Info
   tibble(
     created_at = as.character(lubridate::with_tz(Sys.time(), tzone = "UTC")),
@@ -168,7 +197,6 @@ dat <- cbind(
   )
 )
 
-#dat <-
 
 for (i in c(1, 10:24)) {
   class(dat[, i]) <- "character"
