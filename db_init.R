@@ -1,6 +1,6 @@
 library(RSQLite)
 library(tibble)
-# setwd("~/ShinyApps/SMC-cardio/eCRFexam")
+#setwd("~/zarathu/eCRF-SMCcath")
 # Create a connection object with SQLite
 conn <- dbConnect(
   RSQLite::SQLite(),
