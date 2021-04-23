@@ -166,15 +166,15 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
         "</center>"
       )
     })
-    
+
     # M3에 입력 없을시 Warning
     ids.na.m3 <- ids[apply(select(out, FU_M3:Comment_M3), 1, function(x) {
       any(is.na(x) | x == "")
     })]
-    
+
     # M3 button color
     m3 <- sapply(ids, function(id_) {
-      btn.demo <- ifelse(id_ %in% ids.na.lab, "warning", "success")
+      btn.demo <- ifelse(id_ %in% ids.na.m3, "warning", "success")
       paste0(
         "<center>",
         '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit M3">',
@@ -185,7 +185,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
         "</center>"
       )
     })
-    
+
 
     # delete button
     deletes <- sapply(ids, function(id_) {
@@ -210,11 +210,10 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       out[, 5:24], # Initial ~ Hx_AF
       `Events` = events,
       out[, 25:40], # Last_FU_Date ~ TLF_Date
-      `Labs` = labs, 
+      `Labs` = labs,
       out[, 41:63], # Lab_Date:Lactic_Acid_Peak
       `M3` = m3,
-      out[,64:ncol(out)]
-      
+      out[, 64:ncol(out)]
     )
 
     # Data is empty
@@ -327,7 +326,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     cars() %>%
       filter(pid == input$car_id_to_edit_lab)
   })
-  
+
   callModule(
     lab_edit_module,
     "edit_lab",
@@ -340,12 +339,12 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     tbl = tbl,
     sessionid = sessionid
   )
-  
+
   car_to_edit_m3 <- eventReactive(input$car_id_to_edit_m3, {
     cars() %>%
       filter(pid == input$car_id_to_edit_m3)
   })
-  
+
   callModule(
     m3_edit_module,
     "edit_m3",
@@ -358,7 +357,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     tbl = tbl,
     sessionid = sessionid
   )
-  
+
   car_to_delete <- eventReactive(input$car_id_to_delete, {
     out <- cars() %>%
       filter(pid == input$car_id_to_delete) %>%
