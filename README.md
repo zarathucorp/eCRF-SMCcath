@@ -13,7 +13,7 @@ eCRF for SMC Cath lab
   <!-- 2-2. insert example data -->
   <!-- 2-3. run db_init.R -->
 
-<!-- 3. edit module.R -->
+<!-- 3. edit ~~_edit_module.R -->
   <!-- 3-1. edit edit_car_dat -->
 
 <!-- 4. attatch module.R --> 
