@@ -231,6 +231,27 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       )
     })
     
+    ## Mf (Final)
+    
+    # Mf에 입력 없을시 Warning
+    ids.na.mf <- ids[apply(select(out, FU_Mf:Comment_Mf), 1, function(x) {
+      any(is.na(x) | x == "")
+    })]
+    
+    # Mf button color
+    mf <- sapply(ids, function(id_) {
+      btn.demo <- ifelse(id_ %in% ids.na.mf, "warning", "success")
+      paste0(
+        "<center>",
+        '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit Mf">',
+        '<button class="btn btn-', btn.demo, ' editmf_btn" data-toggle="tooltip" data-placement="top" title="Edit Mf" id = ', id_, ' style="margin: 0">',
+        '<i class="fa fa-pencil-square-o"></i>',
+        "</button>",
+        "</div>",
+        "</center>"
+      )
+    })
+    
     
     # delete button
     deletes <- sapply(ids, function(id_) {
@@ -260,6 +281,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       `M1` = m1,
       `M3` = m3,
       `M6` = m6,
+      `Mf` = mf,
       out[,64:ncol(out)]
     )
 
@@ -286,7 +308,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       selection = "none",
       class = "compact stripe row-border nowrap",
       # Escape the HTML in all except 1st column (which has the buttons)
-      escape = -which(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3", "M6")),
+      escape = -which(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3", "M6", "Mf")),
       extensions = c("Buttons"),
       options = list(
         scrollX = TRUE,
@@ -302,8 +324,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
           )
         ),
         columnDefs = list(
-          list(targets = which(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3", "M6")) - 1, orderable = FALSE),
-          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3", "M6", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
+          list(targets = which(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
+          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3", "M6","Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
         ),
         drawCallback = JS("function(settings) {
           // removes any lingering tooltips
@@ -441,6 +463,25 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     data = cars,
     modal_trigger = reactive({
       input$car_id_to_edit_m6
+    }),
+    tbl = tbl,
+    sessionid = sessionid
+  )
+  
+  ## Mf
+  car_to_edit_mf <- eventReactive(input$car_id_to_edit_mf, {
+    cars() %>%
+      filter(pid == input$car_id_to_edit_mf)
+  })
+  
+  callModule(
+    mf_edit_module,
+    "edit_mf",
+    modal_title = "Edit Mf",
+    car_to_edit = car_to_edit_mf,
+    data = cars,
+    modal_trigger = reactive({
+      input$car_id_to_edit_mf
     }),
     tbl = tbl,
     sessionid = sessionid
