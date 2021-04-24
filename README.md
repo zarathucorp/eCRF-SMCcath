@@ -21,7 +21,7 @@ eCRF for SMC Cath lab
   <!--  # Set the Action Buttons row to the first column of the `mtcars` table
   <!--           list(targets = which(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3")) - 1, orderable = FALSE), -->
 
-  
+<!-- 5. modify javascript -->
 
 <!-- for references -->
 
