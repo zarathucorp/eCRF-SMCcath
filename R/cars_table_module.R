@@ -209,7 +209,29 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       )
     })
 
-
+    
+    ## M6
+    
+    # M6에 입력 없을시 Warning
+    ids.na.m6 <- ids[apply(select(out, FU_M6:Comment_M6), 1, function(x) {
+      any(is.na(x) | x == "")
+    })]
+    
+    # M6 button color
+    m6 <- sapply(ids, function(id_) {
+      btn.demo <- ifelse(id_ %in% ids.na.m6, "warning", "success")
+      paste0(
+        "<center>",
+        '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit M6">',
+        '<button class="btn btn-', btn.demo, ' editm6_btn" data-toggle="tooltip" data-placement="top" title="Edit M6" id = ', id_, ' style="margin: 0">',
+        '<i class="fa fa-pencil-square-o"></i>',
+        "</button>",
+        "</div>",
+        "</center>"
+      )
+    })
+    
+    
     # delete button
     deletes <- sapply(ids, function(id_) {
       paste0(
@@ -236,9 +258,9 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       `Labs` = labs,
       out[, 41:63], # Lab_Date:Lactic_Acid_Peak
       `M1` = m1,
-      
       `M3` = m3,
-      out[, 64:ncol(out)]
+      `M6` = m6,
+      out[,64:ncol(out)]
     )
 
     # Data is empty
@@ -264,7 +286,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       selection = "none",
       class = "compact stripe row-border nowrap",
       # Escape the HTML in all except 1st column (which has the buttons)
-      escape = -which(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3")),
+      escape = -which(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3", "M6")),
       extensions = c("Buttons"),
       options = list(
         scrollX = TRUE,
@@ -280,8 +302,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
           )
         ),
         columnDefs = list(
-          list(targets = which(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3")) - 1, orderable = FALSE),
-          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
+          list(targets = which(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3", "M6")) - 1, orderable = FALSE),
+          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3", "M6", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
         ),
         drawCallback = JS("function(settings) {
           // removes any lingering tooltips
@@ -329,6 +351,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     sessionid = sessionid
   )
 
+  
+  ## EVENT
   car_to_edit_event <- eventReactive(input$car_id_to_edit_event, {
     cars() %>%
       filter(pid == input$car_id_to_edit_event)
@@ -346,7 +370,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     tbl = tbl,
     sessionid = sessionid
   )
-
+  ## LAB
   car_to_edit_lab <- eventReactive(input$car_id_to_edit_lab, {
     cars() %>%
       filter(pid == input$car_id_to_edit_lab)
@@ -365,6 +389,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     sessionid = sessionid
   )
 
+  ## M1
   car_to_edit_m1 <- eventReactive(input$car_id_to_edit_m1, {
     cars() %>%
       filter(pid == input$car_id_to_edit_m1)
@@ -382,7 +407,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     tbl = tbl,
     sessionid = sessionid
   )
-  
+
+  ## M3  
   car_to_edit_m3 <- eventReactive(input$car_id_to_edit_m3, {
     cars() %>%
       filter(pid == input$car_id_to_edit_m3)
@@ -401,6 +427,25 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     sessionid = sessionid
   )
 
+  ## M6
+  car_to_edit_m6 <- eventReactive(input$car_id_to_edit_m6, {
+    cars() %>%
+      filter(pid == input$car_id_to_edit_m6)
+  })
+  
+  callModule(
+    m6_edit_module,
+    "edit_m6",
+    modal_title = "Edit M6",
+    car_to_edit = car_to_edit_m6,
+    data = cars,
+    modal_trigger = reactive({
+      input$car_id_to_edit_m6
+    }),
+    tbl = tbl,
+    sessionid = sessionid
+  )
+  
   car_to_delete <- eventReactive(input$car_id_to_delete, {
     out <- cars() %>%
       filter(pid == input$car_id_to_delete) %>%
