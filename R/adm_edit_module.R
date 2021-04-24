@@ -850,9 +850,9 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     
     out <- list(
       data = list(
-        'Height_adm' = ifelse(is.null(input$Height_adm), '', input$Height_adm),
-        'Weight_adm' = ifelse(is.null(input$Weight_adm), '', input$Weight_adm),
-        'BMI_adm' = ifelse(is.null(input$BMI_adm), '', input$BMI_adm),
+        'Height' = ifelse(is.null(input$Height), '', input$Height),
+        'Weight' = ifelse(is.null(input$Weight), '', input$Weight),
+        'BMI' = ifelse(is.null(input$BMI), '', input$BMI),
         'BSA_adm' = ifelse(is.null(input$BSA_adm), '', input$BSA_adm),
         'SBP_adm' = ifelse(is.null(input$SBP_adm), '', input$SBP_adm),
         'DBP_adm' = ifelse(is.null(input$DBP_adm), '', input$DBP_adm),
@@ -862,11 +862,11 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         'BC_adm' = ifelse(is.null(input$BC_adm), '', input$BC_adm),
         'Diagnosis_other_adm' = ifelse(is.null(input$Diagnosis_other_adm), '', input$Diagnosis_other_adm),
         'Diagnosis_comment_adm' = ifelse(is.null(input$Diagnosis_comment_adm), '', input$Diagnosis_comment_adm),
-        'Hypertension_adm' = ifelse(is.null(input$Hypertension_adm), '', input$Hypertension_adm),
+        'HTN' = ifelse(is.null(input$HTN), '', input$HTN),
         'Diabetes_adm' = ifelse(is.null(input$Diabetes_adm), '', input$Diabetes_adm),
         'Diabetes_detail_adm' = ifelse(is.null(input$Diabetes_detail_adm), '', input$Diabetes_detail_adm),
         'Hld_adm' = ifelse(is.null(input$Hld_adm), '', input$Hld_adm),
-        'CS_adm' = ifelse(is.null(input$CS_adm), '', input$CS_adm),
+        'Smoking' = ifelse(is.null(input$Smoking), '', input$Smoking),
         'FHC_adm' = ifelse(is.null(input$FHC_adm), '', input$FHC_adm),
         'CRF_adm' = ifelse(is.null(input$CRF_adm), '', input$CRF_adm),
         'PP_adm' = ifelse(is.null(input$PP_adm), '', input$PP_adm),

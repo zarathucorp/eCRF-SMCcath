@@ -90,10 +90,32 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
           ),
           
           h3("Inclusion"),
-          actionButton(ns("CYfA"), "Check Yes for All", class = "btn btn-default"),
-          radioButtons(ns("in_1"), "1. 만 19세 이상", choices = c("Yes", "No"), selected = NULL, inline = T),
-          radioButtons(ns("in_2"), "2.	관상동맥 질환으로 경피적 관상동맥 중재시술이 필요한 환자", choices = c("Yes", "No"), selected = NULL, inline = T),
-          radioButtons(ns("in_3"), "3. 관상동맥 복잡 병변이 있는 환자", choices = c("Yes", "No"), selected = NULL, inline = T),
+          actionButton(
+            ns("CYfA"), 
+            "Check Yes for All", 
+            class = "btn btn-default"
+          ),
+          radioButtons(
+            ns("in_1"), 
+            "1. 만 19세 이상", 
+            choices = c("Yes", "No"), 
+            selected = NULL, 
+            inline = T
+            ),
+          radioButtons(
+            ns("in_2"), 
+            "2.	관상동맥 질환으로 경피적 관상동맥 중재시술이 필요한 환자", 
+            choices = c("Yes", "No"), 
+            selected = NULL, 
+            inline = T
+            ),
+          radioButtons(
+            ns("in_3"), 
+            "3. 관상동맥 복잡 병변이 있는 환자", 
+            choices = c("Yes", "No"), 
+            selected = NULL, 
+            inline = T
+            ),
           tags$b("[※ 관상동맥 복잡병변은 아래 9가지 중 하나 이상을 동반하고 있는 경우로 정의한다.]"),
           h5("1) 진성 분지 병변 (Medina classification 1,1,1/1,0,1/0,1,1) 이면서 측부 가지 크기가 2.5mm 이상인 경우"),
           h5("2) 표적 혈관이 만성 완전 폐색 병변인 경우 (≥3 months)"),
@@ -106,7 +128,11 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
           h5("9) 좌측관상동맥(LAD, LCX) 및 우측관상동맥(RCA)의 개구부 병변 (ostial lesion)"),
           br(),
           h3("Exclusion"),
-          actionButton(ns("CNfA"), "Check No for All", class = "btn btn-default"),
+          actionButton(
+            ns("CNfA"), 
+            "Check No for All", 
+            class = "btn btn-default"
+            ),
           radioButtons(
             ns("ex_1"), 
             "1.	시술자에 의해 표적혈관의 협착이 관상동맥 중재시술에 적합하지 않다고 판단되는 경우(Target lesion not amenable for PCI by operators decision)", 
@@ -264,16 +290,17 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
       }
     })
     
-    
-    
-    
-    
   })
 
   output$pidui <- renderUI({
     idlist <- choices.group <- NULL
     if (tbl == "rct") {
-      type.strata <- ifelse(input$DM_random == "0", ifelse(input$STEMI_random == "NSTEMI", "R-NDNST", "R-NDST"), ifelse(input$STEMI_random == "NSTEMI", "R-DNST", "R-DST"))
+      type.strata <- ifelse(
+        input$DM_random == "0", 
+        ifelse(input$STEMI_random == "NSTEMI", "R-NDNST", "R-NDST"), 
+        ifelse(input$STEMI_random == "NSTEMI", "R-DNST", "R-DST")
+      )
+      
       pid.group <- grep(type.strata, rd$pid, value = T)
 
       idlist <- setdiff(pid.group, data()$pid)
@@ -296,25 +323,37 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
     tagList(
       fluidRow(
         column(
-          width = 6, selectInput(session$ns("pid"), "pid", choices = choices.pid, selected = choices.pid)
+          width = 6, 
+          selectInput(
+            session$ns("pid"), 
+            "pid", 
+            choices = choices.pid, 
+            selected = choices.pid
+          )
+        ),
+        hidden(
+          column(
+            width = 6, 
+            radioButtons(
+              session$ns("Group"), 
+              "Group", 
+              choices.group, 
+              choices.group[1], 
+              inline = T
+            )
+          )
         )
-        #,
-        #column(
-        #  width = 6, radioButtons(session$ns("Group"), "Group", choices.group, choices.group[1], inline = T)
-        #)
       )
     )
   })
 
   observeEvent(input$CYfA, {
-    print("CYFA!!!")
     updateRadioButtons(session, "in_1", selected = "Yes")
     updateRadioButtons(session, "in_2", selected = "Yes")
     updateRadioButtons(session, "in_3", selected = "Yes")
   })
 
   observeEvent(input$CNfA, {
-    print("CNFA!!!")
     updateRadioButtons(session, "ex_1", selected = "No")
     updateRadioButtons(session, "ex_2", selected = "No")
     updateRadioButtons(session, "ex_3", selected = "No")
@@ -323,13 +362,6 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
     updateRadioButtons(session, "ex_6", selected = "No")
     updateRadioButtons(session, "ex_7", selected = "No")
   })
-
-
-
-
-
-
-
 
   edit_car_dat <- reactive({
     hold <- car_to_edit()
@@ -378,6 +410,9 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
     dat <- validate_edit()
     hold <- car_to_edit()
 
+    sqlsub <- paste(paste0(names(dat$data), "=$", 1:length(dat$data)), collapse = ",")
+    
+    
     code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Initial, DM, AMI_Type, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)")
     if (tbl == "pros") {
       code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Initial, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)")
