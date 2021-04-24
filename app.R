@@ -29,7 +29,8 @@ ui <- tagList(
 ui <- secure_app(ui, enable_admin = T, theme = "cosmo")
 
 server <- function(input, output, session) {
-
+  options(warn=-1)
+  
   # Use session$userData to store user data that will be needed throughout
 
   res_auth <- secure_server(

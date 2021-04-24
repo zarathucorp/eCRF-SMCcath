@@ -4,6 +4,8 @@ eCRF for SMC Cath lab
 
 <!-- how to edit module  -->
 
+<!-- 0. modify cars_table_module.R -->
+
 <!-- 1. build module.R -->
 
 <!-- 2. edit db_init.R -->
@@ -11,9 +13,15 @@ eCRF for SMC Cath lab
   <!-- 2-2. insert example data -->
   <!-- 2-3. run db_init.R -->
 
-<!-- 3. edit module.R -->
+<!-- 3. edit ~~_edit_module.R -->
   <!-- 3-1. edit edit_car_dat -->
-  
+
+<!-- 4. attatch module.R --> 
+  <!--  car_to_edit_m3 <- eventReactive(input$car_id_to_edit_m3, { -->
+  <!--  # Set the Action Buttons row to the first column of the `mtcars` table
+  <!--           list(targets = which(names(out) %in% c(" ", "Demographics", "Events", "Labs", "M1", "M3")) - 1, orderable = FALSE), -->
+
+<!-- 5. modify javascript -->
 
 <!-- for references -->
 
