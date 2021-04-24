@@ -55,28 +55,24 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
           "Initial",
           value = hold$Initial
         ),
-        
         dateInput(
           ns("Agree_Date"),
           "동의서 서명일",
           value = ifelse(is.na(hold$Agree_Date), as.character(Sys.Date()), hold$Agree_Date),
           language = "kr"
         ),
-        
         dateInput(
           ns("Index_PCI_Date"),
           "시술일자",
           value = ifelse(is.na(hold$Index_PCI_Date), as.character(Sys.Date()), hold$Index_PCI_Date),
           language = "kr"
         ),
-        
         dateInput(
           ns("Birthday"),
           "Date of Birth",
           value = ifelse(is.na(hold$Birthday), as.character(Sys.Date()), hold$Birthday),
           language = "kr"
         ),
-        
         numericInput(
           ns("Age"),
           "Age",
@@ -84,19 +80,19 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
           min = 19, max = 120,
           step = 1
         ),
-        
         radioButtons(
           ns("Sex"),
           "Sex",
           choices = c("M" = 0, "F" = 1),
           selected = hold$Sex, inline = T
         ),
-        
-        radioButtons(
-          ns("DM"),
-          "Previous DM",
-          choices = c("No" = 0, "Yes" = 1),
-          selected = hold$DM, inline = T
+        shinyjs::disabled(
+          radioButtons(
+            ns("DM"),
+            "Previous DM",
+            choices = c("No" = 0, "Yes" = 1),
+            selected = hold$DM, inline = T
+          )
         ),
         
         radioButtons(
@@ -105,17 +101,15 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
           choices = c("No" = 0, "Yes" = 1, "Unknown" = 2),
           selected = hold$DM_Tx, inline = T
         ),
-        
         radioButtons( # 층화?
           ns("AMI_Type"),
           "AMI Type",
           choices = choices.AMI_Type, selected.AMI_Type, inline = T
         ),
-        
         radioButtons(
           ns("Withdrawal"),
           "Withdrawal of Study",
-          choices = c("Yes" =0, "No"=1),
+          choices = c("Yes" = 0, "No" = 1),
           selected = hold$Withdrawal,
           inline = T
         ),
@@ -124,7 +118,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
           ns = ns,
           dateInput(
             "Withdrawal_date",
-            '',
+            "",
             language = "kr"
           ),
           textInput(
@@ -133,7 +127,6 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             value = ifelse(is.null(hold), NA, hold$Withdrawal_reason)
           ),
         ),
-        
         textAreaInput(
           ns("Comment_demo"),
           "Comment",
@@ -174,17 +167,17 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
     hold <- car_to_edit()
 
     dat <- list(
-      'Initial' = ifelse(is.null(input$Initial), '', input$Initial),
-      'Agree_Date' = ifelse(is.null(input$Agree_Date), '', input$Agree_Date),
+      "Initial" = ifelse(is.null(input$Initial), "", input$Initial),
+      "Agree_Date" = ifelse(is.null(input$Agree_Date), "", input$Agree_Date),
       "Index_PCI_Date" = ifelse(is.null(input$Index_PCI_Date), "", input$Index_PCI_Date),
-      'Birthday' = ifelse(is.null(input$Birthday), '', input$Birthday),
-      'Age' = ifelse(is.null(input$Age), '', input$Age),
+      "Birthday" = ifelse(is.null(input$Birthday), "", input$Birthday),
+      "Age" = ifelse(is.null(input$Age), "", input$Age),
       "Sex" = ifelse(is.null(input$Sex), "", input$Sex),
-      'AMI_Type' = ifelse(is.null(input$AMI_Type), '', input$AMI_Type),
-      'Withdrawal' = ifelse(is.null(input$Withdrawal), '', input$Withdrawal),
-      'Withdrawal_date' = ifelse(is.null(input$Withdrawal_date), '', input$Withdrawal_date),
-      'Withdrawal_reason' = ifelse(is.null(input$Withdrawal_reason), '', input$Withdrawal_reason),
-      'Comment_demo' = ifelse(is.null(input$Comment_demo), '', input$Comment_demo)
+      "AMI_Type" = ifelse(is.null(input$AMI_Type), "", input$AMI_Type),
+      "Withdrawal" = ifelse(is.null(input$Withdrawal), "", input$Withdrawal),
+      "Withdrawal_date" = ifelse(is.null(input$Withdrawal_date), "", input$Withdrawal_date),
+      "Withdrawal_reason" = ifelse(is.null(input$Withdrawal_reason), "", input$Withdrawal_reason),
+      "Comment_demo" = ifelse(is.null(input$Comment_demo), "", input$Comment_demo)
     )
 
     time_now <- as.character(lubridate::with_tz(Sys.time(), tzone = "UTC"))
@@ -210,15 +203,15 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
     removeModal()
     dat <- validate_edit()
     hold <- car_to_edit()
-    sqlsub <- paste(paste0(names(dat$data), "=$", 1:length(dat$data)), collapse = ",")
-
+    sqlsub <- paste(paste0(names(dat), "=$", 1:length(dat)), collapse = ",")
+  
     tryCatch(
       {
         dbExecute(
           conn,
           paste0("UPDATE ", tbl, " SET ", sqlsub, " WHERE pid='", hold$pid, "'"),
           params = c(
-            unname(dat$data)
+            unname(dat)
           )
         )
 
