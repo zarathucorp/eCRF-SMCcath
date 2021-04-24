@@ -1,5 +1,4 @@
-
-#' Car Add & Edit Module
+#' Demographics Add & Edit Module
 #'
 #' Module to add & edit cars in the mtcars database file
 #'
@@ -38,152 +37,108 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
 
     showModal(
       modalDialog(
-        fluidRow(
-          column(
-            width = 6,
-            selectInput(
-              ns("pid"),
-              "pid",
-              choices = hold$pid,
-              selected = hold$pid,
-            ),
-            radioButtons(
-              ns("Group"), "Group", hold$Group, hold$Group, inline = T
-            ),
-            textInput(
-              ns("Initial"),
-              "Initial",
-              value = hold$Initial
-            ),
-            dateInput(ns("Index_PCI_Date"), "Index PCI Date", value = hold$Index_PCI_Date, language = "kr"),
-            numericInput(
-              ns("Age"),
-              "Age",
-              value = hold$Age,
-              min = 19, max = 120,
-              step = 1
-            ),
-            radioButtons(
-              ns("Sex"),
-              "Sex",
-              choices = c("M", "F"),
-              selected = hold$Sex, inline = T
-            ),
-            numericInput(
-              ns("Height"),
-              "Height(cm)",
-              value = hold$Height,
-              min = 50, max = 300,
-              step = 0.1
-            ),
-            numericInput(
-              ns("Weight"),
-              "Weight(kg)",
-              value = hold$Weight,
-              min = 0, max = 200,
-              step = 0.1
-            ),
-            numericInput(
-              ns("BMI"),
-              "BMI",
-              value = hold$BMI,
-              min = 10, max = 40,
-              step = 0.01
-            ),
-            radioButtons(
-              ns("Smoking"),
-              "Smoking",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$Smoking, inline = T
-            ),
-            radioButtons(
-              ns("AMI_Type"),
-              "AMI Type",
-              choices = choices.AMI_Type, selected.AMI_Type, inline = T
-            )
+        selectInput(
+          ns("pid"),
+          "Subject No",
+          choices = hold$pid,
+          selected = hold$pid,
+        ),
+        radioButtons(
+          ns("Group"),
+          "Allocation Group",
+          hold$Group,
+          hold$Group,
+          inline = T
+        ),
+        textInput(
+          ns("Initial"),
+          "Initial",
+          value = hold$Initial
+        ),
+        
+        dateInput(
+          ns("Agree_Date"),
+          "동의서 서명일",
+          value = ifelse(is.na(hold$Agree_Date), as.character(Sys.Date()), hold$Agree_Date),
+          language = "kr"
+        ),
+        
+        dateInput(
+          ns("Index_PCI_Date"),
+          "시술일자",
+          value = ifelse(is.na(hold$Index_PCI_Date), as.character(Sys.Date()), hold$Index_PCI_Date),
+          language = "kr"
+        ),
+        
+        dateInput(
+          ns("Birthday"),
+          "Date of Birth",
+          value = ifelse(is.na(hold$Birthday), as.character(Sys.Date()), hold$Birthday),
+          language = "kr"
+        ),
+        
+        numericInput(
+          ns("Age"),
+          "Age",
+          value = hold$Age,
+          min = 19, max = 120,
+          step = 1
+        ),
+        
+        radioButtons(
+          ns("Sex"),
+          "Sex",
+          choices = c("M" = 0, "F" = 1),
+          selected = hold$Sex, inline = T
+        ),
+        
+        radioButtons(
+          ns("DM"),
+          "Previous DM",
+          choices = c("No" = 0, "Yes" = 1),
+          selected = hold$DM, inline = T
+        ),
+        
+        radioButtons(
+          ns("DM_Tx"),
+          "Previous DM treatment",
+          choices = c("No" = 0, "Yes" = 1, "Unknown" = 2),
+          selected = hold$DM_Tx, inline = T
+        ),
+        
+        radioButtons( # 층화?
+          ns("AMI_Type"),
+          "AMI Type",
+          choices = choices.AMI_Type, selected.AMI_Type, inline = T
+        ),
+        
+        radioButtons(
+          ns("Withdrawal"),
+          "Withdrawal of Study",
+          choices = c("Yes" =0, "No"=1),
+          selected = hold$Withdrawal,
+          inline = T
+        ),
+        conditionalPanel(
+          "input.Withdrawal == 0",
+          ns = ns,
+          dateInput(
+            "Withdrawal_date",
+            '',
+            language = "kr"
           ),
-          column(
-            width = 6,
-            actionButton(ns('CNfA'), "Check No for All", class = 'btn btn-default'), 
-            radioButtons(
-              ns("HTN"),
-              "Previous HTN",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$HTN, inline = T
-            ),
-            radioButtons(
-              ns("DM"),
-              "Previous DM",
-              choiceNames = choiceNames.DM, choiceValues = choiceValues.DM,
-              selected = selected.DM, inline = T
-            ),
-            radioButtons(
-              ns("DM_Tx"),
-              "Previous DM treatment",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$DM_Tx, inline = T
-            ),
-            radioButtons(
-              ns("Dyslipidemia"),
-              "Previous Dyslipidemia",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$Dyslipidemia, inline = T
-            ),
-            radioButtons(
-              ns("CKD"),
-              "Previous CKD",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$CKD, inline = T
-            ),
-            radioButtons(
-              ns("Dialysis"),
-              "Previous Dialysis",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$Dialysis, inline = T
-            ),
-            radioButtons(
-              ns("Prev_Bleeding"),
-              "Previous Bleeding",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$Prev_Bleeding, inline = T
-            ),
-            radioButtons(
-              ns("Prev_HF_Adm"),
-              "Previous Heart failure admission",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$Prev_HF_Adm, inline = T
-            ),
-            radioButtons(
-              ns("Hx_MI"),
-              "Previous MI",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$Hx_MI, inline = T
-            ),
-            radioButtons(
-              ns("Hx_PCI"),
-              "Previous PCI",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$Hx_PCI, inline = T
-            ),
-            radioButtons(
-              ns("Hx_CABG"),
-              "Previous CABG",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$Hx_CABG, inline = T
-            ),
-            radioButtons(
-              ns("Hx_CVA"),
-              "Previous CVA",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$Hx_CVA, inline = T
-            ),
-            radioButtons(
-              ns("Hx_AF"),
-              "Previous AF",
-              choices = c("No" = 0, "Yes" = 1, "Unknown" = ""),
-              selected = hold$Hx_AF, inline = T
-            )
-          )
+          textInput(
+            "Withdrawal_reason",
+            label = "Reason",
+            value = ifelse(is.null(hold), NA, hold$Withdrawal_reason)
+          ),
+        ),
+        
+        textAreaInput(
+          ns("Comment_demo"),
+          "Comment",
+          width = "400px",
+          height = "100px"
         ),
         title = modal_title,
         size = "m",
@@ -214,47 +169,22 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
       }
     })
   })
-  
-  observeEvent(input$CNfA, {
-    print("CNFA!!!")
-    updateRadioButtons(session, "HTN", selected = 0)
-    updateRadioButtons(session, "DM_Tx", selected = 0)
-    updateRadioButtons(session, "Dyslipidemia", selected = 0)
-    updateRadioButtons(session, "CKD", selected = 0)
-    updateRadioButtons(session, "Dialysis", selected = 0)
-    updateRadioButtons(session, "Prev_Bleeding", selected = 0)
-    updateRadioButtons(session, "Prev_HF_Adm", selected = 0)
-    updateRadioButtons(session, "Hx_MI", selected = 0)
-    updateRadioButtons(session, "Hx_PCI", selected = 0)
-    updateRadioButtons(session, "Hx_CABG", selected = 0)
-    updateRadioButtons(session, "Hx_CVA", selected = 0)
-    updateRadioButtons(session, "Hx_AF", selected = 0)
-  })
 
   edit_car_dat <- reactive({
     hold <- car_to_edit()
 
     dat <- list(
-      "Initial" = input$Initial,
-      "Index_PCI_Date" = ifelse(is.null(input$Index_PCI_Date), "", as.character(input$Index_PCI_Date)),
-      "Age" = input$Age,
+      'Initial' = ifelse(is.null(input$Initial), '', input$Initial),
+      'Agree_Date' = ifelse(is.null(input$Agree_Date), '', input$Agree_Date),
+      "Index_PCI_Date" = ifelse(is.null(input$Index_PCI_Date), "", input$Index_PCI_Date),
+      'Birthday' = ifelse(is.null(input$Birthday), '', input$Birthday),
+      'Age' = ifelse(is.null(input$Age), '', input$Age),
       "Sex" = ifelse(is.null(input$Sex), "", input$Sex),
-      "Height" = input$Height,
-      "Weight" = input$Weight,
-      "BMI" = input$BMI,
-      "Smoking" = ifelse(is.null(input$Smoking), "", input$Smoking),
-      "HTN" = ifelse(is.null(input$HTN), "", input$HTN),
-      "DM_Tx" = ifelse(is.null(input$DM_Tx), "", input$DM_Tx),
-      "Dyslipidemia" = ifelse(is.null(input$Dyslipidemia), "", input$Dyslipidemia),
-      "CKD" = ifelse(is.null(input$CKD), "", input$CKD),
-      "Dialysis" = ifelse(is.null(input$Dialysis), "", input$Dialysis),
-      "Prev_Bleeding" = ifelse(is.null(input$Prev_Bleeding), "", input$Prev_Bleeding),
-      "Prev_HF_Adm" = ifelse(is.null(input$Prev_HF_Adm), "", input$Prev_HF_Adm),
-      "Hx_MI" = ifelse(is.null(input$Hx_MI), "", input$Hx_MI),
-      "Hx_PCI" = ifelse(is.null(input$Hx_PCI), "", input$Hx_PCI),
-      "Hx_CABG" = ifelse(is.null(input$Hx_CABG), "", input$Hx_CABG),
-      "Hx_CVA" = ifelse(is.null(input$Hx_CVA), "", input$Hx_CVA),
-      "Hx_AF" = ifelse(is.null(input$Hx_AF), "", input$Hx_AF)
+      'AMI_Type' = ifelse(is.null(input$AMI_Type), '', input$AMI_Type),
+      'Withdrawal' = ifelse(is.null(input$Withdrawal), '', input$Withdrawal),
+      'Withdrawal_date' = ifelse(is.null(input$Withdrawal_date), '', input$Withdrawal_date),
+      'Withdrawal_reason' = ifelse(is.null(input$Withdrawal_reason), '', input$Withdrawal_reason),
+      'Comment_demo' = ifelse(is.null(input$Comment_demo), '', input$Comment_demo)
     )
 
     time_now <- as.character(lubridate::with_tz(Sys.time(), tzone = "UTC"))
@@ -280,15 +210,16 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
     removeModal()
     dat <- validate_edit()
     hold <- car_to_edit()
+    sqlsub <- paste(paste0(names(dat$data), "=$", 1:length(dat$data)), collapse = ",")
 
     tryCatch(
       {
         dbExecute(
           conn,
-          paste0("UPDATE ", tbl, " SET 'Initial'=$1, Index_PCI_Date=$2, Age=$3, Sex=$4, Height=$5, Weight=$6, BMI=$7, Smoking=$8, HTN=$9,
-          DM_Tx=$10, Dyslipidemia=$11, CKD=$12, Dialysis=$13, Prev_Bleeding=$14, Prev_HF_Adm=$15, Hx_MI=$16,Hx_PCI=$17,Hx_CABG=$18,Hx_CVA=$19, Hx_AF=$20,
-          created_at=$21, created_by=$22,modified_at=$23, modified_by=$24 WHERE pid='", hold$pid, "'"),
-          params = unname(dat)
+          paste0("UPDATE ", tbl, " SET ", sqlsub, " WHERE pid='", hold$pid, "'"),
+          params = c(
+            unname(dat$data)
+          )
         )
 
         session$userData$mtcars_trigger(session$userData$mtcars_trigger() + 1)
@@ -296,7 +227,6 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
       },
       error = function(error) {
         msg <- paste0(modal_title, " Error")
-
 
         # print `msg` so that we can find it in the logs
         print(msg)

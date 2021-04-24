@@ -27,17 +27,17 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         # physical exam
         
         numericInput(
-          ns("Height_adm"),
+          ns("Height"),
           "Height",
-          value = ifelse(is.null(hold), NA, hold$Height_adm),
+          value = ifelse(is.null(hold), NA, hold$Height),
           min = 0, max = 120,
           step = 1
         ),
         
         numericInput(
-          ns("Weight_adm"),
+          ns("Weight"),
           "Weight",
-          value = ifelse(is.null(hold), NA, hold$Weight_adm),
+          value = ifelse(is.null(hold), NA, hold$Weight),
           min = 0, max = 120,
           step = 1
         ),
@@ -46,9 +46,9 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         # Auto calculation 
         
         numericInput(
-          ns("BMI_adm"),
+          ns("BMI"),
           "BMI",
-          value = ifelse(is.null(hold), NA, hold$BMI_adm),
+          value = ifelse(is.null(hold), NA, hold$BMI),
           min = 0, max = 120,
           step = 1
         ),
@@ -135,7 +135,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         # Risk Factors
         
         radioButtons(
-          ns("Hypertension_adm"),
+          ns("HTN"), # Hypertension
           label = "Hypertension",
           choices = c("입원중 진단" = 0, "Yes" = 1, "No" = 2),
           inline = TRUE
@@ -168,7 +168,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         ),
         
         radioButtons(
-          ns("CS_adm"), # Current Smoking
+          ns("Smoking"), # Current Smoking
           label = "Current Smoking",
           choices = c("Yes" = 0, "No" = 1),
           inline = TRUE

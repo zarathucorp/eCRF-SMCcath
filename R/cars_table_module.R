@@ -111,7 +111,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ids <- out$pid
 
     # data에 입력 없을시 Error
-    ids.na <- ids[apply(select(out, Initial:Hx_AF), 1, function(x) {
+    ids.na <- ids[apply(select(out, Initial:Comment_demo), 1, function(x) {
       any(is.na(x) | x == "")
     })]
 
@@ -130,7 +130,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     })
 
     # adm에 입력 없을시 Warning
-    ids.na.adm <- ids[apply(select(out, Height_adm:PTroT_adm), 1, function(x) {
+    ids.na.adm <- ids[apply(select(out, Height:PTroT_adm), 1, function(x) {
       any(is.na(x) | x == "")
     })]
     
@@ -270,7 +270,6 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
         "</center>"
       )
     })
-    
     
     # delete button
     deletes <- sapply(ids, function(id_) {

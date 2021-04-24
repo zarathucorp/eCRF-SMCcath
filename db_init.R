@@ -13,33 +13,24 @@ create_rct_query <- "CREATE TABLE rct (
   -- Demographics --
   pid                             TEXT PRIMARY KEY,
   'Group'                         TEXT,
-  Index_PCI_Date                  DATE,
+  DM                              TEXT,
+  DM_Tx                           TEXT,
   Initial                         TEXT,
+  Agree_Date                      DATE,
+  Index_PCI_Date                  DATE,
+  Birthday                        DATE,
   Age                             REAL,
   Sex                             TEXT,
+  AMI_Type                        TEXT,
+  Withdrawal                      TEXT,
+  Withdrawal_date                 DATE,
+  Withdrawal_reason               TEXT,
+  Comment_demo                    TEXT,
+  
+  -- Admission --
   Height                          REAL,
   Weight                          REAL,
   BMI                             REAL,
-  Smoking                         TEXT,
-  AMI_Type                        TEXT,
-  HTN                             TEXT,
-  DM                              TEXT,
-  DM_Tx                           TEXT,
-  Dyslipidemia                    TEXT,
-  CKD                             TEXT,
-  Dialysis                        TEXT,
-  Prev_Bleeding                   TEXT,
-  Prev_HF_Adm                     TEXT,
-  Hx_MI                           TEXT,
-  Hx_PCI                          TEXT,
-  Hx_CABG                         TEXT,
-  Hx_CVA                          TEXT,
-  Hx_AF                           TEXT,
-
-  -- Admission --
-  Height_adm                      REAL,
-  Weight_adm                      REAL,
-  BMI_adm                         REAL,
   BSA_adm                         REAL,
   SBP_adm                         REAL,
   DBP_adm                         REAL,
@@ -49,11 +40,11 @@ create_rct_query <- "CREATE TABLE rct (
   BC_adm                          TEXT,
   Diagnosis_other_adm             TEXT,
   Diagnosis_comment_adm           TEXT,
-  Hypertension_adm                TEXT,
+  HTN                             TEXT, 
   Diabetes_adm                    TEXT,
   Diabetes_detail_adm             TEXT,
   Hld_adm                         TEXT,
-  CS_adm                          TEXT,
+  Smoking                         TEXT,
   FHC_adm                         TEXT,
   CRF_adm                         TEXT,
   PP_adm                          TEXT,
@@ -535,25 +526,27 @@ dbExecute(conn, create_pros_query)
 
 # example data
 
-dat <- readRDS("data/eCRFexam.RDS")[, 1:23][, -1]
+dat <- readRDS("data/eCRFexam.RDS")[,c(1:9,11:12)][, -1]
 names(dat)[1] <- "pid"
 dat[, 1] <- readRDS("data/random.RDS")[1, 1]
 
 dat <- cbind(
 
-  
-  
   # Demographics
 
   tibble(pid = dat[, 1]),
+  
   Group = readRDS("data/random.RDS")[1, 2],
-  tibble(Index_PCI_Date = as.character(as.Date(Sys.time()))),
+  
+  tibble(
+    Index_PCI_Date = as.character(as.Date(Sys.time()))
+  ),
   dat[, -1],
 
   # Admission
   
   tibble(
-    Height_adm = 178
+    SBP_adm = 120
   ),
   
   # Event
@@ -661,9 +654,9 @@ dat <- cbind(
 )
 
 
-for (i in c(1, 10:24)) {
-  class(dat[, i]) <- "character"
-}
+#for (i in c(1, 10:24)) {
+#  class(dat[, i]) <- "character"
+#}
 
 dat$AMI_Type <- "NSTEMI"
 
