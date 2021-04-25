@@ -31,7 +31,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
     if (tbl == "rct") {
       choiceNames.DM <- ifelse(hold$DM == "0", "No", "Yes")
       choiceValues.DM <- hold$DM
-      choices.AMI_Type <- hold$AMI_Type
+      #choices.AMI_Type <- hold$AMI_Type
       selected.AMI_Type <- hold$AMI_Type
     }
 
@@ -95,16 +95,21 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
           )
         ),
         
-        radioButtons(
-          ns("DM_Tx"),
-          "Previous DM treatment",
-          choices = c("No" = 0, "Yes" = 1, "Unknown" = 2),
-          selected = hold$DM_Tx, inline = T
-        ),
-        radioButtons( # 층화?
-          ns("AMI_Type"),
-          "AMI Type",
-          choices = choices.AMI_Type, selected.AMI_Type, inline = T
+        #radioButtons(
+        #  ns("DM_Tx"),
+        #  "Previous DM treatment",
+        #  choices = c("No" = 0, "Yes" = 1, "Unknown" = 2),
+        #  selected = hold$DM_Tx, inline = T
+        #),
+        
+        shinyjs::disabled(
+          radioButtons( # 층화?
+            ns("AMI_Type"),
+            "AMI Type",
+            choices = choices.AMI_Type, 
+            selected.AMI_Type, 
+            inline = T
+          )
         ),
         radioButtons(
           ns("Withdrawal"),

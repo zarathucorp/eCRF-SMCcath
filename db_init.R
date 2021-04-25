@@ -1,6 +1,6 @@
 library(RSQLite)
 library(tibble)
-#setwd("~/zarathu/eCRF-SMCcath")
+# setwd("~/zarathu/eCRF-SMCcath")
 # Create a connection object with SQLite
 conn <- dbConnect(
   RSQLite::SQLite(),
@@ -14,7 +14,7 @@ create_rct_query <- "CREATE TABLE rct (
   pid                             TEXT PRIMARY KEY,
   'Group'                         TEXT,
   DM                              TEXT,
-  DM_Tx                           TEXT,
+  -- DM_Tx                           TEXT,
   Initial                         TEXT,
   Agree_Date                      DATE,
   Index_PCI_Date                  DATE,
@@ -26,7 +26,7 @@ create_rct_query <- "CREATE TABLE rct (
   Withdrawal_date                 DATE,
   Withdrawal_reason               TEXT,
   Comment_demo                    TEXT,
-  
+
   -- Admission --
   Height                          REAL,
   Weight                          REAL,
@@ -40,7 +40,7 @@ create_rct_query <- "CREATE TABLE rct (
   BC_adm                          TEXT,
   Diagnosis_other_adm             TEXT,
   Diagnosis_comment_adm           TEXT,
-  HTN                             TEXT, 
+  HTN                             TEXT,
   Diabetes_adm                    TEXT,
   Diabetes_detail_adm             TEXT,
   Hld_adm                         TEXT,
@@ -125,7 +125,56 @@ create_rct_query <- "CREATE TABLE rct (
   Calcium_adm	                 		TEXT,
   Trimetazidine_adm            		TEXT,
   Medication_comment_adm          TEXT,
-  
+
+  -- Outcomes
+
+  Discharge_out                   DATE,
+  General_out                     TEXT,
+  General_detail_out              TEXT,
+  General_detail_others_out       TEXT,
+  Aspirin_out	                		TEXT,
+  Clopidogrel_out	             		TEXT,
+  Prasugrel_out	              		TEXT,
+  Ticagrelor_out	             		TEXT,
+  BB_out		                   		TEXT,
+  WN_out		                  		TEXT,
+  Statin_out		                 	TEXT,
+  ACE_out	                   			TEXT,
+  Nitrate_out	                 		TEXT,
+  Calcium_out	                 		TEXT,
+  Trimetazidine_out            		TEXT,
+  Events_out                      TEXT,
+  Events_detail_out               TEXT,
+  Death_date_out                  DATE,
+  Death_cause_out                 TEXT,
+  MI_date_out                     DATE,
+  MI_Segment_out                  TEXT,
+  MI_Type_out                     TEXT,
+  MI_Pre_out                      TEXT,
+  MI_ST_out                       TEXT,
+  MI_TL_out                       TEXT,
+  MI_TV_out                       TEXT,
+  MI_Treat_out                    TEXT,
+  MI_After_out                    TEXT,
+  RV_date_out                     DATE,
+  RV_Segment_out                  TEXT,
+  RV_CD_out                       TEXT,
+  RV_ID_out                       TEXT,
+  RV_Treat_out                    TEXT,
+  RV_TL_out                       TEXT,
+  RV_TV_out                       TEXT,
+  RV_AVP_out                      TEXT,
+  ST_date_out                     DATE,
+  ST_Segment_out                  TEXT,
+  ST_Type_out                     TEXT,
+  ST_ARC_out                      TEXT,
+  ST_Clinical_out                 TEXT,
+  ST_Clinical_other_out           TEXT,
+  CVA_date_out                    DATE,
+  CVA_Type_out                    TEXT,
+  CVA_VIS_out                     TEXT,
+  Comment_out                     TEXT,
+
 
   -- Event --
   -- Last_FU_Date                    DATE,
@@ -171,7 +220,7 @@ create_rct_query <- "CREATE TABLE rct (
 
   -- M1 --
   FU_M1                           TEXT,
-  Visit_Date_M1                   DATE, 
+  Visit_Date_M1                   DATE,
   Visit_M1                        TEXT,
   Reason_M1                       TEXT,
   Other_M1                        TEXT,
@@ -253,7 +302,7 @@ create_rct_query <- "CREATE TABLE rct (
 
   -- M3 --
   FU_M3                           TEXT,
-  Visit_Date_M3                   DATE, 
+  Visit_Date_M3                   DATE,
   Visit_M3                        TEXT,
   Reason_M3                       TEXT,
   Other_M3                        TEXT,
@@ -332,10 +381,10 @@ create_rct_query <- "CREATE TABLE rct (
   CVA_Type_M3	                		TEXT,
   Imaging_M3	                		TEXT,
   Comment_M3	                		TEXT,
-  
+
   -- M6 --
   FU_M6                           TEXT,
-  Visit_Date_M6                   DATE, 
+  Visit_Date_M6                   DATE,
   Visit_M6                        TEXT,
   Reason_M6                       TEXT,
   Other_M6                        TEXT,
@@ -417,7 +466,7 @@ create_rct_query <- "CREATE TABLE rct (
 
   -- Mf --
   FU_Mf                           TEXT,
-  Visit_Date_Mf                   DATE, 
+  Visit_Date_Mf                   DATE,
   Visit_Mf                        TEXT,
   Reason_Mf                       TEXT,
   Other_Mf                        TEXT,
@@ -497,13 +546,13 @@ create_rct_query <- "CREATE TABLE rct (
   Imaging_Mf	                		TEXT,
   Comment_Mf	                		TEXT,
 
-  
-  -- UNUSED -- 
+
+  -- UNUSED --
   -- Withdrawal_M3                   TEXT,
   -- Withdrawal_Date_M3              DATE,
   -- Cause_M3                        TEXT,
   -- Comment_M3                      TEXT,
-  
+
   -- Infomation --
   created_at                      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   created_by                      TEXT,
@@ -526,9 +575,9 @@ dbExecute(conn, create_pros_query)
 
 # example data
 
-dat <- readRDS("data/eCRFexam.RDS")[,c(1:9,11:12)][, -1]
+dat <- readRDS("data/eCRFexam.RDS")[, c(1:9, 11:12)][, -1]
 names(dat)[1] <- "pid"
-#dat[, 1] <- readRDS("data/random.RDS")[1, 1]
+# dat[, 1] <- readRDS("data/random.RDS")[1, 1]
 dat[, 1] <- "R-1"
 
 dat <- cbind(
@@ -536,23 +585,28 @@ dat <- cbind(
   # Demographics
 
   tibble(pid = dat[, 1]),
-  
   Group = readRDS("data/random.RDS")[1, 2],
-  
   tibble(
     Index_PCI_Date = as.character(as.Date(Sys.time()))
   ),
   dat[, -1],
 
   # Admission
-  
+
   tibble(
     SBP_adm = 120
   ),
-  
+
+  # Outcomes
+
+  tibble(
+    Discharge_out = as.character(as.Date(Sys.time())),
+    Comment_out = "Comment outcomes"
+  ),
+
   # Event
   #
-  #tibble(
+  # tibble(
   #  Last_FU_Date = as.character(as.Date(Sys.time())),
   #  Death = "1",
   #  Death_Date = as.character(as.Date(Sys.time())),
@@ -568,10 +622,10 @@ dat <- cbind(
   #  Readmission_Total_Date = as.character(as.Date(Sys.time())),
   #  TLF = "1",
   #  TLF_Date = as.character(as.Date(Sys.time()))
-  #),
+  # ),
 
   # Lab
-  #tibble(
+  # tibble(
   #  Lab_Date = as.character(as.Date(Sys.time())),
   #  WBC = 7.5,
   #  Hb = 13,
@@ -595,57 +649,57 @@ dat <- cbind(
   #  NT_proBNP_Baseline = 148.7,
   #  Lactic_Acid_Pre = 2.1,
   #  Lactic_Acid_Peak = 3
-  #),
-  
+  # ),
+
   # M1
   tibble(
-    FU_M1 = '0',
+    FU_M1 = "0",
     Visit_Date_M1 = as.character(as.Date(Sys.time() + lubridate::days(90))),
-    Visit_M1 = '0',
+    Visit_M1 = "0",
     SBP_M1 = 121,
     DBP_M1 = 81,
     HRT_M1 = 61,
-    Event_M1 = '1',
-    Comment_M1 = 'This is Comment M1'
+    Event_M1 = "1",
+    Comment_M1 = "This is Comment M1"
   ),
-  
-  
+
+
   # M3
   tibble(
-    FU_M3 = '0',
+    FU_M3 = "0",
     Visit_Date_M3 = as.character(as.Date(Sys.time() + lubridate::days(90))),
-    Visit_M3 = '0',
+    Visit_M3 = "0",
     SBP_M3 = 120,
     DBP_M3 = 80,
     HRT_M3 = 60,
-    Event_M3 = '1',
-    Comment_M3 = 'This is Comment Month 3'
+    Event_M3 = "1",
+    Comment_M3 = "This is Comment Month 3"
   ),
-  
+
   # M6
   tibble(
-    FU_M6 = '0',
+    FU_M6 = "0",
     Visit_Date_M6 = as.character(as.Date(Sys.time() + lubridate::days(90))),
-    Visit_M6 = '0',
+    Visit_M6 = "0",
     SBP_M6 = 126,
     DBP_M6 = 86,
     HRT_M6 = 66,
-    Event_M6 = '1',
-    Comment_M6 = 'This is Comment M6'
+    Event_M6 = "1",
+    Comment_M6 = "This is Comment M6"
   ),
-  
+
   # Mf
   tibble(
-    FU_Mf = '0',
+    FU_Mf = "0",
     Visit_Date_Mf = as.character(as.Date(Sys.time() + lubridate::days(90))),
-    Visit_Mf = '0',
+    Visit_Mf = "0",
     SBP_Mf = 124,
     DBP_Mf = 84,
     HRT_Mf = 64,
-    Event_Mf = '1',
-    Comment_Mf = 'This is Comment Mfinal'
+    Event_Mf = "1",
+    Comment_Mf = "This is Comment Mfinal"
   ),
-  
+
   # Info
   tibble(
     created_at = as.character(lubridate::with_tz(Sys.time(), tzone = "UTC")),
@@ -656,9 +710,9 @@ dat <- cbind(
 )
 
 
-#for (i in c(1, 10:24)) {
+# for (i in c(1, 10:24)) {
 #  class(dat[, i]) <- "character"
-#}
+# }
 
 dat$AMI_Type <- "NSTEMI"
 
