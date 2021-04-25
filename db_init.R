@@ -528,7 +528,8 @@ dbExecute(conn, create_pros_query)
 
 dat <- readRDS("data/eCRFexam.RDS")[,c(1:9,11:12)][, -1]
 names(dat)[1] <- "pid"
-dat[, 1] <- readRDS("data/random.RDS")[1, 1]
+#dat[, 1] <- readRDS("data/random.RDS")[1, 1]
+dat[, 1] <- "R-1"
 
 dat <- cbind(
 

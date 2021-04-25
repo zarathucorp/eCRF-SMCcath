@@ -302,15 +302,15 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
       )
       
       pid.group <- grep(type.strata, rd$pid, value = T)
-
-      idlist <- setdiff(pid.group, data()$pid)
-      if (length(idlist) == 0) {
-        newnumber <- as.integer(sapply(strsplit(grep(type.strata, pid.group, value = T), paste0(type.strata, "-")), `[[`, 2)) + 1
-        idlist <- paste0(type.strata, "-", newnumber)
+      data.stata <- subset(data(), DM == input$DM_random & AMI_Type == input$STEMI_random)
+      #idlist <- setdiff(pid.group, data()$pid)
+      idlist <- setdiff(paste0("R-", 1:100000), data()$pid)
+      
+      if (nrow(data.stata) >= length(pid.group)) {
         ## Random assign
         choices.group <- ifelse(rbinom(1, 1, 0.5) == 1, "SGLT-inhibitor", "Control")
       } else {
-        choices.group <- rd[rd$pid == idlist[1], ]$Group
+        choices.group <- rd[rd$pid %in% pid.group, ]$Group[nrow(data.stata) + 1]
       }
     } else {
       idlist <- setdiff(paste0("P-", 1:100000), data()$pid)
