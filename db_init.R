@@ -28,6 +28,7 @@ create_rct_query <- "CREATE TABLE rct (
   Comment_demo                    TEXT,
 
   -- Admission --
+  Date_adm                        DATE,
   Height                          REAL,
   Weight                          REAL,
   BMI                             REAL,

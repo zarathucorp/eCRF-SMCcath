@@ -26,6 +26,13 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
       modalDialog(
         # physical exam
         
+        dateInput(
+          ns('Date_adm'),
+          "Admission Date",
+          value = lubridate::as_date(hold$Date_adm),
+          language = "kr"
+        ),
+        
         numericInput(
           ns("Height"),
           "Height",
@@ -41,7 +48,6 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           min = 0, max = 120,
           step = 1
         ),
-        
         
         # Auto calculation 
         
@@ -850,6 +856,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     
     out <- list(
       data = list(
+        "Date_adm" = ifelse(is.null(input$Date_adm), '', lubridate::as_date(input$Date_adm)),
         'Height' = ifelse(is.null(input$Height), '', input$Height),
         'Weight' = ifelse(is.null(input$Weight), '', input$Weight),
         'BMI' = ifelse(is.null(input$BMI), '', input$BMI),
