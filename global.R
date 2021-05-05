@@ -10,6 +10,7 @@ library(shinyFeedback)
 library(dplyr)
 library(dbplyr)
 library(magrittr)
+library(shinymanager)
 
 db_config <- config::get()$db
 
@@ -32,3 +33,11 @@ options(spinner.type = 8)
 
 # random 
 rd <- readRDS("data/random.RDS")
+
+
+
+# In global.R for example:
+set_labels(
+  language = "en",
+  "Please authenticate" = "eCRF"
+)
