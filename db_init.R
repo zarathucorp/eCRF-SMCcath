@@ -220,7 +220,6 @@ create_rct_query <- "CREATE TABLE rct (
   -- Lactic_Acid_Peak                REAL,
 
   -- M1 --
-  Readm_M1                        DATE,
   FU_M1                           TEXT,
   Visit_Date_M1                   DATE,
   Visit_M1                        TEXT,
@@ -235,6 +234,7 @@ create_rct_query <- "CREATE TABLE rct (
   CCS_M1				                  TEXT,
   Other_Cardiac_Status_M1		      TEXT,
   Readmission_M1		            	TEXT,
+  Readmission_Date_M1             DATE,
   Readmission_reason_M1       		TEXT,
   Readmission_reason_text_M1    	TEXT,
   ECG_Rhythm_M1	              		TEXT,
@@ -303,7 +303,6 @@ create_rct_query <- "CREATE TABLE rct (
   Comment_M1	                		TEXT,
 
   -- M3 --
-  Readm_M3                        DATE,
   FU_M3                           TEXT,
   Visit_Date_M3                   DATE,
   Visit_M3                        TEXT,
@@ -318,6 +317,7 @@ create_rct_query <- "CREATE TABLE rct (
   CCS_M3				                  TEXT,
   Other_Cardiac_Status_M3		      TEXT,
   Readmission_M3		            	TEXT,
+  Readmission_Date_M3             DATE,
   Readmission_reason_M3       		TEXT,
   Readmission_reason_text_M3    	TEXT,
   ECG_Rhythm_M3	              		TEXT,
@@ -386,7 +386,6 @@ create_rct_query <- "CREATE TABLE rct (
   Comment_M3	                		TEXT,
 
   -- M6 --
-  Readm_M6                        DATE,
   FU_M6                           TEXT,
   Visit_Date_M6                   DATE,
   Visit_M6                        TEXT,
@@ -401,6 +400,7 @@ create_rct_query <- "CREATE TABLE rct (
   CCS_M6				                  TEXT,
   Other_Cardiac_Status_M6		      TEXT,
   Readmission_M6		            	TEXT,
+  Readmission_Date_M6             DATE,
   Readmission_reason_M6       		TEXT,
   Readmission_reason_text_M6    	TEXT,
   ECG_Rhythm_M6	              		TEXT,
@@ -469,7 +469,6 @@ create_rct_query <- "CREATE TABLE rct (
   Comment_M6	                		TEXT,
 
   -- Mf --
-  Readm_Mf                        DATE,
   FU_Mf                           TEXT,
   Visit_Date_Mf                   DATE,
   Visit_Mf                        TEXT,
@@ -484,6 +483,7 @@ create_rct_query <- "CREATE TABLE rct (
   CCS_Mf				                  TEXT,
   Other_Cardiac_Status_Mf		      TEXT,
   Readmission_Mf		            	TEXT,
+  Readmission_Date_Mf             DATE,
   Readmission_reason_Mf       		TEXT,
   Readmission_reason_text_Mf    	TEXT,
   ECG_Rhythm_Mf	              		TEXT,
