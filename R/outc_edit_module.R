@@ -37,7 +37,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           inline = TRUE
         ),
         conditionalPanel(
-          "input.General_out == '0'",
+          "input.General_out.includes('0')",
           checkboxGroupInput(
             ns("General_detail_out"),
             label = "",
@@ -52,7 +52,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             inline = TRUE
           ),
           conditionalPanel(
-            "input.General_detail_out.checkbox == 14",
+            "input.General_detail_out.includes('14')",
             textInput(
               "General_detail_others_out",
               label = "",
@@ -152,7 +152,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
         # Death
 
         conditionalPanel(
-          'input.Events_out.checkbox=="0"',
+          'input.Events_out.includes("0")',
           dateInput(
             ns("Death_date_out"),
             "",
