@@ -24,15 +24,7 @@ m6_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
     
     showModal(
       modalDialog(
-        
-        dateInput(
-          ns('Readm_M6'),
-          "Readmission Date",
-          value = lubridate::as_date(hold$Readm_M6),
-          language = "kr"
-        ),
-        
-        
+      
         radioButtons(
           ns("FU_M6"),
           "F/U Date",
@@ -144,6 +136,13 @@ m6_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
         conditionalPanel(
           "input.Readmission_M6 == 0",
           ns = ns,
+          dateInput(
+            ns('Readmission_Date_M6'),
+            "Readmission Date",
+            value = lubridate::as_date(hold$Readmission_Date_M6),
+            language = "kr"
+          ),
+          
           checkboxGroupInput(
             ns("Readmission_reason_M6"),
             label = "",
@@ -644,7 +643,6 @@ m6_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
     
     out <- list(
       data = list(
-        "Readm_M6" = ifelse(is.null(input$Readm_M6), "", input$Readm_M6),
         "FU_M6" = ifelse(is.null(input$FU_M6), "", input$FU_M6),
         "Visit_Date_M6" = ifelse(is.null(input$Visit_Date_M6), "", as.character(input$Visit_Date_M6)),
         "Visit_M6" = ifelse(is.null(input$Visit_M6), "", input$Visit_M6),
@@ -659,6 +657,7 @@ m6_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
         "CCS_M6" = ifelse(is.null(input$CCS_M6), "", input$CCS_M6),
         "Other_Cardiac_Status_M6" = ifelse(is.null(input$Other_Cardiac_Status_M6), "", input$Other_Cardiac_Status_M6),
         "Readmission_M6" = ifelse(is.null(input$Readmission_M6), "", input$Readmission_M6),
+        "Readmission_Date_M6" = ifelse(is.null(input$Readmission_Date_M6), "", input$Readmission_Date_M6),
         "Readmission_reason_M6" = ifelse(is.null(input$Readmission_reason_M6), "", input$Readmission_reason_M6),
         "Readmission_reason_text_M6" = ifelse(is.null(input$Readmission_reason_text_M6), "", input$Readmission_reason_text_M6),
         "ECG_Rhythm_M6" = ifelse(is.null(input$ECG_Rhythm_M6), "", input$ECG_Rhythm_M6),

@@ -25,12 +25,6 @@ m3_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
     showModal(
       modalDialog(
 
-        dateInput(
-          ns('Readm_M3'),
-          "Readmission Date",
-          value = lubridate::as_date(hold$Readm_M3),
-          language = "kr"
-        ),
         
         
         radioButtons(
@@ -144,6 +138,14 @@ m3_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
         conditionalPanel(
           "input.Readmission_M3 == 0",
           ns = ns,
+          
+          dateInput(
+            ns('Readmission_Date_M3'),
+            "Readmission Date",
+            value = lubridate::as_date(hold$Readmission_Date_M3),
+            language = "kr"
+          ),
+          
           checkboxGroupInput(
             ns("Readmission_reason_M3"),
             label = "",
@@ -644,7 +646,6 @@ m3_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
 
     out <- list(
       data = list(
-        "Readm_M3" = ifelse(is.null(input$Readm_M3), "", input$Readm_M3),
         "FU_M3" = ifelse(is.null(input$FU_M3), "", input$FU_M3),
         "Visit_Date_M3" = ifelse(is.null(input$Visit_Date_M3), "", as.character(input$Visit_Date_M3)),
         "Visit_M3" = ifelse(is.null(input$Visit_M3), "", input$Visit_M3),
@@ -659,6 +660,7 @@ m3_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
         "CCS_M3" = ifelse(is.null(input$CCS_M3), "", input$CCS_M3),
         "Other_Cardiac_Status_M3" = ifelse(is.null(input$Other_Cardiac_Status_M3), "", input$Other_Cardiac_Status_M3),
         "Readmission_M3" = ifelse(is.null(input$Readmission_M3), "", input$Readmission_M3),
+        "Readmission_Date_M3" = ifelse(is.null(input$Readmission_Date_M3), "", input$Readmission_Date_M3),
         "Readmission_reason_M3" = ifelse(is.null(input$Readmission_reason_M3), "", input$Readmission_reason_M3),
         "Readmission_reason_text_M3" = ifelse(is.null(input$Readmission_reason_text_M3), "", input$Readmission_reason_text_M3),
         "ECG_Rhythm_M3" = ifelse(is.null(input$ECG_Rhythm_M3), "", input$ECG_Rhythm_M3),

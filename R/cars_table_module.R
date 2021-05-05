@@ -213,7 +213,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ## M1
 
     # M1에 입력 없을시 Warning
-    ids.na.m1 <- ids[apply(select(out, Readm_M1:Comment_M1), 1, function(x) {
+    ids.na.m1 <- ids[apply(select(out, FU_M1:Comment_M1), 1, function(x) {
       any(is.na(x) | x == "")
     })]
 
@@ -234,7 +234,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ## M3
 
     # M3에 입력 없을시 Warning
-    ids.na.m3 <- ids[apply(select(out, Readm_M3:Comment_M3), 1, function(x) {
+    ids.na.m3 <- ids[apply(select(out, FU_M3:Comment_M3), 1, function(x) {
       any(is.na(x) | x == "")
     })]
 
@@ -256,7 +256,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ## M6
 
     # M6에 입력 없을시 Warning
-    ids.na.m6 <- ids[apply(select(out, Readm_M6:Comment_M6), 1, function(x) {
+    ids.na.m6 <- ids[apply(select(out, FU_M6:Comment_M6), 1, function(x) {
       any(is.na(x) | x == "")
     })]
 
@@ -277,7 +277,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ## Mf (Final)
 
     # Mf에 입력 없을시 Warning
-    ids.na.mf <- ids[apply(select(out, Readm_Mf:Comment_Mf), 1, function(x) {
+    ids.na.mf <- ids[apply(select(out, FU_Mf:Comment_Mf), 1, function(x) {
       any(is.na(x) | x == "")
     })]
 
