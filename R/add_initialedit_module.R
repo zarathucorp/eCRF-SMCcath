@@ -311,8 +311,10 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
       }
     })
   })
+  
 
   output$pidui <- renderUI({
+    req(c(input$DM_random, input$STEMI_random))
     idlist <- choices.group <- NULL
     if (tbl == "rct") {
       type.strata <- ifelse(
