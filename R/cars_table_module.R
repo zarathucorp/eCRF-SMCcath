@@ -111,7 +111,11 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ids <- out$pid
 
     # data에 입력 없을시 Error
-    ids.na <- ids[apply(select(out, Initial:Comment_demo), 1, function(x) {
+    # ids.na <- ids[apply(select(out, Initial:Comment_demo), 1, function(x) {
+    # Withdrawal State 까지만 입력시 Green 으로 색상 변경
+    
+    ids.na <- ids[apply(select(out, Initial:Withdrawal), 1, function(x) {
+      
       any(is.na(x) | x == "")
     })]
 
@@ -130,7 +134,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     })
 
     # adm에 입력 없을시 Warning
-    ids.na.adm <- ids[apply(select(out, Height:PTroT_adm), 1, function(x) {
+    ids.na.adm <- ids[apply(select(out, Date_adm:PTroT_adm), 1, function(x) {
       any(is.na(x) | x == "")
     })]
 
@@ -158,8 +162,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       btn.demo <- ifelse(id_ %in% ids.na.outc, "warning", "success")
       paste0(
         "<center>",
-        '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit outcomes">',
-        '<button class="btn btn-', btn.demo, ' edit_btnoutc" data-toggle="tooltip" data-placement="top" title="Edit outcomes" id = ', id_, ' style="margin: 0">',
+        '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit discharge">',
+        '<button class="btn btn-', btn.demo, ' edit_btnoutc" data-toggle="tooltip" data-placement="top" title="Edit discharge" id = ', id_, ' style="margin: 0">',
         '<i class="fa fa-pencil-square-o"></i>',
         "</button>",
         "</div>",
@@ -209,7 +213,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ## M1
 
     # M1에 입력 없을시 Warning
-    ids.na.m1 <- ids[apply(select(out, FU_M1:Comment_M1), 1, function(x) {
+    ids.na.m1 <- ids[apply(select(out, Readm_M1:Comment_M1), 1, function(x) {
       any(is.na(x) | x == "")
     })]
 
@@ -230,7 +234,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ## M3
 
     # M3에 입력 없을시 Warning
-    ids.na.m3 <- ids[apply(select(out, FU_M3:Comment_M3), 1, function(x) {
+    ids.na.m3 <- ids[apply(select(out, Readm_M3:Comment_M3), 1, function(x) {
       any(is.na(x) | x == "")
     })]
 
@@ -252,7 +256,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ## M6
 
     # M6에 입력 없을시 Warning
-    ids.na.m6 <- ids[apply(select(out, FU_M6:Comment_M6), 1, function(x) {
+    ids.na.m6 <- ids[apply(select(out, Readm_M6:Comment_M6), 1, function(x) {
       any(is.na(x) | x == "")
     })]
 
@@ -273,7 +277,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ## Mf (Final)
 
     # Mf에 입력 없을시 Warning
-    ids.na.mf <- ids[apply(select(out, FU_Mf:Comment_Mf), 1, function(x) {
+    ids.na.mf <- ids[apply(select(out, Readm_Mf:Comment_Mf), 1, function(x) {
       any(is.na(x) | x == "")
     })]
 
@@ -312,7 +316,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       out[, 1:4],
       `Demographics` = actions,
       `Admission` = adm,
-      `Outcomes` = outc,
+      `Discharge` = outc,
       out[, 5:24], # Initial ~ Hx_AF
       # `Events` = events,
       out[, 25:40], # Last_FU_Date ~ TLF_Date
@@ -348,7 +352,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       selection = "none",
       class = "compact stripe row-border nowrap",
       # Escape the HTML in all except 1st column (which has the buttons)
-      escape = -which(names(out) %in% c(" ", "Demographics", "Admission", "Outcomes", "M1", "M3", "M6", "Mf")),
+      escape = -which(names(out) %in% c(" ", "Demographics", "Admission", "Discharge", "M1", "M3", "M6", "Mf")),
       extensions = c("Buttons"),
       options = list(
         scrollX = TRUE,
@@ -364,8 +368,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
           )
         ),
         columnDefs = list(
-          list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Outcomes", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
-          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Outcomes", "M1", "M3", "M6", "Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
+          list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Discharge", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
+          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Discharge", "M1", "M3", "M6", "Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
 
           # list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Events", "Labs", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
           # list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Events", "Labs", "M1", "M3", "M6","Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
@@ -448,7 +452,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
   callModule(
     outc_edit_module,
     "edit_outc",
-    modal_title = "Edit Outcomes",
+    modal_title = "Edit Discharge",
     car_to_edit = car_to_edit_outc,
     modal_trigger = reactive({
       input$car_id_to_edit_outc

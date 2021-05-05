@@ -25,6 +25,14 @@ m3_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
     showModal(
       modalDialog(
 
+        dateInput(
+          ns('Readm_M3'),
+          "Readmission Date",
+          value = lubridate::as_date(hold$Readm_M3),
+          language = "kr"
+        ),
+        
+        
         radioButtons(
           ns("FU_M3"),
           "F/U Date",
@@ -636,6 +644,7 @@ m3_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
 
     out <- list(
       data = list(
+        "Readm_M3" = ifelse(is.null(input$Readm_M3), "", input$Readm_M3),
         "FU_M3" = ifelse(is.null(input$FU_M3), "", input$FU_M3),
         "Visit_Date_M3" = ifelse(is.null(input$Visit_Date_M3), "", as.character(input$Visit_Date_M3)),
         "Visit_M3" = ifelse(is.null(input$Visit_M3), "", input$Visit_M3),

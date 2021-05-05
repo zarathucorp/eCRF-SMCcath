@@ -1,0 +1,81 @@
+/* title background */
+.nav-wrapper {
+  background: linear-gradient(90deg, rgba(0,92,172,1) 0%, rgba(0,92,172,1) 50%, rgba(186,153,71,1) 50%, rgba(186,153,71,1) 100%);
+}
+
+/* table text center align */
+th, td {
+  text-align:center !important;
+}
+
+/* div element with 100% height */
+html, body {
+  height:100% !important;
+}
+
+/* table layout */
+table {
+  table-layout:fixed; width:100%;
+}
+
+/* tab indicator */
+.indicator {
+  height:0.3em !important;
+  background-color: ;
+}
+
+/* navigation button */
+.btn.btn-default.action-button.shiny-bound-input { 
+  background-color: #1283ef !important;
+}
+
+/* tab font color with black  */
+.tabs .tab a, .tabs .tab a:hover, .tabs .tab a.active {
+  font-size:1.5em; color : #000000;
+}
+
+/* material icon */
+.material-icons {
+  font-family : Material Icons !important;
+}
+
+/* material page background color */
+.shiny-material-tab-content{
+  background-color:#FFFFFF;
+}
+
+/* card divider*/
+.divider{
+  background-color:#005cac;
+    margin-bottom:1em;
+  height:0.3em;
+}
+
+.shiny-notification {
+  position:fixed;
+  font-size:2em;
+  top: calc(45%);
+  left: calc(45%);
+  width: 15em;
+}
+
+.container-fab{
+  background: linear-gradient(90deg, rgba(0,92,171,0.5) 0%, rgba(0,92,172,0.5) 50%, rgba(186,153,71,0.5) 50%, rgba(186,153,71,0.5) 100%);
+  margin: 0 !important;
+  z-index:99 !important;
+}
+
+.panel-auth{
+  background-color:#6791CA !important;
+  /*linear-gradient(90deg, rgba(0,92,171,0.5) 0%, rgba(0,92,172,1) 50%, rgba(186,153,71,1) 50%, rgba(186,153,71,0.5) 100%); */
+  
+}
+
+.panel-primary{
+  border: solid 0.7em #6DC1C3;
+} 
+/* Mint color */
+
+.navbar-static-top{
+  background-color : #6791CA !important; /* Light blue to TOP */
+}

@@ -27,9 +27,10 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
       showModal(
         modalDialog(
           h3("Stratified randomization"),
+          uiOutput(ns("pidui")),
           fluidRow(
             column(
-              width = 6,
+              width = 4,
               radioButtons(
                 ns("DM_random"),
                 "DM",
@@ -38,19 +39,28 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
               ),
             ),
             column(
-              width = 6,
+              width = 4,
               radioButtons(
                 ns("STEMI_random"),
                 "AMI Type",
                 c("NSTEMI", "STEMI"),
                 inline = T
               ),
+            ),
+            column(
+              width = 4,
+              radioButtons(
+                ns("Sex"),
+                "Sex",
+                choices = c("M" = 0, "F" = 1),
+                selected = NULL,
+                inline = T
+              )
             )
           ),
-          uiOutput(ns("pidui")),
           fluidRow(
             column(
-              width = 6,
+              width = 4,
               textInput(
                 ns("Initial"),
                 "Initial",
@@ -58,64 +68,68 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
               )
             ),
             column(
-              width = 6,
+              width = 4,
               dateInput(
                 ns("Index_PCI_Date"),
                 "Index PCI Date",
-                value = as.Date(NA),
+                value = as.character(lubridate::as_date(NA)),
+                language = "kr"
+              )
+            ),
+            column(
+              width = 4,
+              dateInput(
+                ns("Birthday"),
+                "Birthday",
+                value = as.character(lubridate::as_date(NA)),
                 language = "kr"
               )
             )
           ),
+          h3("Inclusion"),
+          
           fluidRow(
             column(
-              width = 6,
-              dateInput(
-                ns("Birthday"),
-                "Birthday",
-                value = as.character(as.Date(NA)),
-                language = 'kr'
+              width = 2,
+              radioButtons(
+                ns("in_1"),
+                "1. 만 19세 이상",
+                choices = c("Yes", "No"),
+                selected = NULL,
+                inline = T
               )
             ),
             column(
-              width = 6,
+              width = 5,
               radioButtons(
-                ns("Sex"),
-                "Sex",
-                choices = c("M" = 0, "F" = 1),
-                selected = NULL, 
+                ns("in_2"),
+                # "2.	관상동맥 질환으로 경피적 관상동맥 중재시술이 필요한 환자",
+                "2.	관상동맥 질환으로 경피적 관상동맥 중재시술 필요",
+                choices = c("Yes", "No"),
+                selected = NULL,
                 inline = T
+              ),
+            ),
+            column(
+              width = 2,
+              radioButtons(
+                ns("in_3"),
+                # "3. 관상동맥 복잡 병변이 있는 환자",
+                "3. 관상동맥 복잡 병변 보유",
+                choices = c("Yes", "No"),
+                selected = NULL,
+                inline = T
+              ),
+            ),
+            column(
+              width = 2,
+              actionButton(
+                ns("CYfA"),
+                "Check Yes for All",
+                class = "btn btn-default"
               )
             )
           ),
-          
-          h3("Inclusion"),
-          actionButton(
-            ns("CYfA"), 
-            "Check Yes for All", 
-            class = "btn btn-default"
-          ),
-          radioButtons(
-            ns("in_1"), 
-            "1. 만 19세 이상", 
-            choices = c("Yes", "No"), 
-            selected = NULL, 
-            inline = T
-            ),
-          radioButtons(
-            ns("in_2"), 
-            "2.	관상동맥 질환으로 경피적 관상동맥 중재시술이 필요한 환자", 
-            choices = c("Yes", "No"), 
-            selected = NULL, 
-            inline = T
-            ),
-          radioButtons(
-            ns("in_3"), 
-            "3. 관상동맥 복잡 병변이 있는 환자", 
-            choices = c("Yes", "No"), 
-            selected = NULL, 
-            inline = T
-            ),
           tags$b("[※ 관상동맥 복잡병변은 아래 9가지 중 하나 이상을 동반하고 있는 경우로 정의한다.]"),
           h5("1) 진성 분지 병변 (Medina classification 1,1,1/1,0,1/0,1,1) 이면서 측부 가지 크기가 2.5mm 이상인 경우"),
           h5("2) 표적 혈관이 만성 완전 폐색 병변인 경우 (≥3 months)"),
@@ -129,59 +143,64 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
           br(),
           h3("Exclusion"),
           actionButton(
-            ns("CNfA"), 
-            "Check No for All", 
+            ns("CNfA"),
+            "Check No for All",
             class = "btn btn-default"
-            ),
+          ),
           radioButtons(
-            ns("ex_1"), 
-            "1.	시술자에 의해 표적혈관의 협착이 관상동맥 중재시술에 적합하지 않다고 판단되는 경우(Target lesion not amenable for PCI by operators decision)", 
-            choices = c("Yes", "No"), 
-            selected = NULL, 
+            ns("ex_1"),
+            # "1.	시술자에 의해 표적혈관의 협착이 관상동맥 중재시술에 적합하지 않다고 판단되는 경우(Target lesion not amenable for PCI by operators decision)",
+            "1.	시술자에 의해 표적혈관의 협착이 관상동맥 중재시술에 적합하지 않음",
+            choices = c("Yes", "No"),
+            selected = NULL,
             inline = T
           ),
           radioButtons(
-            ns("ex_2"), 
-            "2. 심혈관성 쇼크 상태인 경우 (Cardiogenic shock (Killip class IV) at presentation)", 
-            choices = c("Yes", "No"), 
-            selected = NULL, 
+            ns("ex_2"),
+            # "2. 심혈관성 쇼크 상태인 경우 (Cardiogenic shock (Killip class IV) at presentation)",
+            "2. 심혈관성 쇼크 상태",
+            choices = c("Yes", "No"),
+            selected = NULL,
             inline = T
           ),
           radioButtons(
-            ns("ex_3"), 
-            "3.	다음 약제에 과민성이 있거나, 투약의 금기사항이 있는 경우(aspirin, clopidogrel, ticagrelor, prasugrel, heparin, everolimus, zotarolimus, biolimus, sirolimus)", 
-            choices = c("Yes", "No"), 
-            selected = NULL, 
+            ns("ex_3"),
+            # "3.	다음 약제에 과민성이 있거나, 투약의 금기사항이 있는 경우(aspirin, clopidogrel, ticagrelor, prasugrel, heparin, everolimus, zotarolimus, biolimus, sirolimus)",
+            "3.	다음 약제투약에 이슈가 있음 (Aspirin, Clopidogrel, Ticagrelor, Prasugrel, Heparin, Everolimus, Zotarolimus, Biolimus, Sirolimus)",
+            choices = c("Yes", "No"),
+            selected = NULL,
             inline = T
           ),
           radioButtons(
-            ns("ex_4"), 
-           "4. 조영제에 대한 아나필락시스의 기왕력이 있는 경우 (단순 알레르기 반응은 제외)", 
-           choices = c("Yes", "No"), 
-           selected = NULL, 
-           inline = T
-           ),
-          radioButtons(
-            ns("ex_5"), 
-            "5. 임산부 및 수유부", 
-            choices = c("Yes", "No"), 
-            selected = NULL, 
+            ns("ex_4"),
+            "4. 조영제에 대한 아나필락시스의 기왕력이 있는 경우 (단순 알레르기 반응은 제외)",
+            choices = c("Yes", "No"),
+            selected = NULL,
             inline = T
-            ),
-          radioButtons(
-          ns("ex_6"), 
-          "6.	비 심장질환으로 기대 여명이 1년 미만이거나 치료에 순응도가 낮을 것으로 기대되는 자(조사자가 의학적인 판단으로 정함)", 
-          choices = c("Yes", "No"), 
-          selected = NULL, 
-          inline = T
           ),
           radioButtons(
-            ns("ex_7"), 
-            "7. 연구 참여를 거부한 환자", 
-            choices = c("Yes", "No"), 
-            selected = NULL, 
+            ns("ex_5"),
+            "5. 임산부 및 수유부",
+            choices = c("Yes", "No"),
+            selected = NULL,
             inline = T
-            ),
+          ),
+          radioButtons(
+            ns("ex_6"),
+            # "6.	비 심장질환으로 기대 여명이 1년 미만이거나 치료에 순응도가 낮을 것으로 기대되는 자(조사자가 의학적인 판단으로 정함)",
+            "6.	비 심장질환으로 기대 여명이 1년 미만 혹은 치료에 순응도가 낮을 것으로 기대",
+            choices = c("Yes", "No"),
+            selected = NULL,
+            inline = T
+          ),
+          radioButtons(
+            ns("ex_7"),
+            # "7. 연구 참여를 거부한 환자",
+            "7. 연구 참여를 거부",
+            choices = c("Yes", "No"),
+            selected = NULL,
+            inline = T
+          ),
           title = modal_title,
           size = "l",
           footer = list(
@@ -233,50 +252,50 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
       if (input$Initial == "") {
         shinyFeedback::showFeedbackDanger(
           "Initial",
-          text = "Must enter Initial of Patient!"
+          text = "환자 이니셜 입력"
         )
         shinyjs::disable("submit")
       }
-      else{
+      else {
         shinyFeedback::hideFeedback("Initial")
       }
-      if (length(input$Birthday)!=0 && length(input$Index_PCI_Date)!=0 && input$Initial != "") {
+      if (length(input$Birthday) != 0 && length(input$Index_PCI_Date) != 0 && input$Initial != "") {
         shinyjs::enable("submit")
       }
     })
-    
+
     observeEvent(input$Index_PCI_Date, {
-      if (length(input$Index_PCI_Date)==0) {
+      if (length(input$Index_PCI_Date) == 0) {
         shinyFeedback::showFeedbackDanger(
           "Index_PCI_Date",
-          text = "Must enter Index_PCI_Date"
+          text = "Index_PCI_Date 입력"
         )
         shinyjs::disable("submit")
-      } 
-      else{
+      }
+      else {
         shinyFeedback::hideFeedback("Index_PCI_Date")
       }
-      if (length(input$Birthday)!=0 && length(input$Index_PCI_Date)!=0 && input$Initial != ""){
+      if (length(input$Birthday) != 0 && length(input$Index_PCI_Date) != 0 && input$Initial != "") {
         shinyjs::enable("submit")
       }
     })
-    
+
     observeEvent(input$Birthday, {
-      if(length(input$Birthday)==0) {
+      if (length(input$Birthday) == 0) {
         shinyFeedback::showFeedbackDanger(
           "Birthday",
-          text = "Must enter Birthday"
+          text = "Birthday 입력"
         )
         shinyjs::disable("submit")
-      } 
-      else{
+      }
+      else {
         shinyFeedback::hideFeedback("Birthday")
       }
-      if (length(input$Birthday)!=0 && length(input$Index_PCI_Date)!=0 && input$Initial != ""){
+      if (length(input$Birthday) != 0 && length(input$Index_PCI_Date) != 0 && input$Initial != "") {
         shinyjs::enable("submit")
       }
     })
-    
+
     observeEvent(input$Sex, {
       if (is.null(input$Sex)) {
         shinyFeedback::showFeedbackDanger(
@@ -289,23 +308,22 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
         shinyjs::enable("submit")
       }
     })
-    
   })
 
   output$pidui <- renderUI({
     idlist <- choices.group <- NULL
     if (tbl == "rct") {
       type.strata <- ifelse(
-        input$DM_random == "0", 
-        ifelse(input$STEMI_random == "NSTEMI", "R-NDNST", "R-NDST"), 
+        input$DM_random == "0",
+        ifelse(input$STEMI_random == "NSTEMI", "R-NDNST", "R-NDST"),
         ifelse(input$STEMI_random == "NSTEMI", "R-DNST", "R-DST")
       )
-      
+
       pid.group <- grep(type.strata, rd$pid, value = T)
       data.stata <- subset(data(), DM == input$DM_random & AMI_Type == input$STEMI_random)
-      #idlist <- setdiff(pid.group, data()$pid)
+      # idlist <- setdiff(pid.group, data()$pid)
       idlist <- setdiff(paste0("R-", 1:100000), data()$pid)
-      
+
       if (nrow(data.stata) >= length(pid.group)) {
         ## Random assign
         choices.group <- ifelse(rbinom(1, 1, 0.5) == 1, "SGLT-inhibitor", "Control")
@@ -323,22 +341,22 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
     tagList(
       fluidRow(
         column(
-          width = 6, 
+          width = 6,
           selectInput(
-            session$ns("pid"), 
-            "pid", 
-            choices = choices.pid, 
+            session$ns("pid"),
+            "pid",
+            choices = choices.pid,
             selected = choices.pid
           )
         ),
         hidden(
           column(
-            width = 6, 
+            width = 6,
             radioButtons(
-              session$ns("Group"), 
-              "Group", 
-              choices.group, 
-              choices.group[1], 
+              session$ns("Group"),
+              "Group",
+              choices.group,
+              choices.group[1],
               inline = T
             )
           )
@@ -369,8 +387,17 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
     dat <- list(
       "pid" = input$pid,
       "Group" = input$Group,
-      "Index_PCI_Date" = ifelse(is.null(input$Index_PCI_Date), "", as.character(input$Index_PCI_Date)),
-      "Initial" = input$Initial
+      
+      # Essentials
+      "Index_PCI_Date" = lubridate::as_date(input$Index_PCI_Date),
+      "Initial" = input$Initial,
+      "Age" = as.period(interval(start = lubridate::as_date(input$Birthday), end = Sys.Date()))$year,
+      "Birthday" = lubridate::as_date(input$Birthday),
+      "Sex" = input$Sex
+      
+      # index_PCI_Date 필수 입력
+      # "Index_PCI_Date" = ifelse(is.null(input$Index_PCI_Date), "", as.character(input$Index_PCI_Date)),
+      
     )
     if (tbl == "rct") {
       dat$DM <- input$DM_random
@@ -410,12 +437,11 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
     dat <- validate_edit()
     hold <- car_to_edit()
 
-    sqlsub <- paste(paste0(names(dat$data), "=$", 1:length(dat$data)), collapse = ",")
-    
-    
-    code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Initial, DM, AMI_Type, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)")
+    # sqlsub <- paste(paste0(names(dat$data), "=$", 1:length(dat$data)), collapse = ",")
+
+    code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Initial, Age, Birthday, Sex, DM, AMI_Type, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)")
     if (tbl == "pros") {
-      code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Initial, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)")
+      code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Initial, Age, Birthday, Sex, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)")
     }
 
     tryCatch(
