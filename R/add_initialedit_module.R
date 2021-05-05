@@ -35,7 +35,8 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
                 ns("DM_random"),
                 "DM",
                 c("No" = "0", "Yes" = "1"),
-                inline = T
+                inline = T,
+                selected = character(0)
               ),
             ),
             column(
@@ -44,7 +45,8 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
                 ns("STEMI_random"),
                 "AMI Type",
                 c("NSTEMI", "STEMI"),
-                inline = T
+                inline = T,
+                selected = character(0)
               ),
             ),
             column(
@@ -53,7 +55,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
                 ns("Sex"),
                 "Sex",
                 choices = c("M" = 0, "F" = 1),
-                selected = NULL,
+                selected = character(0),
                 inline = T
               )
             )
@@ -95,7 +97,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
                 ns("in_1"),
                 "1. 만 19세 이상",
                 choices = c("Yes", "No"),
-                selected = NULL,
+                selected = character(0),
                 inline = T
               )
             ),
@@ -106,7 +108,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
                 # "2.	관상동맥 질환으로 경피적 관상동맥 중재시술이 필요한 환자",
                 "2.	관상동맥 질환으로 경피적 관상동맥 중재시술 필요",
                 choices = c("Yes", "No"),
-                selected = NULL,
+                selected = character(0),
                 inline = T
               ),
             ),
@@ -117,7 +119,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
                 # "3. 관상동맥 복잡 병변이 있는 환자",
                 "3. 관상동맥 복잡 병변 보유",
                 choices = c("Yes", "No"),
-                selected = NULL,
+                selected = character(0),
                 inline = T
               ),
             ),
@@ -152,7 +154,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
             # "1.	시술자에 의해 표적혈관의 협착이 관상동맥 중재시술에 적합하지 않다고 판단되는 경우(Target lesion not amenable for PCI by operators decision)",
             "1.	시술자에 의해 표적혈관의 협착이 관상동맥 중재시술에 적합하지 않음",
             choices = c("Yes", "No"),
-            selected = NULL,
+            selected = character(0),
             inline = T
           ),
           radioButtons(
@@ -160,7 +162,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
             # "2. 심혈관성 쇼크 상태인 경우 (Cardiogenic shock (Killip class IV) at presentation)",
             "2. 심혈관성 쇼크 상태",
             choices = c("Yes", "No"),
-            selected = NULL,
+            selected = character(0),
             inline = T
           ),
           radioButtons(
@@ -168,21 +170,21 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
             # "3.	다음 약제에 과민성이 있거나, 투약의 금기사항이 있는 경우(aspirin, clopidogrel, ticagrelor, prasugrel, heparin, everolimus, zotarolimus, biolimus, sirolimus)",
             "3.	다음 약제투약에 이슈가 있음 (Aspirin, Clopidogrel, Ticagrelor, Prasugrel, Heparin, Everolimus, Zotarolimus, Biolimus, Sirolimus)",
             choices = c("Yes", "No"),
-            selected = NULL,
+            selected = character(0),
             inline = T
           ),
           radioButtons(
             ns("ex_4"),
             "4. 조영제에 대한 아나필락시스의 기왕력이 있는 경우 (단순 알레르기 반응은 제외)",
             choices = c("Yes", "No"),
-            selected = NULL,
+            selected = character(0),
             inline = T
           ),
           radioButtons(
             ns("ex_5"),
             "5. 임산부 및 수유부",
             choices = c("Yes", "No"),
-            selected = NULL,
+            selected = character(0),
             inline = T
           ),
           radioButtons(
@@ -190,7 +192,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
             # "6.	비 심장질환으로 기대 여명이 1년 미만이거나 치료에 순응도가 낮을 것으로 기대되는 자(조사자가 의학적인 판단으로 정함)",
             "6.	비 심장질환으로 기대 여명이 1년 미만 혹은 치료에 순응도가 낮을 것으로 기대",
             choices = c("Yes", "No"),
-            selected = NULL,
+            selected = character(0),
             inline = T
           ),
           radioButtons(
@@ -198,7 +200,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
             # "7. 연구 참여를 거부한 환자",
             "7. 연구 참여를 거부",
             choices = c("Yes", "No"),
-            selected = NULL,
+            selected = character(0),
             inline = T
           ),
           title = modal_title,
