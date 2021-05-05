@@ -34,15 +34,25 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
       #choices.AMI_Type <- hold$AMI_Type
       selected.AMI_Type <- hold$AMI_Type
     }
-
+    
+    # CHECK !!! as.numeric으로 풀어야 됨.
+    
+    output$pid_demo <- renderText(hold$pid)
+    #output$PCI_Date_demo <- renderText(paste0("시술일자 : ", as.character(lubridate::as_date(as.numeric(hold$Index_PCI_Date)))))
+    #output$Birthday_demo <- renderText(paste0("Birth Date : ", as.character(lubridate::as_date(hold$Birthday))))
+    
     showModal(
       modalDialog(
-        selectInput(
-          ns("pid"),
-          "Subject No",
-          choices = hold$pid,
-          selected = hold$pid,
+        h5('Subject No'),
+        textOutput(
+          ns('pid_demo')
         ),
+        #selectInput(
+        #  ns("pid"),
+        #  "Subject No",
+        #  choices = hold$pid,
+        #  selected = hold$pid,
+        #),
         radioButtons(
           ns("Group"),
           "Allocation Group",
@@ -61,25 +71,44 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
           value = ifelse(is.na(hold$Agree_Date), as.character(Sys.Date()), hold$Agree_Date),
           language = "kr"
         ),
+        
         dateInput(
           ns("Index_PCI_Date"),
           "시술일자",
-          value = ifelse(is.na(hold$Index_PCI_Date), as.character(Sys.Date()), hold$Index_PCI_Date),
+          value = lubridate::as_date(as.numeric(hold$Index_PCI_Date)),
           language = "kr"
         ),
+        #fluidRow(
+        #  column(
+        #    width = 6, 
+        #    textOutput(
+        #      ns('Birthday_demo')
+        #    )
+        #  ),
+        #  column(
+        #    width = 6, 
+        #    textOutput(
+        #      ns('PCI_Date_demo')
+        #    )
+        #  )
+        #),
         dateInput(
           ns("Birthday"),
           "Date of Birth",
-          value = ifelse(is.na(hold$Birthday), as.character(Sys.Date()), hold$Birthday),
+          value = lubridate::as_date(hold$Birthday),
           language = "kr"
         ),
-        numericInput(
-          ns("Age"),
-          "Age",
-          value = hold$Age,
-          min = 19, max = 120,
-          step = 1
+        h5("Age"),
+        textOutput(
+          ns("Age")
         ),
+#        numericInput(
+#          ns("Age"),
+#          "Age",
+#          value = 
+#          min = 19, max = 120,
+#          step = 1
+#        ) 
         radioButtons(
           ns("Sex"),
           "Sex",
@@ -154,6 +183,11 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
 
     # Observe event for "Model" text input in Add/Edit Car Modal
     # `shinyFeedback`
+    
+    observeEvent(input$Birthday,{
+      output$Age <- renderText(as.period(interval(start = lubridate::as_date(hold$Birthday), end = Sys.Date()))$year)
+    })
+    
     observeEvent(input$model, {
       if (input$model == "") {
         shinyFeedback::showFeedbackDanger(
@@ -167,7 +201,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
       }
     })
   })
-
+  
   edit_car_dat <- reactive({
     hold <- car_to_edit()
 
@@ -176,7 +210,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
       "Agree_Date" = ifelse(is.null(input$Agree_Date), "", input$Agree_Date),
       "Index_PCI_Date" = ifelse(is.null(input$Index_PCI_Date), "", input$Index_PCI_Date),
       "Birthday" = ifelse(is.null(input$Birthday), "", input$Birthday),
-      "Age" = ifelse(is.null(input$Age), "", input$Age),
+      "Age" = ifelse(is.null(input$Birthday), "", as.period(interval(start = lubridate::as_date(input$Birthday), end = Sys.Date()))$year),
       "Sex" = ifelse(is.null(input$Sex), "", input$Sex),
       "AMI_Type" = ifelse(is.null(input$AMI_Type), "", input$AMI_Type),
       "Withdrawal" = ifelse(is.null(input$Withdrawal), "", input$Withdrawal),
