@@ -267,7 +267,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           dateInput(
             ns("TMT_Date_adm"),
             "",
-            value = hold$TMT_Date_adm,
+            value = lubridate::as_date(hold$TMT_Date_adm),
             language = "kr"
           ),
           radioButtons(
@@ -291,7 +291,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           dateInput(
             ns("MSPECT_Date_adm"),
             "",
-            value = hold$MSPECT_Date_adm,
+            value = lubridate::as_date(hold$MSPECT_Date_adm),
             language = "kr"
           ),
           radioButtons(
@@ -315,7 +315,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           dateInput(
             ns("APET_Date_adm"),
             "",
-            value = hold$APET_Date_adm,
+            value = lubridate::as_date(hold$APET_Date_adm),
             language = "kr"
           ),
           radioButtons(
@@ -339,7 +339,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           dateInput(
             ns("DEcho_Date_adm"),
             "",
-            value = hold$DEcho_Date_adm,
+            value = lubridate::as_date(hold$DEcho_Date_adm),
             language = "kr"
           ),
           radioButtons(
@@ -363,7 +363,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           dateInput(
             ns("EEcho_Date_adm"),
             "",
-            value = hold$EEcho_Date_adm,
+            value = lubridate::as_date(hold$EEcho_Date_adm),
             language = "kr"
           ),
           radioButtons(
@@ -389,7 +389,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           dateInput(
             ns("Corona_date_adm"),
             "",
-            value = hold$Corona_date_adm,
+            value = lubridate::as_date(hold$Corona_date_adm),
             language = "kr"
           ),
           radioButtons(
@@ -421,7 +421,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           dateInput(
             ns("EchoCG_date_adm"),
             "",
-            value = hold$EchoCG_date_adm,
+            value = lubridate::as_date(hold$EchoCG_date_adm),
             language = "kr"
           ),
           numericInput(

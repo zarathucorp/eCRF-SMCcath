@@ -220,6 +220,7 @@ create_rct_query <- "CREATE TABLE rct (
   -- Lactic_Acid_Peak                REAL,
 
   -- M1 --
+  Readm_M1                        DATE,
   FU_M1                           TEXT,
   Visit_Date_M1                   DATE,
   Visit_M1                        TEXT,
@@ -302,6 +303,7 @@ create_rct_query <- "CREATE TABLE rct (
   Comment_M1	                		TEXT,
 
   -- M3 --
+  Readm_M3                        DATE,
   FU_M3                           TEXT,
   Visit_Date_M3                   DATE,
   Visit_M3                        TEXT,
@@ -384,6 +386,7 @@ create_rct_query <- "CREATE TABLE rct (
   Comment_M3	                		TEXT,
 
   -- M6 --
+  Readm_M6                        DATE,
   FU_M6                           TEXT,
   Visit_Date_M6                   DATE,
   Visit_M6                        TEXT,
@@ -466,6 +469,7 @@ create_rct_query <- "CREATE TABLE rct (
   Comment_M6	                		TEXT,
 
   -- Mf --
+  Readm_Mf                        DATE,
   FU_Mf                           TEXT,
   Visit_Date_Mf                   DATE,
   Visit_Mf                        TEXT,
