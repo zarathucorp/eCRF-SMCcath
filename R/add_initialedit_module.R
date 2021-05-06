@@ -19,10 +19,10 @@
 #'
 add_initialedit_module <- function(input, output, session, modal_title, car_to_edit, modal_trigger, tbl = "rct", sessionid, data, rd = rd) {
   ns <- session$ns
-
+  
   observeEvent(modal_trigger(), {
     hold <- car_to_edit()
-
+    
     if (tbl == "rct") {
       showModal(
         modalDialog(
@@ -245,228 +245,209 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
         )
       )
     }
-
-
-
+    
+    
+    
     # Observe event for "Model" text input in Add/Edit Car Modal
     # `shinyFeedback`
-    observeEvent(input$Initial, {
-      if (input$Initial == "") {
-        shinyFeedback::showFeedbackDanger(
-          "Initial",
-          text = "환자 이니셜 입력"
-        )
-        shinyjs::disable("submit")
-      }
-      else {
-        shinyFeedback::hideFeedback("Initial")
-      }
-      if (length(input$Birthday) != 0 && length(input$Index_PCI_Date) != 0 && input$Initial != "") {
-        shinyjs::enable("submit")
-      }
-    })
-
-    observeEvent(input$Index_PCI_Date, {
-      if (length(input$Index_PCI_Date) == 0) {
-        shinyFeedback::showFeedbackDanger(
-          "Index_PCI_Date",
-          text = "Index_PCI_Date 입력"
-        )
-        shinyjs::disable("submit")
-      }
-      else {
-        shinyFeedback::hideFeedback("Index_PCI_Date")
-      }
-      if (length(input$Birthday) != 0 && length(input$Index_PCI_Date) != 0 && input$Initial != "") {
-        shinyjs::enable("submit")
-      }
-    })
-
-    observeEvent(input$Birthday, {
-      if (length(input$Birthday) == 0) {
-        shinyFeedback::showFeedbackDanger(
-          "Birthday",
-          text = "Birthday 입력"
-        )
-        shinyjs::disable("submit")
-      }
-      else {
-        shinyFeedback::hideFeedback("Birthday")
-      }
-      if (length(input$Birthday) != 0 && length(input$Index_PCI_Date) != 0 && input$Initial != "") {
-        shinyjs::enable("submit")
-      }
-    })
-
-    observeEvent(input$Sex, {
-      if (is.null(input$Sex)) {
-        shinyFeedback::showFeedbackDanger(
-          "Sex",
-          text = "Must enter Sex"
-        )
-        shinyjs::disable("submit")
-      } else {
-        shinyFeedback::hideFeedback("Sex")
-        shinyjs::enable("submit")
-      }
-    })
-  })
-  
-
-  output$pidui <- renderUI({
-    req(input$DM_random)
-    req(input$STEMI_random)
-    idlist <- choices.group <- NULL
-    if (tbl == "rct") {
-      type.strata <- ifelse(
-        input$DM_random == "0",
-        ifelse(input$STEMI_random == "NSTEMI", "R-NDNST", "R-NDST"),
-        ifelse(input$STEMI_random == "NSTEMI", "R-DNST", "R-DST")
-      )
-
-      pid.group <- grep(type.strata, rd$pid, value = T)
-      data.stata <- subset(data(), DM == input$DM_random & AMI_Type == input$STEMI_random)
-      # idlist <- setdiff(pid.group, data()$pid)
-      idlist <- setdiff(paste0("R-", 1:100000), data()$pid)
-
-      if (nrow(data.stata) >= length(pid.group)) {
-        ## Random assign
-        choices.group <- ifelse(rbinom(1, 1, 0.5) == 1, "SGLT-inhibitor", "Control")
-      } else {
-        choices.group <- rd[rd$pid %in% pid.group, ]$Group[nrow(data.stata) + 1]
-      }
-    } else {
-      idlist <- setdiff(paste0("P-", 1:100000), data()$pid)
-      choices.group <- ""
-    }
-
-    hold <- car_to_edit()
-    choices.pid <- ifelse(is.null(hold), idlist[1], hold$pid)
-
-    tagList(
-      fluidRow(
-        column(
-          width = 6,
-          selectInput(
-            session$ns("pid"),
-            "pid",
-            choices = choices.pid,
-            selected = choices.pid
+    observe({
+      req(input$DM_random)
+        if (input$Initial == "") {
+          shinyFeedback::showFeedbackDanger(
+            "Initial",
+            text = "환자 이니셜 입력"
           )
-        ),
-        hidden(
+        } else {
+          shinyFeedback::hideFeedback("Initial")
+        }
+        
+        if (length(input$Index_PCI_Date) == 0) {
+          shinyFeedback::showFeedbackDanger(
+            "Index_PCI_Date",
+            text = "Index_PCI_Date 입력"
+          )
+        } else {
+          shinyFeedback::hideFeedback("Index_PCI_Date")
+        }
+        
+        if (length(input$Birthday) == 0) {
+          shinyFeedback::showFeedbackDanger(
+            "Birthday",
+            text = "Birthday 입력"
+          )
+        }
+        else {
+          shinyFeedback::hideFeedback("Birthday")
+        }
+        
+        
+        
+        if (!is.null(input$pid) && (length(input$DM_random) != 0) && (length(input$STEMI_random) != 0) && (length(input$Birthday) != 0) && (length(input$Index_PCI_Date)) != 0 && 
+            (input$Initial != "") && (length(input$Sex) != 0) && (length(input$in_1) != 0) && (length(input$in_2) != 0) && (length(input$in_3) != 0) && 
+            (length(input$ex_1) != 0) && (length(input$ex_2) != 0) && (length(input$ex_3) != 0) && (length(input$ex_4) != 0) && (length(input$ex_5) != 0)) {
+          shinyjs::enable("submit")
+        } else{
+          shinyjs::disable("submit")
+        }
+      })
+})
+    
+    
+    
+    output$pidui <- renderUI({
+      req(input$DM_random)
+      req(input$STEMI_random)
+      idlist <- choices.group <- NULL
+      if (tbl == "rct") {
+        type.strata <- ifelse(
+          input$DM_random == "0",
+          ifelse(input$STEMI_random == "NSTEMI", "R-NDNST", "R-NDST"),
+          ifelse(input$STEMI_random == "NSTEMI", "R-DNST", "R-DST")
+        )
+        
+        pid.group <- grep(type.strata, rd$pid, value = T)
+        data.stata <- subset(data(), DM == input$DM_random & AMI_Type == input$STEMI_random)
+        # idlist <- setdiff(pid.group, data()$pid)
+        idlist <- setdiff(paste0("R-", 1:100000), data()$pid)
+        
+        if (nrow(data.stata) >= length(pid.group)) {
+          ## Random assign
+          choices.group <- ifelse(rbinom(1, 1, 0.5) == 1, "SGLT-inhibitor", "Control")
+        } else {
+          choices.group <- rd[rd$pid %in% pid.group, ]$Group[nrow(data.stata) + 1]
+        }
+      } else {
+        idlist <- setdiff(paste0("P-", 1:100000), data()$pid)
+        choices.group <- ""
+      }
+      
+      hold <- car_to_edit()
+      choices.pid <- ifelse(is.null(hold), idlist[1], hold$pid)
+      
+      tagList(
+        fluidRow(
           column(
             width = 6,
-            radioButtons(
-              session$ns("Group"),
-              "Group",
-              choices.group,
-              choices.group[1],
-              inline = T
+            selectInput(
+              session$ns("pid"),
+              "pid",
+              choices = choices.pid,
+              selected = choices.pid
+            )
+          ),
+          hidden(
+            column(
+              width = 6,
+              radioButtons(
+                session$ns("Group"),
+                "Group",
+                choices.group,
+                choices.group[1],
+                inline = T
+              )
             )
           )
         )
       )
-    )
-  })
-
-  observeEvent(input$CYfA, {
-    updateRadioButtons(session, "in_1", selected = "Yes")
-    updateRadioButtons(session, "in_2", selected = "Yes")
-    updateRadioButtons(session, "in_3", selected = "Yes")
-  })
-
-  observeEvent(input$CNfA, {
-    updateRadioButtons(session, "ex_1", selected = "No")
-    updateRadioButtons(session, "ex_2", selected = "No")
-    updateRadioButtons(session, "ex_3", selected = "No")
-    updateRadioButtons(session, "ex_4", selected = "No")
-    updateRadioButtons(session, "ex_5", selected = "No")
-    updateRadioButtons(session, "ex_6", selected = "No")
-    updateRadioButtons(session, "ex_7", selected = "No")
-  })
-
-  edit_car_dat <- reactive({
-    hold <- car_to_edit()
-
-    dat <- list(
-      "pid" = input$pid,
-      "Group" = input$Group,
+    })
+    
+    observeEvent(input$CYfA, {
+      updateRadioButtons(session, "in_1", selected = "Yes")
+      updateRadioButtons(session, "in_2", selected = "Yes")
+      updateRadioButtons(session, "in_3", selected = "Yes")
+    })
+    
+    observeEvent(input$CNfA, {
+      updateRadioButtons(session, "ex_1", selected = "No")
+      updateRadioButtons(session, "ex_2", selected = "No")
+      updateRadioButtons(session, "ex_3", selected = "No")
+      updateRadioButtons(session, "ex_4", selected = "No")
+      updateRadioButtons(session, "ex_5", selected = "No")
+      updateRadioButtons(session, "ex_6", selected = "No")
+      updateRadioButtons(session, "ex_7", selected = "No")
+    })
+    
+    edit_car_dat <- reactive({
+      hold <- car_to_edit()
       
-      # Essentials
-      "Index_PCI_Date" = lubridate::as_date(input$Index_PCI_Date),
-      "Initial" = input$Initial,
-      "Age" = as.period(interval(start = lubridate::as_date(input$Birthday), end = Sys.Date()))$year,
-      "Birthday" = lubridate::as_date(input$Birthday),
-      "Sex" = input$Sex
-      
-      # index_PCI_Date 필수 입력
-      # "Index_PCI_Date" = ifelse(is.null(input$Index_PCI_Date), "", as.character(input$Index_PCI_Date)),
-      
-    )
-    if (tbl == "rct") {
-      dat$DM <- input$DM_random
-      dat$AMI_Type <- input$STEMI_random
-    }
-
-    time_now <- as.character(lubridate::with_tz(Sys.time(), tzone = "UTC"))
-
-    if (is.null(hold)) {
-      # adding a new car
-
-      dat$created_at <- time_now
-      dat$created_by <- sessionid
-    } else {
-      # Editing existing car
-
-      dat$created_at <- as.character(hold$created_at)
-      dat$created_by <- hold$created_by
-    }
-
-    dat$modified_at <- time_now
-    dat$modified_by <- sessionid
-
-    return(dat)
-  })
-
-  validate_edit <- eventReactive(input$submit, {
-    dat <- edit_car_dat()
-
-    # Logic to validate inputs...
-
-    dat
-  })
-
-  observeEvent(validate_edit(), {
-    removeModal()
-    dat <- validate_edit()
-    hold <- car_to_edit()
-
-    # sqlsub <- paste(paste0(names(dat$data), "=$", 1:length(dat$data)), collapse = ",")
-
-    code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Initial, Age, Birthday, Sex, DM, AMI_Type, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)")
-    if (tbl == "pros") {
-      code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Initial, Age, Birthday, Sex, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)")
-    }
-
-    tryCatch(
-      {
-        dbExecute(conn, code.sql, params = unname(dat))
-
-        session$userData$mtcars_trigger(session$userData$mtcars_trigger() + 1)
-        showToast("success", paste0(modal_title, " Successs"))
-      },
-      error = function(error) {
-        msg <- paste0(modal_title, " Error")
-
-        # print `msg` so that we can find it in the logs
-        print(msg)
-        # print the actual error to log it
-        print(error)
-        # show error `msg` to user.  User can then tell us about error and we can
-        # quickly identify where it cam from based on the value in `msg`
-        showToast("error", msg)
+      dat <- list(
+        "pid" = input$pid,
+        "Group" = input$Group,
+        
+        # Essentials
+        "Index_PCI_Date" = lubridate::as_date(input$Index_PCI_Date),
+        "Initial" = input$Initial,
+        "Age" = as.period(interval(start = lubridate::as_date(input$Birthday), end = Sys.Date()))$year,
+        "Birthday" = lubridate::as_date(input$Birthday),
+        "Sex" = input$Sex
+        
+        # index_PCI_Date 필수 입력
+        # "Index_PCI_Date" = ifelse(is.null(input$Index_PCI_Date), "", as.character(input$Index_PCI_Date)),
+        
+      )
+      if (tbl == "rct") {
+        dat$DM <- input$DM_random
+        dat$AMI_Type <- input$STEMI_random
       }
-    )
-  })
+      
+      time_now <- as.character(lubridate::with_tz(Sys.time(), tzone = "UTC"))
+      
+      if (is.null(hold)) {
+        # adding a new car
+        
+        dat$created_at <- time_now
+        dat$created_by <- sessionid
+      } else {
+        # Editing existing car
+        
+        dat$created_at <- as.character(hold$created_at)
+        dat$created_by <- hold$created_by
+      }
+      
+      dat$modified_at <- time_now
+      dat$modified_by <- sessionid
+      
+      return(dat)
+    })
+    
+    validate_edit <- eventReactive(input$submit, {
+      dat <- edit_car_dat()
+      
+      # Logic to validate inputs...
+      
+      dat
+    })
+    
+    observeEvent(validate_edit(), {
+      removeModal()
+      dat <- validate_edit()
+      hold <- car_to_edit()
+      
+      # sqlsub <- paste(paste0(names(dat$data), "=$", 1:length(dat$data)), collapse = ",")
+      
+      code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Initial, Age, Birthday, Sex, DM, AMI_Type, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)")
+      if (tbl == "pros") {
+        code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Initial, Age, Birthday, Sex, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)")
+      }
+      
+      tryCatch(
+        {
+          dbExecute(conn, code.sql, params = unname(dat))
+          
+          session$userData$mtcars_trigger(session$userData$mtcars_trigger() + 1)
+          showToast("success", paste0(modal_title, " Successs"))
+        },
+        error = function(error) {
+          msg <- paste0(modal_title, " Error")
+          
+          # print `msg` so that we can find it in the logs
+          print(msg)
+          # print the actual error to log it
+          print(error)
+          # show error `msg` to user.  User can then tell us about error and we can
+          # quickly identify where it cam from based on the value in `msg`
+          showToast("error", msg)
+        }
+      )
+    })
 }
