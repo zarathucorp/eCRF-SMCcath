@@ -257,27 +257,6 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             selected = hold$Sex, inline = T
           ),
           radioButtons(
-            ns("DM"),
-            "Previous DM",
-            choices = c("No" = 0, "Yes" = 1),
-            selected = hold$DM, inline = T
-          ),
-          
-          #radioButtons(
-          #  ns("DM_Tx"),
-          #  "Previous DM treatment",
-          #  choices = c("No" = 0, "Yes" = 1, "Unknown" = 2),
-          #  selected = hold$DM_Tx, inline = T
-          #),
-          
-          radioButtons( # 층화?
-            ns("AMI_Type"),
-            "AMI Type",
-            choices = choices.AMI_Type, 
-            hold$AMI_Type, 
-            inline = T
-          ),
-          radioButtons(
             ns("Withdrawal"),
             "Withdrawal of Study",
             choices = c("Yes" = 0, "No" = 1),
@@ -350,7 +329,6 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
       "Birthday" = ifelse(is.null(input$Birthday), "", input$Birthday),
       "Age" = ifelse(is.null(input$Birthday), "", as.period(interval(start = lubridate::as_date(input$Birthday), end = Sys.Date()))$year),
       "Sex" = ifelse(is.null(input$Sex), "", input$Sex),
-      "AMI_Type" = ifelse(is.null(input$AMI_Type), "", input$AMI_Type),
       "Withdrawal" = ifelse(is.null(input$Withdrawal), "", input$Withdrawal),
       "Withdrawal_date" = ifelse(is.null(input$Withdrawal_date), "", input$Withdrawal_date),
       "Withdrawal_reason" = ifelse(is.null(input$Withdrawal_reason), "", input$Withdrawal_reason),
