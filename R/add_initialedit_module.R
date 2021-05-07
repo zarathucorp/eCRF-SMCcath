@@ -54,7 +54,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
               radioButtons(
                 ns("Sex"),
                 "Sex",
-                choices = c("M" = 0, "F" = 1),
+                choices = c("M", "F"),
                 selected = character(0),
                 inline = T
               )
@@ -62,7 +62,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
           ),
           fluidRow(
             column(
-              width = 4,
+              width = 3,
               textInput(
                 ns("Initial"),
                 "Initial",
@@ -70,16 +70,25 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
               )
             ),
             column(
-              width = 4,
+              width = 3,
               dateInput(
                 ns("Index_PCI_Date"),
                 "Index PCI Date",
-                value = as.character(lubridate::as_date(NA)),
+                value = NULL,
                 language = "kr"
               )
             ),
             column(
-              width = 4,
+              width = 3,
+              dateInput(
+                ns("Agree_Date"),
+                "동의서 서명일",
+                value = NULL,
+                language = "kr"
+              )
+            ),
+            column(
+              width = 3,
               dateInput(
                 ns("Birthday"),
                 "Birthday",
@@ -92,7 +101,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
           
           fluidRow(
             column(
-              width = 2,
+              width = 6,
               radioButtons(
                 ns("in_1"),
                 "1. 만 19세 이상",
@@ -102,29 +111,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
               )
             ),
             column(
-              width = 5,
-              radioButtons(
-                ns("in_2"),
-                # "2.	관상동맥 질환으로 경피적 관상동맥 중재시술이 필요한 환자",
-                "2.	관상동맥 질환으로 경피적 관상동맥 중재시술 필요",
-                choices = c("Yes", "No"),
-                selected = character(0),
-                inline = T
-              ),
-            ),
-            column(
-              width = 2,
-              radioButtons(
-                ns("in_3"),
-                # "3. 관상동맥 복잡 병변이 있는 환자",
-                "3. 관상동맥 복잡 병변 보유",
-                choices = c("Yes", "No"),
-                selected = character(0),
-                inline = T
-              ),
-            ),
-            column(
-              width = 2,
+              width = 6,
               actionButton(
                 ns("CYfA"),
                 "Check Yes for All",
@@ -132,16 +119,32 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
               )
             )
           ),
-          tags$b("[※ 관상동맥 복잡병변은 아래 9가지 중 하나 이상을 동반하고 있는 경우로 정의한다.]"),
-          h5("1) 진성 분지 병변 (Medina classification 1,1,1/1,0,1/0,1,1) 이면서 측부 가지 크기가 2.5mm 이상인 경우"),
-          h5("2) 표적 혈관이 만성 완전 폐색 병변인 경우 (≥3 months)"),
-          h5("3) 보호되지 않는 좌주간지 병변인 경우 (좌주간지 분지 병변은 비-진성 분지병변도 포함한다.)"),
-          h5("4) 삽입될 스텐트의 길이가 38mm 이상일 것으로 예상되는 긴 병변인 경우"),
-          h5("5) 다혈관 질환으로 2개 이상의 주요 관상동맥에 관상동맥 중재시술을 시행해야 하는 경우"),
-          h5("6) 복수의 스텐트가 필요한 경우 (≥3 more stent per patient)"),
-          h5("7) 관상동맥 스텐트 재 협착 병변인 경우"),
-          h5("8) 심한 관상동맥 석회화 병변 (encircling calcium in angiography)"),
-          h5("9) 좌측관상동맥(LAD, LCX) 및 우측관상동맥(RCA)의 개구부 병변 (ostial lesion)"),
+          radioButtons(
+            ns("in_2"),
+            # "2.	관상동맥 질환으로 경피적 관상동맥 중재시술이 필요한 환자",
+            "2.	임상시험의 시험군 및 대조군의 정의 및 시술의 위험성을 인지하고 임상시험 참가에 환자 또는 법정 대리인이 자발적으로 동의한 경우",
+            choices = c("Yes", "No"),
+            selected = character(0),
+            inline = T
+          ),
+          radioButtons(
+            ns("in_3"),
+            "3. Type 1 급성심근경색으로 진단된 환자 (ST 분절 상승 심근경색 또는 비 ST 분절 상승 심근경색)",
+            choices = c("Yes", "No"),
+            selected = character(0),
+            inline = T
+          ),
+          h5("1) 심근 효소(troponin)의 값이 참고치의 상위 99% 이상 상승 (above the 99th percentile upper reference limit)"),
+          h5("2) 심근 허혈을 시사하는 증상 혹은 심전도 변화"),
+          radioButtons(
+            ns("in_4"),
+            "4. 심부전 발생 고 위험 환자 (아래 두 가지 기준 중 하나 이상 만족하는 경우)",
+            choices = c("Yes", "No"),
+            selected = character(0),
+            inline = T
+          ),
+          h5("1) 좌심실 구혈율 (left ventricular ejection fraction) <50% 또는"),
+          h5("2) 폐 울혈의 증상이나 징후가 있어 치료가 필요한 경우"),
           br(),
           h3("Exclusion"),
           actionButton(
@@ -152,7 +155,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
           radioButtons(
             ns("ex_1"),
             # "1.	시술자에 의해 표적혈관의 협착이 관상동맥 중재시술에 적합하지 않다고 판단되는 경우(Target lesion not amenable for PCI by operators decision)",
-            "1.	시술자에 의해 표적혈관의 협착이 관상동맥 중재시술에 적합하지 않음",
+            "1.	시술자에 의해 표적혈관의 협착이 관상동맥 중재시술에 적합하지 않다고 판단되는 경우",
             choices = c("Yes", "No"),
             selected = character(0),
             inline = T
@@ -160,7 +163,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
           radioButtons(
             ns("ex_2"),
             # "2. 심혈관성 쇼크 상태인 경우 (Cardiogenic shock (Killip class IV) at presentation)",
-            "2. 심혈관성 쇼크 상태",
+            "2. 무작위 배정 전 심정지로 심폐소생술이 필요한 경우",
             choices = c("Yes", "No"),
             selected = character(0),
             inline = T
@@ -168,37 +171,85 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
           radioButtons(
             ns("ex_3"),
             # "3.	다음 약제에 과민성이 있거나, 투약의 금기사항이 있는 경우(aspirin, clopidogrel, ticagrelor, prasugrel, heparin, everolimus, zotarolimus, biolimus, sirolimus)",
-            "3.	다음 약제투약에 이슈가 있음 (Aspirin, Clopidogrel, Ticagrelor, Prasugrel, Heparin, Everolimus, Zotarolimus, Biolimus, Sirolimus)",
+            "3.	혈전용해술 이후 구제적 관상동맥 중재술/용이성 관상동맥 중재술을 시행한 경우",
             choices = c("Yes", "No"),
             selected = character(0),
             inline = T
           ),
-          radioButtons(
-            ns("ex_4"),
-            "4. 조영제에 대한 아나필락시스의 기왕력이 있는 경우 (단순 알레르기 반응은 제외)",
-            choices = c("Yes", "No"),
-            selected = character(0),
-            inline = T
+          fluidRow(
+            column(
+              width = 6,
+              radioButtons(
+                ns("ex_4"),
+                "4. 과거에 심근경색이 있었던 경우",
+                choices = c("Yes", "No"),
+                selected = character(0),
+                inline = T
+              )
+            ),
+            column(
+              width = 6,
+              radioButtons(
+                ns("ex_5"),
+                "5. SGLT-2 억제제를 지속 복용중인 환자",
+                choices = c("Yes", "No"),
+                selected = character(0),
+                inline = T
+              )
+            )
+          ),
+          fluidRow(
+            column(
+              width = 6,
+              radioButtons(
+                ns("ex_6"),
+                # "6.	비 심장질환으로 기대 여명이 1년 미만이거나 치료에 순응도가 낮을 것으로 기대되는 자(조사자가 의학적인 판단으로 정함)",
+                "6.	사구체 여과율 30 ml/min/1.73m2 미만이거나 투석중인 환자",
+                choices = c("Yes", "No"),
+                selected = character(0),
+                inline = T
+              )
+            ),
+            column(
+              width = 6,
+              radioButtons(
+                ns("ex_7"),
+                # "7. 연구 참여를 거부한 환자",
+                "7. 1형 당뇨병을 앓고 있는 경우",
+                choices = c("Yes", "No"),
+                selected = character(0),
+                inline = T
+              )
+            )
+          ),
+          fluidRow(
+            column(
+              width = 6,
+              radioButtons(
+                ns("ex_8"),
+                # "7. 연구 참여를 거부한 환자",
+                "8. SGLT-2 억제제에 과민성이 있는 환자",
+                choices = c("Yes", "No"),
+                selected = character(0),
+                inline = T
+              )
+            ),
+            column(
+              width = 6,
+              radioButtons(
+                ns("ex_9"),
+                # "7. 연구 참여를 거부한 환자",
+                "9. 임산부 및 수유부",
+                choices = c("Yes", "No"),
+                selected = character(0),
+                inline = T
+              )
+            )
           ),
           radioButtons(
-            ns("ex_5"),
-            "5. 임산부 및 수유부",
-            choices = c("Yes", "No"),
-            selected = character(0),
-            inline = T
-          ),
-          radioButtons(
-            ns("ex_6"),
-            # "6.	비 심장질환으로 기대 여명이 1년 미만이거나 치료에 순응도가 낮을 것으로 기대되는 자(조사자가 의학적인 판단으로 정함)",
-            "6.	비 심장질환으로 기대 여명이 1년 미만 혹은 치료에 순응도가 낮을 것으로 기대",
-            choices = c("Yes", "No"),
-            selected = character(0),
-            inline = T
-          ),
-          radioButtons(
-            ns("ex_7"),
+            ns("ex_10"),
             # "7. 연구 참여를 거부한 환자",
-            "7. 연구 참여를 거부",
+            "10. 비 심장질환으로 인하여 기대여명이 1년 이내이거나 치료에 순응도가 낮을 것으로 기대되는 자 (조사자가 의학적인 판단으로 정함)",
             choices = c("Yes", "No"),
             selected = character(0),
             inline = T
@@ -223,13 +274,47 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
           uiOutput(ns("pidui")),
           fluidRow(
             column(
-              width = 6,
-              textInput(ns("Initial"), "Initial", value = ifelse(is.null(hold), "", hold$Initial))
+              width = 3,
+              textInput(
+                ns("Initial"),
+                "Initial",
+                value = ifelse(is.null(hold), "", hold$Initial)
+              )
             ),
             column(
-              width = 6,
-              dateInput(ns("Index_PCI_Date"), "Index PCI Date", value = ifelse(is.null(hold), "", hold$Index_PCI_Date), language = "kr")
+              width = 3,
+              dateInput(
+                ns("Index_PCI_Date"),
+                "Index PCI Date",
+                value = NULL,
+                language = "kr"
+              )
+            ),
+            column(
+              width = 3,
+              dateInput(
+                ns("Agree_Date"),
+                "동의서 서명일",
+                value = NULL,
+                language = "kr"
+              )
+            ),
+            column(
+              width = 3,
+              dateInput(
+                ns("Birthday"),
+                "Birthday",
+                value = as.character(lubridate::as_date(NA)),
+                language = "kr"
+              )
             )
+          ),
+          radioButtons(
+            ns("Sex"),
+            "Sex",
+            choices = c("M", "F"),
+            selected = character(0),
+            inline = T
           ),
           title = modal_title,
           size = "m",
@@ -251,7 +336,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
     # Observe event for "Model" text input in Add/Edit Car Modal
     # `shinyFeedback`
     observe({
-      req(input$DM_random)
+      req(!is.null(input$Initial))
         if (input$Initial == "") {
           shinyFeedback::showFeedbackDanger(
             "Initial",
@@ -279,26 +364,36 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
         else {
           shinyFeedback::hideFeedback("Birthday")
         }
-        
-        
-        
-        if (!is.null(input$pid) && (length(input$DM_random) != 0) && (length(input$STEMI_random) != 0) && (length(input$Birthday) != 0) && (length(input$Index_PCI_Date)) != 0 && 
-            (input$Initial != "") && (length(input$Sex) != 0) && (length(input$in_1) != 0) && (length(input$in_2) != 0) && (length(input$in_3) != 0) && 
-            (length(input$ex_1) != 0) && (length(input$ex_2) != 0) && (length(input$ex_3) != 0) && (length(input$ex_4) != 0) && (length(input$ex_5) != 0)) {
+      
+      if (tbl == "rct"){
+        if (!is.null(input$pid) && (length(input$DM_random) != 0) && (length(input$STEMI_random) != 0) && (length(input$Birthday) != 0) && (length(input$Index_PCI_Date)) != 0 && (length(input$Agree_Date) != 0) && 
+            (input$Initial != "") && (length(input$Sex) != 0) && (length(input$in_1) != 0) && (length(input$in_2) != 0) && (length(input$in_3) != 0) && (length(input$in_4) != 0) &&
+            (length(input$ex_1) != 0) && (length(input$ex_2) != 0) && (length(input$ex_3) != 0) && (length(input$ex_4) != 0) && (length(input$ex_5) != 0) && (length(input$ex_6) != 0) && (length(input$ex_7) != 0) && (length(input$ex_8) != 0) && (length(input$ex_9) != 0) && (length(input$ex_10) != 0)) {
           shinyjs::enable("submit")
         } else{
           shinyjs::disable("submit")
         }
+      } else{
+        if ((length(input$Birthday) != 0) && (length(input$Index_PCI_Date) != 0) && (length(input$Agree_Date) != 0) && (input$Initial != "") && (length(input$Sex) != 0)) {
+          shinyjs::enable("submit")
+        } else{
+          shinyjs::disable("submit")
+        }
+      }
+      
+        
+        
+
       })
 })
     
     
     
     output$pidui <- renderUI({
-      req(input$DM_random)
-      req(input$STEMI_random)
       idlist <- choices.group <- NULL
       if (tbl == "rct") {
+        req(input$DM_random)
+        req(input$STEMI_random)
         type.strata <- ifelse(
           input$DM_random == "0",
           ifelse(input$STEMI_random == "NSTEMI", "R-NDNST", "R-NDST"),
@@ -355,6 +450,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
       updateRadioButtons(session, "in_1", selected = "Yes")
       updateRadioButtons(session, "in_2", selected = "Yes")
       updateRadioButtons(session, "in_3", selected = "Yes")
+      updateRadioButtons(session, "in_4", selected = "Yes")
     })
     
     observeEvent(input$CNfA, {
@@ -365,6 +461,9 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
       updateRadioButtons(session, "ex_5", selected = "No")
       updateRadioButtons(session, "ex_6", selected = "No")
       updateRadioButtons(session, "ex_7", selected = "No")
+      updateRadioButtons(session, "ex_8", selected = "No")
+      updateRadioButtons(session, "ex_9", selected = "No")
+      updateRadioButtons(session, "ex_10", selected = "No")
     })
     
     edit_car_dat <- reactive({
@@ -376,6 +475,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
         
         # Essentials
         "Index_PCI_Date" = lubridate::as_date(input$Index_PCI_Date),
+        "Agree_Date" = lubridate::as_date(input$Agree_Date),
         "Initial" = input$Initial,
         "Age" = as.period(interval(start = lubridate::as_date(input$Birthday), end = Sys.Date()))$year,
         "Birthday" = lubridate::as_date(input$Birthday),
@@ -425,9 +525,9 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
       
       # sqlsub <- paste(paste0(names(dat$data), "=$", 1:length(dat$data)), collapse = ",")
       
-      code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Initial, Age, Birthday, Sex, DM, AMI_Type, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)")
+      code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Agree_Date, Initial, Age, Birthday, Sex, DM, AMI_Type, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)")
       if (tbl == "pros") {
-        code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Initial, Age, Birthday, Sex, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)")
+        code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Agree_Date, Initial, Age, Birthday, Sex, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)")
       }
       
       tryCatch(

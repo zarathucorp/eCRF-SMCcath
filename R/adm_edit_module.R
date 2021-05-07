@@ -851,6 +851,15 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     })
   })
   
+  observeEvent({
+    input$Height
+    input$Weight},{
+      
+      updateNumericInput(session, "BMI", value = input$Weight/(input$Height/100)^2)
+      updateNumericInput(session, "BSA_adm", value = sqrt(input$Weight * input$Height / 3600))
+      
+    })
+  
   edit_car_dat <- reactive({
     hold <- car_to_edit()
     

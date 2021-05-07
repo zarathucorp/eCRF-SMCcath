@@ -41,145 +41,283 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
     #output$PCI_Date_demo <- renderText(paste0("시술일자 : ", as.character(lubridate::as_date(as.numeric(hold$Index_PCI_Date)))))
     #output$Birthday_demo <- renderText(paste0("Birth Date : ", as.character(lubridate::as_date(hold$Birthday))))
     
-    showModal(
-      modalDialog(
-        h5('Subject No'),
-        textOutput(
-          ns('pid_demo')
-        ),
-        #selectInput(
-        #  ns("pid"),
-        #  "Subject No",
-        #  choices = hold$pid,
-        #  selected = hold$pid,
-        #),
-        radioButtons(
-          ns("Group"),
-          "Allocation Group",
-          hold$Group,
-          hold$Group,
-          inline = T
-        ),
-        textInput(
-          ns("Initial"),
-          "Initial",
-          value = hold$Initial
-        ),
-        dateInput(
-          ns("Agree_Date"),
-          "동의서 서명일",
-          value = ifelse(is.na(hold$Agree_Date), as.character(Sys.Date()), hold$Agree_Date),
-          language = "kr"
-        ),
-        
-        dateInput(
-          ns("Index_PCI_Date"),
-          "시술일자",
-          value = lubridate::as_date(as.numeric(hold$Index_PCI_Date)),
-          language = "kr"
-        ),
-        #fluidRow(
-        #  column(
-        #    width = 6, 
-        #    textOutput(
-        #      ns('Birthday_demo')
-        #    )
-        #  ),
-        #  column(
-        #    width = 6, 
-        #    textOutput(
-        #      ns('PCI_Date_demo')
-        #    )
-        #  )
-        #),
-        dateInput(
-          ns("Birthday"),
-          "Date of Birth",
-          value = lubridate::as_date(hold$Birthday),
-          language = "kr"
-        ),
-        h5("Age"),
-        textOutput(
-          ns("Age")
-        ),
-#        numericInput(
-#          ns("Age"),
-#          "Age",
-#          value = 
-#          min = 19, max = 120,
-#          step = 1
-#        ) 
-        radioButtons(
-          ns("Sex"),
-          "Sex",
-          choices = c("M" = 0, "F" = 1),
-          selected = hold$Sex, inline = T
-        ),
-        shinyjs::disabled(
+    if (tbl == "rct"){
+      showModal(
+        modalDialog(
+          h5('Subject No'),
+          textOutput(
+            ns('pid_demo')
+          ),
+          #selectInput(
+          #  ns("pid"),
+          #  "Subject No",
+          #  choices = hold$pid,
+          #  selected = hold$pid,
+          #),
+          radioButtons(
+            ns("Group"),
+            "Allocation Group",
+            hold$Group,
+            hold$Group,
+            inline = T
+          ),
+          textInput(
+            ns("Initial"),
+            "Initial",
+            value = hold$Initial
+          ),
+          dateInput(
+            ns("Agree_Date"),
+            "동의서 서명일",
+            value = lubridate::as_date(as.numeric(hold$Agree_Date)),
+            language = "kr"
+          ),
+          
+          dateInput(
+            ns("Index_PCI_Date"),
+            "시술일자",
+            value = lubridate::as_date(as.numeric(hold$Index_PCI_Date)),
+            language = "kr"
+          ),
+          #fluidRow(
+          #  column(
+          #    width = 6, 
+          #    textOutput(
+          #      ns('Birthday_demo')
+          #    )
+          #  ),
+          #  column(
+          #    width = 6, 
+          #    textOutput(
+          #      ns('PCI_Date_demo')
+          #    )
+          #  )
+          #),
+          dateInput(
+            ns("Birthday"),
+            "Date of Birth",
+            value = lubridate::as_date(hold$Birthday),
+            language = "kr"
+          ),
+          h5("Age"),
+          textOutput(
+            ns("Age")
+          ),
+          #        numericInput(
+          #          ns("Age"),
+          #          "Age",
+          #          value = 
+          #          min = 19, max = 120,
+          #          step = 1
+          #        ) 
+          radioButtons(
+            ns("Sex"),
+            "Sex",
+            choices = c("M", "F"),
+            selected = hold$Sex, inline = T
+          ),
+          shinyjs::disabled(
+            radioButtons(
+              ns("DM"),
+              "Previous DM",
+              choices = c("No" = 0, "Yes" = 1),
+              selected = hold$DM, inline = T
+            )
+          ),
+          
+          #radioButtons(
+          #  ns("DM_Tx"),
+          #  "Previous DM treatment",
+          #  choices = c("No" = 0, "Yes" = 1, "Unknown" = 2),
+          #  selected = hold$DM_Tx, inline = T
+          #),
+          
+          shinyjs::disabled(
+            radioButtons( # 층화?
+              ns("AMI_Type"),
+              "AMI Type",
+              choices = choices.AMI_Type, 
+              selected.AMI_Type, 
+              inline = T
+            )
+          ),
+          radioButtons(
+            ns("Withdrawal"),
+            "Withdrawal of Study",
+            choices = c("Yes" = 0, "No" = 1),
+            selected = hold$Withdrawal,
+            inline = T
+          ),
+          conditionalPanel(
+            "input.Withdrawal == 0",
+            ns = ns,
+            dateInput(
+              "Withdrawal_date",
+              "",
+              language = "kr"
+            ),
+            textInput(
+              "Withdrawal_reason",
+              label = "Reason",
+              value = ifelse(is.null(hold), NA, hold$Withdrawal_reason)
+            ),
+          ),
+          textAreaInput(
+            ns("Comment_demo"),
+            "Comment",
+            width = "400px",
+            height = "100px"
+          ),
+          title = modal_title,
+          size = "m",
+          footer = list(
+            modalButton("Cancel"),
+            actionButton(
+              ns("submit"),
+              "Submit",
+              class = "btn btn-primary",
+              style = "color: white"
+            )
+          )
+        )
+      )
+    } else{
+      showModal(
+        modalDialog(
+          h5('Subject No'),
+          textOutput(
+            ns('pid_demo')
+          ),
+          #selectInput(
+          #  ns("pid"),
+          #  "Subject No",
+          #  choices = hold$pid,
+          #  selected = hold$pid,
+          #),
+          radioButtons(
+            ns("Group"),
+            "Allocation Group",
+            hold$Group,
+            hold$Group,
+            inline = T
+          ),
+          textInput(
+            ns("Initial"),
+            "Initial",
+            value = hold$Initial
+          ),
+          dateInput(
+            ns("Agree_Date"),
+            "동의서 서명일",
+            value = lubridate::as_date(as.numeric(hold$Agree_Date)),
+            language = "kr"
+          ),
+          
+          dateInput(
+            ns("Index_PCI_Date"),
+            "시술일자",
+            value = lubridate::as_date(as.numeric(hold$Index_PCI_Date)),
+            language = "kr"
+          ),
+          #fluidRow(
+          #  column(
+          #    width = 6, 
+          #    textOutput(
+          #      ns('Birthday_demo')
+          #    )
+          #  ),
+          #  column(
+          #    width = 6, 
+          #    textOutput(
+          #      ns('PCI_Date_demo')
+          #    )
+          #  )
+          #),
+          dateInput(
+            ns("Birthday"),
+            "Date of Birth",
+            value = lubridate::as_date(hold$Birthday),
+            language = "kr"
+          ),
+          h5("Age"),
+          textOutput(
+            ns("Age")
+          ),
+          #        numericInput(
+          #          ns("Age"),
+          #          "Age",
+          #          value = 
+          #          min = 19, max = 120,
+          #          step = 1
+          #        ) 
+          radioButtons(
+            ns("Sex"),
+            "Sex",
+            choices = c("M", "F"),
+            selected = hold$Sex, inline = T
+          ),
           radioButtons(
             ns("DM"),
             "Previous DM",
             choices = c("No" = 0, "Yes" = 1),
             selected = hold$DM, inline = T
-          )
-        ),
-        
-        #radioButtons(
-        #  ns("DM_Tx"),
-        #  "Previous DM treatment",
-        #  choices = c("No" = 0, "Yes" = 1, "Unknown" = 2),
-        #  selected = hold$DM_Tx, inline = T
-        #),
-        
-        shinyjs::disabled(
+          ),
+          
+          #radioButtons(
+          #  ns("DM_Tx"),
+          #  "Previous DM treatment",
+          #  choices = c("No" = 0, "Yes" = 1, "Unknown" = 2),
+          #  selected = hold$DM_Tx, inline = T
+          #),
+          
           radioButtons( # 층화?
             ns("AMI_Type"),
             "AMI Type",
             choices = choices.AMI_Type, 
-            selected.AMI_Type, 
+            hold$AMI_Type, 
             inline = T
-          )
-        ),
-        radioButtons(
-          ns("Withdrawal"),
-          "Withdrawal of Study",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Withdrawal,
-          inline = T
-        ),
-        conditionalPanel(
-          "input.Withdrawal == 0",
-          ns = ns,
-          dateInput(
-            "Withdrawal_date",
-            "",
-            language = "kr"
           ),
-          textInput(
-            "Withdrawal_reason",
-            label = "Reason",
-            value = ifelse(is.null(hold), NA, hold$Withdrawal_reason)
+          radioButtons(
+            ns("Withdrawal"),
+            "Withdrawal of Study",
+            choices = c("Yes" = 0, "No" = 1),
+            selected = hold$Withdrawal,
+            inline = T
           ),
-        ),
-        textAreaInput(
-          ns("Comment_demo"),
-          "Comment",
-          width = "400px",
-          height = "100px"
-        ),
-        title = modal_title,
-        size = "m",
-        footer = list(
-          modalButton("Cancel"),
-          actionButton(
-            ns("submit"),
-            "Submit",
-            class = "btn btn-primary",
-            style = "color: white"
+          conditionalPanel(
+            "input.Withdrawal == 0",
+            ns = ns,
+            dateInput(
+              "Withdrawal_date",
+              "",
+              language = "kr"
+            ),
+            textInput(
+              "Withdrawal_reason",
+              label = "Reason",
+              value = ifelse(is.null(hold), NA, hold$Withdrawal_reason)
+            ),
+          ),
+          textAreaInput(
+            ns("Comment_demo"),
+            "Comment",
+            width = "400px",
+            height = "100px"
+          ),
+          title = modal_title,
+          size = "m",
+          footer = list(
+            modalButton("Cancel"),
+            actionButton(
+              ns("submit"),
+              "Submit",
+              class = "btn btn-primary",
+              style = "color: white"
+            )
           )
         )
       )
-    )
+    }
 
     # Observe event for "Model" text input in Add/Edit Car Modal
     # `shinyFeedback`
