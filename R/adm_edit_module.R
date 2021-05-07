@@ -51,20 +51,23 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         
         # Auto calculation 
         
-        numericInput(
-          ns("BMI"),
-          "BMI",
-          value = ifelse(is.null(hold), NA, hold$BMI),
-          min = 0, max = 120,
-          step = 1
+        shinyjs::disabled(
+          numericInput(
+            ns("BMI"),
+            "BMI",
+            value = ifelse(is.null(hold), NA, hold$BMI),
+            min = 0, max = 120,
+            step = 1
+          )
         ),
-        
-        numericInput(
-          ns("BSA_adm"),
-          "BSA",
-          value = ifelse(is.null(hold), NA, hold$BSA_adm),
-          min = 0, max = 120,
-          step = 1
+        shinyjs::disabled(
+          numericInput(
+            ns("BSA_adm"),
+            "BSA",
+            value = ifelse(is.null(hold), NA, hold$BSA_adm),
+            min = 0, max = 120,
+            step = 1
+          )
         ),
         
         numericInput(
