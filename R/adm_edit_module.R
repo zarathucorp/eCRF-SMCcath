@@ -650,7 +650,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         h3("Baseline Lab Data"),
         
         # Date 생략
-        
+        dateInput(
+          ns("Lab_Date_adm"),
+          "Lab Date",
+          value = lubridate::as_date(hold$Lab_Date_adm),
+          language = "kr"
+        ),
         fluidRow(
           column(
             width = 6,
@@ -1238,6 +1243,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         "EEcho_Date_adm" = ifelse(is.null(input$EEcho_Date_adm), Sys.Date(), input$EEcho_Date_adm),
         "Corona_date_adm" = ifelse(is.null(input$Corona_date_adm), Sys.Date(), input$Corona_date_adm),
         "EchoCG_date_adm" = ifelse(is.null(input$EchoCG_date_adm), Sys.Date(), input$EchoCG_date_adm),
+        "Lab_Date_adm" = ifelse(is.null(input$Lab_Date_adm), "", lubridate::as_date(input$Lab_Date_adm)),
         "WBC_adm" = ifelse(is.null(input$WBC_adm), "", input$WBC_adm),
         "TC_adm" = ifelse(is.null(input$TC_adm), "", input$TC_adm),
         "Hb_adm" = ifelse(is.null(input$Hb_adm), "", input$Hb_adm),
