@@ -79,6 +79,7 @@ create_rct_query <- "CREATE TABLE rct (
   EchoCG_LVWMA_adm                TEXT,
   ECG_Rhythm_adm                  TEXT,
   ECG_Rhythm_others_adm           TEXT,
+  Lab_Date_adm                    DATE,
   WBC_adm                         REAL,
   TC_adm                          REAL,
   Hb_adm                          REAL,
