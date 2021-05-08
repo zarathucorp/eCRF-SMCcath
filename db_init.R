@@ -48,14 +48,12 @@ create_rct_query <- "CREATE TABLE rct (
   Smoking                         TEXT,
   FHC_adm                         TEXT,
   CRF_adm                         TEXT,
-  PP_adm                          TEXT,
-  PM_adm                          TEXT,
+  PCI_adm                         TEXT,
   PCABG_adm                       TEXT,
   PCVA_adm                        TEXT,
   PCHF_adm                        TEXT,
   Pvd_adm                         TEXT,
   PNTB_adm                        TEXT,
-  Risk_comment_adm                TEXT,
   TMT_adm                         TEXT,
   TMT_Date_adm                    DATE,
   TMT_detail_adm                  TEXT,
@@ -125,7 +123,7 @@ create_rct_query <- "CREATE TABLE rct (
   Nitrate_adm	                 		TEXT,
   Calcium_adm	                 		TEXT,
   Trimetazidine_adm            		TEXT,
-  Medication_comment_adm          TEXT,
+  -- Medication_comment_adm          TEXT,
 
   -- Outcomes
 
