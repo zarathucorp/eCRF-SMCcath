@@ -25,12 +25,14 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     showModal(
       modalDialog(
         # physical exam
+        h3('Admission Date'),
+        
         fluidRow(
           column(
             width = 12,
             dateInput(
               ns("Date_adm"),
-              "Admission Date",
+              "",
               value = lubridate::as_date(hold$Date_adm),
               language = "kr"
             )
@@ -166,7 +168,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         #),
 
         # Risk Factors
-        h3('Risk Factors', style = "color : #FFFFFF; padding: 0.3em; background : #1283ef"),
+        h3('Risk Factors', style = "color : #FFFFFF; padding: 0.3em; background : #71c4ad"),
         fluidRow(
           style = 'text-align : center',
           column(
@@ -199,7 +201,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 selected = character(0),
                 inline = TRUE
               )
-            ),
+            )
           )
         ),
         fluidRow(
@@ -305,278 +307,638 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           )
         ),
         
-        # Risk Factors Comment
-        #textAreaInput(
-        #  ns("Risk_comment_adm"),
-        #  "Risk Factors Comment",
-        #  width = "400px",
-        #  height = "100px",
-        #  value =  ifelse(is.null(hold$Risk_comment_adm), "", hold$Risk_comment_adm),
-        #),
-
-        
-        # Medication Data
-        h3('Medication Data', style = "color : #FFFFFF; padding: 0.3em; background : #1283ef"),
-        radioButtons(
-          ns("Aspirin_adm"),
-          label = "Aspirin",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Aspirin_adm
-        ),
-        radioButtons(
-          ns("Clopidogrel_adm"),
-          label = "Clopidogrel",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Clopidogrel_adm
-        ),
-        radioButtons(
-          ns("Prasugrel_adm"),
-          label = "Prasugrel",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Prasugrel_adm
-        ),
-        radioButtons(
-          ns("Ticagrelor_adm"),
-          label = "Ticagrelor",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Ticagrelor_adm
-        ),
-        radioButtons( # Beta Blocker
-          ns("BB_adm"),
-          label = "Beta Blocker",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$BB_adm
-        ),
-        radioButtons(
-          ns("WN_adm"),
-          label = "Wafarin or NOAC",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$WN_adm
-        ),
-        radioButtons(
-          ns("Statin_adm"),
-          label = "Statin",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Statin_adm
-        ),
-        radioButtons(
-          ns("ACE_adm"),
-          label = "ACE Inhibitor or ARB",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$ACE_adm
-        ),
-        radioButtons(
-          ns("Nitrate_adm"),
-          label = "Nitrate (Sigmart)",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Nitrate_adm
-        ),
-        radioButtons(
-          ns("Calcium_adm"),
-          label = "Calcium channel antagonist",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Calcium_adm
-        ),
-        radioButtons(
-          ns("Trimetazidine_adm"),
-          label = "Trimetazidine (Vastinan)",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Trimetazidine_adm
+        tags$div(
+          HTML(
+            paste0(
+              '<h3 style = "color : #FFFFFF; padding: 0.3em; background : #945a85">',
+              '<i class="fa fa-notes-medical" style = "color:#FFFFFF;"></i>',
+              '  Medication',
+              '</h3>'
+            )
+          )
         ),
         
-        # Medication Comment
+        fluidRow(
+          column(
+            width = 6,
+            radioButtons(
+              ns("Aspirin_adm"),
+              label = "Aspirin",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Aspirin_adm
+            )
+          ),
+          column(
+            width = 6,
+            radioButtons(
+              ns("Trimetazidine_adm"),
+              label = "Trimetazidine (Vastinan)",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Trimetazidine_adm
+            )
+          )
+        ),
         
-        textAreaInput(
-          ns("Medication_comment_adm"),
-          "Medication Comment",
-          width = "400px",
-          height = "100px",
-          value =  ifelse(is.null(hold$Medication_comment_adm), "", hold$Medication_comment_adm),
+        fluidRow(
+          column(
+            width = 6,
+            radioButtons(
+              ns("Clopidogrel_adm"),
+              label = "Clopidogrel",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Clopidogrel_adm
+            )
+          ),
+          column(
+            width = 6,
+            radioButtons(
+              ns("Nitrate_adm"),
+              label = "Nitrate (Sigmart)",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Nitrate_adm
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 3,
+            radioButtons(
+              ns("Prasugrel_adm"),
+              label = "Prasugrel",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Prasugrel_adm
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Statin_adm"),
+              label = "Statin",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Statin_adm
+            ),
+            conditionalPanel(
+              "input.Statin_adm == 0",
+              ns = ns,
+              textInput(
+                ns("Statin_name_adm"),
+                label = "Name",
+                value = hold$Statin_name_adm
+              ),
+              numericInput(
+                ns('Statin_dose_adm'),
+                label = 'Dose', 
+                value = hold$Statin_dose_adm,
+                min = 0, 
+                max = 200, 
+                step = 1
+              )
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Ticagrelor_adm"),
+              label = "Ticagrelor",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Ticagrelor_adm
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons( # Beta Blocker
+              ns("BB_adm"),
+              label = "Beta Blocker",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$BB_adm
+            )
+          )
         ),
         
-        # Non-invasive Tests
-
-        radioButtons(
-          ns("TMT_adm"),
-          label = "Stress ECG (TMT)",
-          choices = c("Yes" = 0, "No" = 1),
-          inline = TRUE
-        ),
-        conditionalPanel(
-          "input.TMT_adm == 0",
-          ns = ns,
-          dateInput(
-            ns("TMT_Date_adm"),
-            "",
-            value = lubridate::as_date(hold$TMT_Date_adm),
-            language = "kr"
+        fluidRow(
+          column(
+            width = 4,
+            radioButtons(
+              ns("ACE_adm"),
+              label = "ACE Inhibitor or ARB",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$ACE_adm
+            ),
+            conditionalPanel(
+              "input.ACE_adm == 0",
+              ns = ns,
+              textInput(
+                ns("ACE_name_adm"),
+                label = "Name",
+                value = hold$ACE_name_adm
+              ),
+              numericInput(
+                ns('ACE_dose_adm'),
+                label = 'Dose', 
+                value = hold$ACE_dose_adm,
+                min = 0, 
+                max = 200, 
+                step = 1
+              )
+            )
           ),
-          radioButtons(
-            ns("TMT_detail_adm"),
-            "",
-            choices = c("Positive" = 0, "Negative" = 1, "Equivocal" = 2, "Incomplete (Inadequate)" = 3),
-            selected = hold$TMT_detail_adm, inline = T
+          column(
+            width = 4,
+            radioButtons( 
+              ns("DPP4_adm"),
+              label = "DPP4 Inhibitor",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$DPP4_adm
+            ),
+            conditionalPanel(
+              "input.DPP4_adm == 0",
+              ns = ns,
+              textInput(
+                ns("DPP4_name_adm"),
+                label = "Name",
+                value = hold$DPP4_name_adm
+              ),
+              numericInput(
+                ns('DPP4_dose_adm'),
+                label = 'Dose', 
+                value = hold$DPP4_dose_adm,
+                min = 0, 
+                max = 200, 
+                step = 1
+              )
+            )
+          ),
+          column(
+            width = 4,
+            radioButtons(
+              ns("Calcium_adm"),
+              label = "Calcium channel blocker",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Calcium_adm
+            ),
+            conditionalPanel(
+              "input.Calcium_adm == 0",
+              ns = ns,
+              textInput(
+                ns("Calcium_name_adm"),
+                label = "Name",
+                value = hold$Calcium_name_adm
+              ),
+              numericInput(
+                ns('Calcium_dose_adm'),
+                label = 'Dose', 
+                value = hold$Calcium_dose_adm,
+                min = 0, 
+                max = 200, 
+                step = 1
+              )
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 6, 
+            radioButtons(
+              ns("Metformin_adm"),
+              label = "Metformin",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Metformin_adm
+            ),
+            conditionalPanel(
+              "input.Metformin_adm == 0",
+              ns = ns,
+              numericInput(
+                ns('Metformin_dose_adm'),
+                label = 'Dose', 
+                value = hold$Metformin_dose_adm,
+                min = 0, 
+                max = 200, 
+                step = 1
+              )
+            )
+          ),
+          column(
+            width = 6,
+            radioButtons(
+              ns("Sulf_adm"),
+              label = "Slufonylurea",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Sulf_adm
+            ),
+            conditionalPanel(
+              "input.Sulf_adm == 0",
+              ns = ns,
+              textInput(
+                ns("Sulf_name_adm"),
+                label = "Name",
+                value = hold$Sulf_name_adm
+              ),
+              numericInput(
+                ns('Sulf_dose_adm'),
+                label = 'Dose', 
+                value = hold$Sulf_dose_adm,
+                min = 0, 
+                max = 200, 
+                step = 1
+              )
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 6,
+            radioButtons(
+              ns("Thia_adm"),
+              label = "Thiazolidinedione",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Thia_adm
+            ),
+            conditionalPanel(
+              "input.Thia_adm == 0",
+              ns = ns,
+              textInput(
+                ns("Thia_name_adm"),
+                label = "Name",
+                value = hold$Thia_name_adm
+              ),
+              numericInput(
+                ns('Thia_dose_adm'),
+                label = 'Dose', 
+                value = hold$Thia_dose_adm,
+                min = 0, 
+                max = 200, 
+                step = 1
+              )
+            )
+          ),
+          column(
+            width = 6,
+            radioButtons(
+              ns("GLP_adm"),
+              label = "GLP-1 Agonist",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$GLP_adm
+            ),
+            conditionalPanel(
+              "input.GLP_adm == 0",
+              ns = ns,
+              textInput(
+                ns("GLP_name_adm"),
+                label = "Name",
+                value = hold$GLP_name_adm
+              ),
+              numericInput(
+                ns('GLP_dose_adm'),
+                label = 'Dose', 
+                value = hold$GLP_dose_adm,
+                min = 0, 
+                max = 200, 
+                step = 1
+              )
+            )
+          )
+        ),
+        
+        fluidRow(
+          column(
+            width = 6,
+            radioButtons(
+              ns("Alpha_adm"),
+              label = "Alpha-glucosidase inhibitor",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Alpha_adm
+            ),
+            conditionalPanel(
+              "input.Alpha_adm == 0",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 6,
+                  textInput(
+                    ns("Alpha_name_adm"),
+                    label = "Name",
+                    value = hold$Alpha_name_adm
+                  )
+                ),
+                column(
+                  width = 6,
+                  numericInput(
+                    ns('Alpha_dose_adm'),
+                    label = 'Dose', 
+                    value = hold$Alpha_dose_adm,
+                    min = 0, 
+                    max = 200, 
+                    step = 1
+                  )
+                )
+              )
+            )
+          ),
+          column(
+            width = 6,
+            radioButtons(
+              ns("Insulin_adm"),
+              label = "Insulin",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Insulin_adm
+            )
+          )
+        ),
+        
+        # Lab Data
+        
+        h3("Baseline Lab Data"),
+        
+        # Date 생략
+        
+        fluidRow(
+          column(
+            width = 6,
+            numericInput(
+              ns("WBC_adm"),
+              "WBC",
+              value = ifelse(is.null(hold), NA, hold$WBC_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          ),
+          column(
+            width = 6,
+            numericInput(
+              ns("TC_adm"),
+              "Total Chol",
+              value = ifelse(is.null(hold), NA, hold$TC_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 6,
+            numericInput(
+              ns("Hb_adm"),
+              "Hgb",
+              value = ifelse(is.null(hold), NA, hold$Hb_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          ),
+          column(
+            width = 6,
+            numericInput(
+              ns("TG_adm"),
+              "Triglyceride",
+              value = ifelse(is.null(hold), NA, hold$TG_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 6,
+            numericInput(
+              ns("Platelet_adm"),
+              "Platelet",
+              value = ifelse(is.null(hold), NA, hold$Platelet_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          ),
+          column(
+            width = 6,
+            numericInput(
+              ns("HDL_adm"),
+              "HDL",
+              value = ifelse(is.null(hold), NA, hold$HDL_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 6,
+            numericInput(
+              ns("BUN_adm"),
+              "BUN",
+              value = ifelse(is.null(hold), NA, hold$BUN_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          ),
+          column(
+            width = 6,
+            numericInput(
+              ns("LDL_adm"),
+              "LDL",
+              value = ifelse(is.null(hold), NA, hold$LDL_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          )
+        ),
+        
+        fluidRow(
+          column(
+            width = 6,
+            numericInput(
+              ns("Cr_adm"),
+              "Cr",
+              value = ifelse(is.null(hold), NA, hold$Cr_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          ),
+          column(
+            width = 6,
+            numericInput(
+              ns("FG_adm"),
+              "Fasting Glucose",
+              value = ifelse(is.null(hold), NA, hold$FG_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 6,
+            numericInput(
+              ns("MDRD_adm"),
+              "MDRD-eGFR (ml/min/1.73m2)",
+              value = ifelse(is.null(hold), NA, hold$MDRD_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          ),
+          column(
+            width = 6,
+            numericInput(
+              ns("HbA1C_adm"),
+              "HbA1C",
+              value = ifelse(is.null(hold), NA, hold$HbA1C_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 6,
+            numericInput(
+              ns("AST_adm"),
+              "AST",
+              value = ifelse(is.null(hold), NA, hold$AST_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          ),
+          column(
+            width = 6,
+            numericInput(
+              ns("hs_CRP_adm"),
+              "hs-CRP",
+              value = ifelse(is.null(hold), NA, hold$hs_CRP_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          )
+        ),
+        
+        fluidRow(
+          column(
+            width = 6,
+            numericInput(
+              ns("ALT_adm"),
+              "ALT",
+              value = ifelse(is.null(hold), NA, hold$ALT_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          ),
+          column(
+            width = 6,
+            numericInput(
+              ns("NT_Pro_BNP_adm"),
+              "NT-Pro BNP",
+              value = ifelse(is.null(hold), NA, hold$NT_Pro_BNP_adm),
+              min = 0, max = 120,
+              step = 1
+            )
           )
         ),
         radioButtons(
-          ns("MSPECT_adm"),
-          label = "Myocardial SPECT",
-          choices = c("Yes" = 0, "No" = 1),
+          ns("hCG_adm"),
+          label = "hCG",
+          choices = c("Positive" = 0, "Negative" = 1, "NA" = 2),
           inline = TRUE
         ),
-        conditionalPanel(
-          "input.MSPECT_adm == 0",
-          ns = ns,
-          dateInput(
-            ns("MSPECT_Date_adm"),
-            "",
-            value = lubridate::as_date(hold$MSPECT_Date_adm),
-            language = "kr"
+        
+        # Baseline (Peak pre-intervention)
+        fluidRow(
+          column(
+            width = 3,
+            h5('Cardiac Enzyme')
           ),
-          radioButtons(
-            ns("MSPECT_detail_adm"),
-            "",
-            choices = c("Positive" = 0, "Negative" = 1, "Equivocal" = 2, "Incomplete (Inadequate)" = 3),
-            selected = hold$MSPECT_detail_adm, inline = T
+          column(
+            width = 3,
+            style = 'text-align : center',
+            h5('CK')
+          ),
+          column(
+            width = 3,
+            style = 'text-align : center',
+            h5('CK-MB')
+          ),
+          column(
+            width = 3,
+            style = 'text-align : center',
+            h5('TroponinT')
           )
         ),
-        radioButtons(
-          ns("APET_adm"),
-          label = "Ammonia PET",
-          choices = c("Yes" = 0, "No" = 1),
-          inline = TRUE
-        ),
-        conditionalPanel(
-          "input.APET_adm == 0",
-          ns = ns,
-          dateInput(
-            ns("APET_Date_adm"),
-            "",
-            value = lubridate::as_date(hold$APET_Date_adm),
-            language = "kr"
+        fluidRow(
+          column(
+            width = 3,
+            h5('시술 전 peak 값', style = 'padding-top : 15px')
           ),
-          radioButtons(
-            ns("APET_detail_adm"),
-            "",
-            choices = c("Positive" = 0, "Negative" = 1, "Equivocal" = 2, "Incomplete (Inadequate)" = 3),
-            selected = hold$APET_detail_adm, inline = T
+          column(
+            width = 3,
+            numericInput(
+              ns("BCK_adm"),
+              "",
+              value = ifelse(is.null(hold), NA, hold$BCK_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          ),
+          column(
+            width = 3,
+            numericInput(
+              ns("BCKMB_adm"),
+              "",
+              value = ifelse(is.null(hold), NA, hold$BCKMB_adm),
+              min = 0, max = 120,
+              step = .01
+            )
+          ),
+          column(
+            width = 3,
+            numericInput(
+              ns("BTroT_adm"),
+              "",
+              value = ifelse(is.null(hold), NA, hold$BTroT_adm),
+              min = 0, max = 120,
+              step = .001
+            )
           )
         ),
-        radioButtons(
-          ns("DEcho_adm"),
-          label = "Dobutamine Echo",
-          choices = c("Yes" = 0, "No" = 1),
-          inline = TRUE
-        ),
-        conditionalPanel(
-          "input.DEcho_adm == 0",
-          ns = ns,
-          dateInput(
-            ns("DEcho_Date_adm"),
-            "",
-            value = lubridate::as_date(hold$DEcho_Date_adm),
-            language = "kr"
+        fluidRow(
+          column(
+            width = 3,
+            h5('시술 후 peak 값', style = 'padding-top : 15px')
           ),
-          radioButtons(
-            ns("DEcho_detail_adm"),
-            "",
-            choices = c("Positive" = 0, "Negative" = 1, "Equivocal" = 2, "Incomplete (Inadequate)" = 3),
-            selected = hold$DEcho_detail_adm, inline = T
+          column(
+            width = 3,
+            numericInput(
+              ns("PCK_adm"),
+              "",
+              value = ifelse(is.null(hold), NA, hold$PCK_adm),
+              min = 0, max = 120,
+              step = 1
+            )
+          ),
+          column(
+            width = 3,
+            numericInput(
+              ns("PCKMB_adm"),
+              "",
+              value = ifelse(is.null(hold), NA, hold$PCKMB_adm),
+              min = 0, max = 120,
+              step = .01
+            )
+          ),
+          column(
+            width = 3,
+            numericInput(
+              ns("PTroT_adm"),
+              "",
+              value = ifelse(is.null(hold), NA, hold$PTroT_adm),
+              min = 0, max = 120,
+              step = .001
+            )
           )
         ),
-        radioButtons(
-          ns("EEcho_adm"),
-          label = "Exercise Stress Echo",
-          choices = c("Yes" = 0, "No" = 1),
-          inline = TRUE
-        ),
-        conditionalPanel(
-          "input.EEcho_adm == 0",
-          ns = ns,
-          dateInput(
-            ns("EEcho_Date_adm"),
-            "",
-            value = lubridate::as_date(hold$EEcho_Date_adm),
-            language = "kr"
-          ),
-          radioButtons(
-            ns("EEcho_detail_adm"),
-            "",
-            choices = c("Positive" = 0, "Negative" = 1, "Equivocal" = 2, "Incomplete (Inadequate)" = 3),
-            selected = hold$EEcho_detail_adm, inline = T
-          )
-        ),
-
-        # Coronary CT Angiography
-
-        radioButtons(
-          ns("Corona_adm"),
-          label = "Coronary CT Angiography",
-          choices = c("Yes" = 0, "No" = 1),
-          inline = TRUE
-        ),
-        conditionalPanel(
-          "input.Corona_adm == 0",
-          ns = ns,
-          dateInput(
-            ns("Corona_date_adm"),
-            "",
-            value = lubridate::as_date(hold$Corona_date_adm),
-            language = "kr"
-          ),
-          radioButtons(
-            ns("Corona_BB_adm"),
-            "Beta Blocker Before cCTA",
-            choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-            selected = hold$Corona_BB_adm, inline = T
-          ),
-          radioButtons(
-            ns("Corona_Nitrate_adm"),
-            "Nitrate Before cCTA",
-            choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-            selected = hold$Corona_Nitrate_adm, inline = T
-          )
-        ),
-
-        # EchoCG
-
-        radioButtons(
-          ns("EchoCG_adm"),
-          label = "EchoCG",
-          choices = c("Yes" = 0, "No" = 1),
-          inline = TRUE
-        ),
-        conditionalPanel(
-          "input.EchoCG_adm == 0",
-          ns = ns,
-          dateInput(
-            ns("EchoCG_date_adm"),
-            "",
-            value = lubridate::as_date(hold$EchoCG_date_adm),
-            language = "kr"
-          ),
-          numericInput(
-            ns("EchoCG_LVEF_adm"),
-            "LV Ejection Fraction",
-            value = ifelse(is.null(hold), NA, hold$EchoCG_LVEF_adm),
-            min = 0, max = 120,
-            step = 1
-          ),
-          radioButtons(
-            ns("EchoCG_LVWMA_adm"),
-            "LV Wall Motion Abnormality",
-            choices = c("Yes" = 0, "No" = 1),
-            selected = hold$EchoCG_LVWMA_adm, inline = T
-          )
-        ),
-
-
+        
         # ECG Rhythm
-
+        
+        h3('Baseline EKG'),
+        
         radioButtons(
           ns("ECG_Rhythm_adm"),
-          label = "ECG Rhythm (pre PCI)",
-          choices = c("Sinus Rhythm" = 0, "Atrial Fibrillation" = 1, "Others" = 2, "Not Done" = 3),
+          label = "",
+          choices = c("Sinus" = 0, "Atrial Fibrillation" = 1, "Others" = 2),
           inline = TRUE
         ),
         conditionalPanel(
@@ -590,256 +952,179 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             value =  ifelse(is.null(hold$ECG_Rhythm_others_adm), "", hold$ECG_Rhythm_others_adm),
           )
         ),
+        
+        
+        # Non-invasive Tests
 
-        # Tests Comment
-
-        textAreaInput(
-          ns("Tests_comment_adm"),
-          "Tests Comment",
-          width = "400px",
-          height = "100px",
-          value =  ifelse(is.null(hold$Tests_comment_adm), "", hold$Tests_comment_adm),
+        h3('Non-Invasive Test'),
+        
+        fluidRow(
+          column(
+            width = 6,
+            radioButtons(
+              ns("MSPECT_adm"),
+              label = "SPECT",
+              choices = c("Yes" = 0, "No" = 1),
+              inline = TRUE
+            )
+          ),
+          column(
+            width = 6,
+            conditionalPanel(
+              "input.MSPECT_adm == 0",
+              ns = ns,
+              dateInput(
+                ns("MSPECT_Date_adm"),
+                "Date",
+                value = lubridate::as_date(hold$MSPECT_Date_adm),
+                language = "kr"
+              ),
+              radioButtons(
+                ns("MSPECT_detail_adm"),
+                "",
+                choices = c("Positive" = 0, "Negative" = 1),
+                selected = hold$MSPECT_detail_adm, inline = T
+              )
+            )
+          )
         ),
-
-
-        # Lab Data
-
-        numericInput(
-          ns("WBC_adm"),
-          "WBC",
-          value = ifelse(is.null(hold), NA, hold$WBC_adm),
-          min = 0, max = 120,
-          step = 1
+        fluidRow(
+          column(
+            width = 6,
+            radioButtons(
+              ns("TMT_adm"),
+              label = "Stress ECG (TMT)",
+              choices = c("Yes" = 0, "No" = 1),
+              inline = TRUE
+            )
+          ),
+          column(
+            width = 6,
+            conditionalPanel(
+              "input.TMT_adm == 0",
+              ns = ns,
+              dateInput(
+                ns("TMT_Date_adm"),
+                "Date",
+                value = lubridate::as_date(hold$TMT_Date_adm),
+                language = "kr"
+              ),
+              radioButtons(
+                ns("TMT_detail_adm"),
+                "",
+                choices = c("Positive" = 0, "Negative" = 1, "Suggestive Positivie" = 2, "Incomplete (Inadequate)" = 3),
+                selected = hold$TMT_detail_adm
+                #, inline = T
+              )
+            )
+          )
         ),
-        numericInput(
-          ns("TC_adm"),
-          "Total Chol",
-          value = ifelse(is.null(hold), NA, hold$TC_adm),
-          min = 0, max = 120,
-          step = 1
+        
+        fluidRow(
+          column(
+            width = 3,
+            h5('Stress Echo', style = 'padding-top : 15px')
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("EEcho_adm"),
+              label = "",
+              choices = c("Yes" = 0, "No" = 1),
+              inline = TRUE
+            )
+          ),
+          column(
+            width = 3,
+            conditionalPanel(
+              "input.EEcho_adm == 0",
+              ns = ns,
+              radioButtons(
+                ns("EEcho_detail_adm"),
+                "",
+                choices = c("Positive" = 0, "Negative" = 1, "Equivocal" = 2, "Incomplete" = 3),
+                selected = hold$EEcho_detail_adm
+                #, inline = T
+              )
+            )
+          ),
+          column(
+            width = 3,
+            conditionalPanel(
+              "input.EEcho_adm == 0",
+              ns = ns,
+              dateInput(
+                ns("EEcho_Date_adm"),
+                "Date",
+                value = lubridate::as_date(hold$EEcho_Date_adm),
+                language = "kr"
+              )
+            )
+          )
         ),
-        numericInput(
-          ns("Hb_adm"),
-          "Hb",
-          value = ifelse(is.null(hold), NA, hold$Hb_adm),
-          min = 0, max = 120,
-          step = 1
+        
+        fluidRow(
+          column(
+            width = 6,
+            radioButtons(
+              ns("APET_adm"),
+              label = "PET",
+              choices = c("Yes" = 0, "No" = 1),
+              inline = TRUE
+            )
+          ),
+          column(
+            width = 6,
+            conditionalPanel(
+              "input.APET_adm == 0",
+              ns = ns,
+              dateInput(
+                ns("APET_Date_adm"),
+                "Date",
+                value = lubridate::as_date(hold$APET_Date_adm),
+                language = "kr"
+              ),
+              radioButtons(
+                ns("APET_detail_adm"),
+                "",
+                choices = c("Positive" = 0, "Negative" = 1, "Equivocal" = 2),
+                selected = hold$APET_detail_adm, inline = T
+              )
+            )
+          )
         ),
-        numericInput(
-          ns("TG_adm"),
-          "TG",
-          value = ifelse(is.null(hold), NA, hold$TG_adm),
-          min = 0, max = 120,
-          step = 1
+        
+        ## CMR
+        fluidRow(
+          column(
+            width = 6,
+            radioButtons(
+              ns("CMR_adm"),
+              label = "CMR",
+              choices = c("Yes" = 0, "No" = 1),
+              inline = TRUE
+            )
+          ),
+          column(
+            width = 6,
+            conditionalPanel(
+              "input.CMR_adm == 0",
+              ns = ns,
+              dateInput(
+                ns("CMR_Date_adm"),
+                "Date",
+                value = lubridate::as_date(hold$CMR_Date_adm),
+                language = "kr"
+              ),
+              radioButtons(
+                ns("CMR_detail_adm"),
+                "",
+                choices = c("Positive" = 0, "Negative" = 1),
+                selected = hold$CMR_detail_adm, inline = T
+              )
+            )
+          )
         ),
-        numericInput(
-          ns("Hct_adm"),
-          "Hct",
-          value = ifelse(is.null(hold), NA, hold$Hct_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("HDL_adm"),
-          "HDL",
-          value = ifelse(is.null(hold), NA, hold$HDL_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("Platelet_adm"),
-          "Platelet",
-          value = ifelse(is.null(hold), NA, hold$Platelet_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("LDL_adm"),
-          "LDL",
-          value = ifelse(is.null(hold), NA, hold$LDL_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("BUN_adm"),
-          "BUN",
-          value = ifelse(is.null(hold), NA, hold$BUN_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("LDL_Cal_adm"),
-          "LDL, cal",
-          value = ifelse(is.null(hold), NA, hold$LDL_Cal_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("Cr_adm"),
-          "Cr",
-          value = ifelse(is.null(hold), NA, hold$Cr_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("FG_adm"),
-          "Fasting Glucose",
-          value = ifelse(is.null(hold), NA, hold$FG_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("MDRD_adm"),
-          "MDRD-eGFR",
-          value = ifelse(is.null(hold), NA, hold$MDRD_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("HbA1C_adm"),
-          "HbA1C",
-          value = ifelse(is.null(hold), NA, hold$HbA1C_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("AST_adm"),
-          "AST",
-          value = ifelse(is.null(hold), NA, hold$AST_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("hs_CRP_adm"),
-          "hs-CRP",
-          value = ifelse(is.null(hold), NA, hold$hs_CRP_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("ALT_adm"),
-          "ALT",
-          value = ifelse(is.null(hold), NA, hold$ALT_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("BNP_adm"),
-          "BNP",
-          value = ifelse(is.null(hold), NA, hold$BNP_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("aPTT_adm"),
-          "aPTT",
-          value = ifelse(is.null(hold), NA, hold$aPTT_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("Pro_BNP_adm"),
-          "pro BNP",
-          value = ifelse(is.null(hold), NA, hold$Pro_BNP_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("PT_INR_adm"),
-          "PT_INR",
-          value = ifelse(is.null(hold), NA, hold$PT_INR_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("NT_Pro_BNP_adm"),
-          "NT-Pro BNP",
-          value = ifelse(is.null(hold), NA, hold$NT_Pro_BNP_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        radioButtons(
-          ns("hCG_adm"),
-          label = "hCG",
-          choices = c("Positive" = 0, "Negative" = 1, "NA" = 2),
-          inline = TRUE
-        ),
-
-        # Baseline (Peak pre-intervention)
-
-        p("Baseline (Peak pre-Intervention)"),
-        p("퇴원전 Peak 값"),
-        p("CK (IU/L)"),
-        numericInput(
-          ns("BCK_adm"),
-          "Baseline",
-          value = ifelse(is.null(hold), NA, hold$BCK_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("PCK_adm"),
-          "Peak 값",
-          value = ifelse(is.null(hold), NA, hold$PCK_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        p("CK-MB (ng/mL)"),
-        numericInput(
-          ns("BCKMB_adm"),
-          "Baseline",
-          value = ifelse(is.null(hold), NA, hold$BCKMB_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("PCKMB_adm"),
-          "Peak 값",
-          value = ifelse(is.null(hold), NA, hold$PCKMB_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        p("Troponin I (ng/mL)"),
-        numericInput(
-          ns("BTroI_adm"),
-          "Baseline",
-          value = ifelse(is.null(hold), NA, hold$BTroI_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("PTroI_adm"),
-          "Peak 값",
-          value = ifelse(is.null(hold), NA, hold$PTroI_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        p("Troponin T (ng/mL)"),
-        numericInput(
-          ns("BTroT_adm"),
-          "Baseline",
-          value = ifelse(is.null(hold), NA, hold$BTroT_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-        numericInput(
-          ns("PTroT_adm"),
-          "Peak 값",
-          value = ifelse(is.null(hold), NA, hold$PTroT_adm),
-          min = 0, max = 120,
-          step = 1
-        ),
-
-        # Lab Comment
-
-        textAreaInput(
-          ns("Lab_comment_adm"),
-          "Lab Comment",
-          width = "400px",
-          height = "100px",
-          value =  ifelse(is.null(hold$Lab_comment_adm), "", hold$Lab_comment_adm),
-        ),
-
         title = modal_title,
         size = "m",
         footer = list(
@@ -920,8 +1205,8 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         "MSPECT_detail_adm" = ifelse(is.null(input$MSPECT_detail_adm), "", input$MSPECT_detail_adm),
         "APET_adm" = ifelse(is.null(input$APET_adm), "", input$APET_adm),
         "APET_detail_adm" = ifelse(is.null(input$APET_detail_adm), "", input$APET_detail_adm),
-        "DEcho_adm" = ifelse(is.null(input$DEcho_adm), "", input$DEcho_adm),
-        "DEcho_detail_adm" = ifelse(is.null(input$DEcho_detail_adm), "", input$DEcho_detail_adm),
+        "CMR_adm" = ifelse(is.null(input$CMR_adm), "", input$CMR_adm),
+        "CMR_detail_adm" = ifelse(is.null(input$CMR_detail_adm), "", input$CMR_detail_adm),
         "EEcho_adm" = ifelse(is.null(input$EEcho_adm), "", input$EEcho_adm),
         "EEcho_detail_adm" = ifelse(is.null(input$EEcho_detail_adm), "", input$EEcho_detail_adm),
         "Corona_adm" = ifelse(is.null(input$Corona_adm), "", input$Corona_adm),
@@ -932,7 +1217,6 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         "EchoCG_LVWMA_adm" = ifelse(is.null(input$EchoCG_LVWMA_adm), "", input$EchoCG_LVWMA_adm),
         "ECG_Rhythm_adm" = ifelse(is.null(input$ECG_Rhythm_adm), "", input$ECG_Rhythm_adm),
         "ECG_Rhythm_others_adm" = ifelse(is.null(input$ECG_Rhythm_others_adm), "", input$ECG_Rhythm_others_adm),
-        "Tests_comment_adm" = ifelse(is.null(input$Tests_comment_adm), "", input$Tests_comment_adm),
         "hCG_adm" = ifelse(is.null(input$hCG_adm), "", input$hCG_adm),
         "Lab_comment_adm" = ifelse(is.null(input$Lab_comment_adm), "", input$Lab_comment_adm),
         "Aspirin_adm" = ifelse(is.null(input$Aspirin_adm), "", input$Aspirin_adm),
@@ -950,7 +1234,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         "TMT_Date_adm" = ifelse(is.null(input$TMT_Date_adm), Sys.Date(), input$TMT_Date_adm),
         "MSPECT_Date_adm" = ifelse(is.null(input$MSPECT_Date_adm), Sys.Date(), input$MSPECT_Date_adm),
         "APET_Date_adm" = ifelse(is.null(input$APET_Date_adm), Sys.Date(), input$APET_Date_adm),
-        "DEcho_Date_adm" = ifelse(is.null(input$DEcho_Date_adm), Sys.Date(), input$DEcho_Date_adm),
+        "CMR_Date_adm" = ifelse(is.null(input$CMR_Date_adm), Sys.Date(), input$CMR_Date_adm),
         "EEcho_Date_adm" = ifelse(is.null(input$EEcho_Date_adm), Sys.Date(), input$EEcho_Date_adm),
         "Corona_date_adm" = ifelse(is.null(input$Corona_date_adm), Sys.Date(), input$Corona_date_adm),
         "EchoCG_date_adm" = ifelse(is.null(input$EchoCG_date_adm), Sys.Date(), input$EchoCG_date_adm),
@@ -958,12 +1242,10 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         "TC_adm" = ifelse(is.null(input$TC_adm), "", input$TC_adm),
         "Hb_adm" = ifelse(is.null(input$Hb_adm), "", input$Hb_adm),
         "TG_adm" = ifelse(is.null(input$TG_adm), "", input$TG_adm),
-        "Hct_adm" = ifelse(is.null(input$Hct_adm), "", input$Hct_adm),
         "HDL_adm" = ifelse(is.null(input$HDL_adm), "", input$HDL_adm),
         "Platelet_adm" = ifelse(is.null(input$Platelet_adm), "", input$Platelet_adm),
         "LDL_adm" = ifelse(is.null(input$LDL_adm), "", input$LDL_adm),
         "BUN_adm" = ifelse(is.null(input$BUN_adm), "", input$BUN_adm),
-        "LDL_Cal_adm" = ifelse(is.null(input$LDL_Cal_adm), "", input$LDL_Cal_adm),
         "Cr_adm" = ifelse(is.null(input$Cr_adm), "", input$Cr_adm),
         "FG_adm" = ifelse(is.null(input$FG_adm), "", input$FG_adm),
         "MDRD_adm" = ifelse(is.null(input$MDRD_adm), "", input$MDRD_adm),
@@ -971,17 +1253,11 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         "AST_adm" = ifelse(is.null(input$AST_adm), "", input$AST_adm),
         "hs_CRP_adm" = ifelse(is.null(input$hs_CRP_adm), "", input$hs_CRP_adm),
         "ALT_adm" = ifelse(is.null(input$ALT_adm), "", input$ALT_adm),
-        "BNP_adm" = ifelse(is.null(input$BNP_adm), "", input$BNP_adm),
-        "aPTT_adm" = ifelse(is.null(input$aPTT_adm), "", input$aPTT_adm),
-        "Pro_BNP_adm" = ifelse(is.null(input$Pro_BNP_adm), "", input$Pro_BNP_adm),
-        "PT_INR_adm" = ifelse(is.null(input$PT_INR_adm), "", input$PT_INR_adm),
         "NT_Pro_BNP_adm" = ifelse(is.null(input$NT_Pro_BNP_adm), "", input$NT_Pro_BNP_adm),
         "BCK_adm" = ifelse(is.null(input$BCK_adm), "", input$BCK_adm),
         "PCK_adm" = ifelse(is.null(input$PCK_adm), "", input$PCK_adm),
         "BCKMB_adm" = ifelse(is.null(input$BCKMB_adm), "", input$BCKMB_adm),
         "PCKMB_adm" = ifelse(is.null(input$PCKMB_adm), "", input$PCKMB_adm),
-        "BTroI_adm" = ifelse(is.null(input$BTroI_adm), "", input$BTroI_adm),
-        "PTroI_adm" = ifelse(is.null(input$PTroI_adm), "", input$PTroI_adm),
         "BTroT_adm" = ifelse(is.null(input$BTroT_adm), "", input$BTroT_adm),
         "PTroT_adm" = ifelse(is.null(input$PTroT_adm), "", input$PTroT_adm)
       )
