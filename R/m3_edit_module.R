@@ -612,7 +612,7 @@ m3_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
           
         ),
         title = modal_title,
-        size = "m",
+        size = "l",
         footer = list(
           modalButton("Cancel"),
           actionButton(

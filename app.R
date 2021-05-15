@@ -16,21 +16,19 @@ ui <- tagList(
   navbarPage("eCRF example",
     theme = bslib::bs_theme(
       version = 3,
-      primary = '#3466A1',
+      primary = "#3466A1",
       # secondary = '#595f6a',
-      success = '#71c4ad',
-      warning = '#f4c25b',
-      danger = '#ec7377'
-    ) %>% 
-      bs_add_rules('.navbar-static-top { background-color : #3466A1 !important}') %>%
+      success = "#71c4ad",
+      warning = "#f4c25b",
+      danger = "#ec7377"
+    ) %>%
+      bs_add_rules(".navbar-static-top { background-color : #3466A1 !important}") %>%
       # bs_add_rules('.navbar-static-top { background-color : #6791CA !important}') %>%
-      bs_add_rules('.navbar-static-top .active a {color : #000 !important}') %>%
-      bs_add_rules('.navbar-static-top a {color : #FFF !important}') %>%
-      bs_add_rules('.navbar-brand {color : #FFF !important}') %>%
-      bs_add_rules('.container-fab button {background-color : #945ab5; color :#FFF}')# %>%
-      #bs_add_rules('#.shinymanager_logout {background-color : #945ab5}')
-    
-    
+      bs_add_rules(".navbar-static-top .active a {color : #000 !important}") %>%
+      bs_add_rules(".navbar-static-top a {color : #FFF !important}") %>%
+      bs_add_rules(".navbar-brand {color : #FFF !important}") %>%
+      bs_add_rules(".container-fab button {background-color : #945ab5; color :#FFF}") # %>%
+    # bs_add_rules('#.shinymanager_logout {background-color : #945ab5}')
     ,
     # theme = 'custom.css',
     tabPanel("RCT",
@@ -61,7 +59,6 @@ server <- function(input, output, session) {
 
   # Call the server function portion of the `cars_table_module.R` module file
   callModule(cars_table_module, "table_rct", "rct", sessionid = res_auth$user)
-
   callModule(cars_table_module, "table_pros", "pros", sessionid = res_auth$user)
 }
 

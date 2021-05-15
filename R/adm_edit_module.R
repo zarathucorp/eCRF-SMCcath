@@ -168,7 +168,15 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         #),
 
         # Risk Factors
-        h3('Risk Factors', style = "color : #FFFFFF; padding: 0.3em; background : #71c4ad"),
+        h3(
+          'Risk Factors', 
+          actionButton(
+            ns("CNfA"),
+            "All No",
+            class = "btn btn-default"
+          ),
+          style = "color : #FFFFFF; padding: 0.3em; background : #71c4ad"
+        ),
         fluidRow(
           style = 'text-align : center',
           column(
@@ -263,7 +271,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 6,
             radioButtons(
-              ns("PCI_adm"), # Previous MI
+              ns("PCI_adm"), # Previous PCI
               label = "Previous PCI",
               choices = c("Yes" = 0, "No" = 1),
               selected = character(0),
@@ -323,6 +331,11 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               '<h3 style = "color : #FFFFFF; padding: 0.3em; background : #945a85">',
               '<i class="fa fa-notes-medical" style = "color:#FFFFFF;"></i>',
               '  Medication',
+              actionButton(
+                ns("CYfA"),
+                "All Yes",
+                class = "btn btn-default"
+              ),
               '</h3>'
             )
           )
@@ -1141,7 +1154,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           )
         ),
         title = modal_title,
-        size = "m",
+        size = "l",
         footer = list(
           modalButton("Cancel"),
           actionButton(
@@ -1181,6 +1194,41 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     }
   )
 
+  observeEvent(input$CNfA, {
+    updateRadioButtons(session, "HTN", selected = 1)
+    updateRadioButtons(session, "Diabetes_adm", selected = 1)
+    updateRadioButtons(session, "Hld_adm", selected = 1)
+    updateRadioButtons(session, "Smoking", selected = 1)
+    updateRadioButtons(session, "FHC_adm", selected = 1)
+    updateRadioButtons(session, "CRF_adm", selected = 1)
+    updateRadioButtons(session, "Pvd_adm", selected = 1)
+    updateRadioButtons(session, "PCI_adm", selected = 1)
+    updateRadioButtons(session, "PCABG_adm", selected = 1)
+    updateRadioButtons(session, "PCVA_adm", selected = 1)
+    updateRadioButtons(session, "PCHF_adm", selected = 1)
+    updateRadioButtons(session, "PNTB_adm", selected = 1)
+  })
+  
+  observeEvent(input$CYfA, {
+    updateRadioButtons(session, "Aspirin_adm", selected = 0)
+    updateRadioButtons(session, "Trimetazidine_adm", selected = 0)
+    updateRadioButtons(session, "Clopidogrel_adm", selected = 0)
+    updateRadioButtons(session, "Nitrate_adm", selected = 0)
+    updateRadioButtons(session, "Prasugrel_adm", selected = 0)
+    updateRadioButtons(session, "Statin_adm", selected = 0)
+    updateRadioButtons(session, "Ticagrelor_adm", selected = 0)
+    updateRadioButtons(session, "BB_adm", selected = 0)
+    updateRadioButtons(session, "ACE_adm", selected = 0)
+    updateRadioButtons(session, "DPP4_adm", selected = 0)
+    updateRadioButtons(session, "Calcium_adm", selected = 0)
+    updateRadioButtons(session, "Metformin_adm", selected = 0)
+    updateRadioButtons(session, "Sulf_adm", selected = 0)
+    updateRadioButtons(session, "Thia_adm", selected = 0)
+    updateRadioButtons(session, "GLP_adm", selected = 0)
+    updateRadioButtons(session, "Alpha_adm", selected = 0)
+    updateRadioButtons(session, "Insulin_adm", selected = 0)
+  })
+  
   edit_car_dat <- reactive({
     hold <- car_to_edit()
 
@@ -1206,14 +1254,14 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         "Smoking" = ifelse(is.null(input$Smoking), "", input$Smoking),
         "FHC_adm" = ifelse(is.null(input$FHC_adm), "", input$FHC_adm),
         "CRF_adm" = ifelse(is.null(input$CRF_adm), "", input$CRF_adm),
-        "PP_adm" = ifelse(is.null(input$PP_adm), "", input$PP_adm),
-        "PM_adm" = ifelse(is.null(input$PM_adm), "", input$PM_adm),
+        "PCI_adm" = ifelse(is.null(input$PCI_adm), "", input$PCI_adm),
+        # "PM_adm" = ifelse(is.null(input$PM_adm), "", input$PM_adm),
         "PCABG_adm" = ifelse(is.null(input$PCABG_adm), "", input$PCABG_adm),
         "PCVA_adm" = ifelse(is.null(input$PCVA_adm), "", input$PCVA_adm),
         "PCHF_adm" = ifelse(is.null(input$PCHF_adm), "", input$PCHF_adm),
         "Pvd_adm" = ifelse(is.null(input$Pvd_adm), "", input$Pvd_adm),
         "PNTB_adm" = ifelse(is.null(input$PNTB_adm), "", input$PNTB_adm),
-        "Risk_comment_adm" = ifelse(is.null(input$Risk_comment_adm), "", input$Risk_comment_adm),
+        # "Risk_comment_adm" = ifelse(is.null(input$Risk_comment_adm), "", input$Risk_comment_adm),
         "TMT_adm" = ifelse(is.null(input$TMT_adm), "", input$TMT_adm),
         "TMT_detail_adm" = ifelse(is.null(input$TMT_detail_adm), "", input$TMT_detail_adm),
         "MSPECT_adm" = ifelse(is.null(input$MSPECT_adm), "", input$MSPECT_adm),
@@ -1233,19 +1281,19 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         "ECG_Rhythm_adm" = ifelse(is.null(input$ECG_Rhythm_adm), "", input$ECG_Rhythm_adm),
         "ECG_Rhythm_others_adm" = ifelse(is.null(input$ECG_Rhythm_others_adm), "", input$ECG_Rhythm_others_adm),
         "hCG_adm" = ifelse(is.null(input$hCG_adm), "", input$hCG_adm),
-        "Lab_comment_adm" = ifelse(is.null(input$Lab_comment_adm), "", input$Lab_comment_adm),
+        # "Lab_comment_adm" = ifelse(is.null(input$Lab_comment_adm), "", input$Lab_comment_adm),
         "Aspirin_adm" = ifelse(is.null(input$Aspirin_adm), "", input$Aspirin_adm),
         "Clopidogrel_adm" = ifelse(is.null(input$Clopidogrel_adm), "", input$Clopidogrel_adm),
         "Prasugrel_adm" = ifelse(is.null(input$Prasugrel_adm), "", input$Prasugrel_adm),
         "Ticagrelor_adm" = ifelse(is.null(input$Ticagrelor_adm), "", input$Ticagrelor_adm),
         "BB_adm" = ifelse(is.null(input$BB_adm), "", input$BB_adm),
-        "WN_adm" = ifelse(is.null(input$WN_adm), "", input$WN_adm),
+        # "WN_adm" = ifelse(is.null(input$WN_adm), "", input$WN_adm),
         "Statin_adm" = ifelse(is.null(input$Statin_adm), "", input$Statin_adm),
         "ACE_adm" = ifelse(is.null(input$ACE_adm), "", input$ACE_adm),
         "Nitrate_adm" = ifelse(is.null(input$Nitrate_adm), "", input$Nitrate_adm),
         "Calcium_adm" = ifelse(is.null(input$Calcium_adm), "", input$Calcium_adm),
         "Trimetazidine_adm" = ifelse(is.null(input$Trimetazidine_adm), "", input$Trimetazidine_adm),
-        "Medication_comment_adm" = ifelse(is.null(input$Medication_comment_adm), "", input$Medication_comment_adm),
+        # "Medication_comment_adm" = ifelse(is.null(input$Medication_comment_adm), "", input$Medication_comment_adm),
         "TMT_Date_adm" = ifelse(is.null(input$TMT_Date_adm), Sys.Date(), input$TMT_Date_adm),
         "MSPECT_Date_adm" = ifelse(is.null(input$MSPECT_Date_adm), Sys.Date(), input$MSPECT_Date_adm),
         "APET_Date_adm" = ifelse(is.null(input$APET_Date_adm), Sys.Date(), input$APET_Date_adm),

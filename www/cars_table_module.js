@@ -17,6 +17,19 @@ function cars_table_module_js(ns_prefix) {
     $(this).tooltip('hide');
   });
   
+  // angiographics edit button
+  $("#" + ns_prefix + "car_table").on("click", ".edit_btnang", function() {
+    Shiny.setInputValue(ns_prefix + "car_id_to_edit_ang", this.id, { priority: "event"});
+    $(this).tooltip('hide');
+  });
+  
+  // culprit1 edit button
+  $("#" + ns_prefix + "car_table").on("click", ".edit_btncul1", function() {
+    Shiny.setInputValue(ns_prefix + "car_id_to_edit_cul1", this.id, { priority: "event"});
+    $(this).tooltip('hide');
+  });
+  
+  
   // outcomes edit button
   $("#" + ns_prefix + "car_table").on("click", ".edit_btnoutc", function() {
     Shiny.setInputValue(ns_prefix + "car_id_to_edit_outc", this.id, { priority: "event"});
