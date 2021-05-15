@@ -219,6 +219,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Hld_adm"), # Hyperlipidemia
               label = "Hyperlipidemia",
               choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
               inline = TRUE
             )
           ),
@@ -228,6 +229,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Smoking"), # Current Smoking
               label = "Current Smoking",
               choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
               inline = TRUE
             )
           )
@@ -240,6 +242,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("FHC_adm"), # Family History of CAD
               label = "Family History of CAD",
               choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
               inline = TRUE
             )
           ),
@@ -249,6 +252,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("CRF_adm"), # CRF
               label = "CRF (eGFR < 60ml/min/1.73m2)",
               choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
               inline = TRUE
             )
           )
@@ -260,6 +264,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Pvd_adm"), # Peripheral vascular ds.
               label = "Peripheral Vascular ds.",
               choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
               inline = TRUE
             )
           ),
@@ -269,6 +274,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PCI_adm"), # Previous PCI
               label = "Previous PCI",
               choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
               inline = TRUE
             )
           )
@@ -281,6 +287,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PCABG_adm"), # Previous CABG
               label = "Previous CABG",
               choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
               inline = TRUE
             )
           ),
@@ -290,6 +297,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PCVA_adm"), # Previous CVA
               label = "Previous CVA",
               choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
               inline = TRUE
             )
           )
@@ -301,6 +309,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PCHF_adm"), # Previous CHF
               label = "Previous CHF Admission",
               choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
               inline = TRUE
             )
           ),
@@ -310,6 +319,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PNTB_adm"), 
               label = "Previous Spontaneuous Bleeding (BARC>=2)",
               choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
               inline = TRUE
             )
           )
@@ -403,8 +413,8 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 label = 'Dose', 
                 value = hold$Statin_dose_adm,
                 min = 0, 
-                max = 200, 
-                step = 1
+                max = 9999, 
+                step = .01
               )
             )
           ),
@@ -450,8 +460,8 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 label = 'Dose', 
                 value = hold$ACE_dose_adm,
                 min = 0, 
-                max = 200, 
-                step = 1
+                max = 9999, 
+                step = .01
               )
             )
           ),
@@ -476,8 +486,8 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 label = 'Dose', 
                 value = hold$DPP4_dose_adm,
                 min = 0, 
-                max = 200, 
-                step = 1
+                max = 9999, 
+                step = .01
               )
             )
           ),
@@ -502,8 +512,8 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 label = 'Dose', 
                 value = hold$Calcium_dose_adm,
                 min = 0, 
-                max = 200, 
-                step = 1
+                max = 9999, 
+                step = .01
               )
             )
           )
@@ -525,8 +535,8 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 label = 'Dose', 
                 value = hold$Metformin_dose_adm,
                 min = 0, 
-                max = 200, 
-                step = 1
+                max = 9999, 
+                step = .01
               )
             )
           ),
@@ -551,8 +561,8 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 label = 'Dose', 
                 value = hold$Sulf_dose_adm,
                 min = 0, 
-                max = 200, 
-                step = 1
+                max = 9999, 
+                step = .01
               )
             )
           )
@@ -579,8 +589,8 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 label = 'Dose', 
                 value = hold$Thia_dose_adm,
                 min = 0, 
-                max = 200, 
-                step = 1
+                max = 9999, 
+                step = .01
               )
             )
           ),
@@ -605,8 +615,8 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 label = 'Dose', 
                 value = hold$GLP_dose_adm,
                 min = 0, 
-                max = 200, 
-                step = 1
+                max = 9999, 
+                step = .01
               )
             )
           )
@@ -640,8 +650,8 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                     label = 'Dose', 
                     value = hold$Alpha_dose_adm,
                     min = 0, 
-                    max = 200, 
-                    step = 1
+                    max = 9999, 
+                    step = .01
                   )
                 )
               )
@@ -676,7 +686,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("WBC_adm"),
               "WBC",
               value = ifelse(is.null(hold), NA, hold$WBC_adm),
-              min = 0, max = 120,
+              min = 0, max = 30000,
               step = 1
             )
           ),
@@ -686,7 +696,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("TC_adm"),
               "Total Chol",
               value = ifelse(is.null(hold), NA, hold$TC_adm),
-              min = 0, max = 120,
+              min = 0, max = 500,
               step = 1
             )
           )
@@ -698,7 +708,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Hb_adm"),
               "Hgb",
               value = ifelse(is.null(hold), NA, hold$Hb_adm),
-              min = 0, max = 120,
+              min = 0, max = 20,
               step = 1
             )
           ),
@@ -708,7 +718,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("TG_adm"),
               "Triglyceride",
               value = ifelse(is.null(hold), NA, hold$TG_adm),
-              min = 0, max = 120,
+              min = 0, max = 3000,
               step = 1
             )
           )
@@ -720,7 +730,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Platelet_adm"),
               "Platelet",
               value = ifelse(is.null(hold), NA, hold$Platelet_adm),
-              min = 0, max = 120,
+              min = 0, max = 999999,
               step = 1
             )
           ),
@@ -730,7 +740,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("HDL_adm"),
               "HDL",
               value = ifelse(is.null(hold), NA, hold$HDL_adm),
-              min = 0, max = 120,
+              min = 0, max = 200,
               step = 1
             )
           )
@@ -742,7 +752,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("BUN_adm"),
               "BUN",
               value = ifelse(is.null(hold), NA, hold$BUN_adm),
-              min = 0, max = 120,
+              min = 0, max = 100,
               step = 1
             )
           ),
@@ -752,7 +762,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("LDL_adm"),
               "LDL",
               value = ifelse(is.null(hold), NA, hold$LDL_adm),
-              min = 0, max = 120,
+              min = 0, max = 300,
               step = 1
             )
           )
@@ -765,7 +775,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Cr_adm"),
               "Cr",
               value = ifelse(is.null(hold), NA, hold$Cr_adm),
-              min = 0, max = 120,
+              min = 0, max = 5,
               step = 1
             )
           ),
@@ -775,7 +785,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("FG_adm"),
               "Fasting Glucose",
               value = ifelse(is.null(hold), NA, hold$FG_adm),
-              min = 0, max = 120,
+              min = 0, max = 999,
               step = 1
             )
           )
@@ -787,7 +797,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("MDRD_adm"),
               "MDRD-eGFR (ml/min/1.73m2)",
               value = ifelse(is.null(hold), NA, hold$MDRD_adm),
-              min = 0, max = 120,
+              min = 0, max = 300,
               step = 1
             )
           ),
@@ -797,7 +807,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("HbA1C_adm"),
               "HbA1C",
               value = ifelse(is.null(hold), NA, hold$HbA1C_adm),
-              min = 0, max = 120,
+              min = 0, max = 10,
               step = 1
             )
           )
@@ -809,7 +819,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("AST_adm"),
               "AST",
               value = ifelse(is.null(hold), NA, hold$AST_adm),
-              min = 0, max = 120,
+              min = 0, max = 1000,
               step = 1
             )
           ),
@@ -819,7 +829,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("hs_CRP_adm"),
               "hs-CRP",
               value = ifelse(is.null(hold), NA, hold$hs_CRP_adm),
-              min = 0, max = 120,
+              min = 0, max = 100,
               step = 1
             )
           )
@@ -832,7 +842,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("ALT_adm"),
               "ALT",
               value = ifelse(is.null(hold), NA, hold$ALT_adm),
-              min = 0, max = 120,
+              min = 0, max = 1000,
               step = 1
             )
           ),
@@ -842,7 +852,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("NT_Pro_BNP_adm"),
               "NT-Pro BNP",
               value = ifelse(is.null(hold), NA, hold$NT_Pro_BNP_adm),
-              min = 0, max = 120,
+              min = 0, max = 9999,
               step = 1
             )
           )
@@ -887,7 +897,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("BCK_adm"),
               "",
               value = ifelse(is.null(hold), NA, hold$BCK_adm),
-              min = 0, max = 120,
+              min = 0, max = 9999,
               step = 1
             )
           ),
@@ -897,7 +907,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("BCKMB_adm"),
               "",
               value = ifelse(is.null(hold), NA, hold$BCKMB_adm),
-              min = 0, max = 120,
+              min = 0, max = 9999,
               step = .01
             )
           ),
@@ -907,7 +917,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("BTroT_adm"),
               "",
               value = ifelse(is.null(hold), NA, hold$BTroT_adm),
-              min = 0, max = 120,
+              min = 0, max = 9999,
               step = .001
             )
           )
@@ -923,7 +933,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PCK_adm"),
               "",
               value = ifelse(is.null(hold), NA, hold$PCK_adm),
-              min = 0, max = 120,
+              min = 0, max = 9999,
               step = 1
             )
           ),
@@ -933,7 +943,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PCKMB_adm"),
               "",
               value = ifelse(is.null(hold), NA, hold$PCKMB_adm),
-              min = 0, max = 120,
+              min = 0, max = 9999,
               step = .01
             )
           ),
@@ -943,7 +953,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PTroT_adm"),
               "",
               value = ifelse(is.null(hold), NA, hold$PTroT_adm),
-              min = 0, max = 120,
+              min = 0, max = 9999,
               step = .001
             )
           )
