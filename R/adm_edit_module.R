@@ -168,7 +168,15 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         #),
 
         # Risk Factors
-        h3('Risk Factors', style = "color : #FFFFFF; padding: 0.3em; background : #71c4ad"),
+        h3(
+          'Risk Factors', 
+          actionButton(
+            ns("CNfA"),
+            "All No",
+            class = "btn btn-default"
+          ),
+          style = "color : #FFFFFF; padding: 0.3em; background : #71c4ad"
+        ),
         fluidRow(
           style = 'text-align : center',
           column(
@@ -313,6 +321,11 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               '<h3 style = "color : #FFFFFF; padding: 0.3em; background : #945a85">',
               '<i class="fa fa-notes-medical" style = "color:#FFFFFF;"></i>',
               '  Medication',
+              actionButton(
+                ns("CYfA"),
+                "All Yes",
+                class = "btn btn-default"
+              ),
               '</h3>'
             )
           )
@@ -1171,6 +1184,41 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     }
   )
 
+  observeEvent(input$CNfA, {
+    updateRadioButtons(session, "HTN", selected = 1)
+    updateRadioButtons(session, "Diabetes_adm", selected = 1)
+    updateRadioButtons(session, "Hld_adm", selected = 1)
+    updateRadioButtons(session, "Smoking", selected = 1)
+    updateRadioButtons(session, "FHC_adm", selected = 1)
+    updateRadioButtons(session, "CRF_adm", selected = 1)
+    updateRadioButtons(session, "Pvd_adm", selected = 1)
+    updateRadioButtons(session, "PCI_adm", selected = 1)
+    updateRadioButtons(session, "PCABG_adm", selected = 1)
+    updateRadioButtons(session, "PCVA_adm", selected = 1)
+    updateRadioButtons(session, "PCHF_adm", selected = 1)
+    updateRadioButtons(session, "PNTB_adm", selected = 1)
+  })
+  
+  observeEvent(input$CYfA, {
+    updateRadioButtons(session, "Aspirin_adm", selected = 0)
+    updateRadioButtons(session, "Trimetazidine_adm", selected = 0)
+    updateRadioButtons(session, "Clopidogrel_adm", selected = 0)
+    updateRadioButtons(session, "Nitrate_adm", selected = 0)
+    updateRadioButtons(session, "Prasugrel_adm", selected = 0)
+    updateRadioButtons(session, "Statin_adm", selected = 0)
+    updateRadioButtons(session, "Ticagrelor_adm", selected = 0)
+    updateRadioButtons(session, "BB_adm", selected = 0)
+    updateRadioButtons(session, "ACE_adm", selected = 0)
+    updateRadioButtons(session, "DPP4_adm", selected = 0)
+    updateRadioButtons(session, "Calcium_adm", selected = 0)
+    updateRadioButtons(session, "Metformin_adm", selected = 0)
+    updateRadioButtons(session, "Sulf_adm", selected = 0)
+    updateRadioButtons(session, "Thia_adm", selected = 0)
+    updateRadioButtons(session, "GLP_adm", selected = 0)
+    updateRadioButtons(session, "Alpha_adm", selected = 0)
+    updateRadioButtons(session, "Insulin_adm", selected = 0)
+  })
+  
   edit_car_dat <- reactive({
     hold <- car_to_edit()
 
