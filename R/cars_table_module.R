@@ -77,28 +77,57 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     session$userData$mtcars_trigger()
 
     out <- NULL
-    tryCatch(
-      {
-        out <- conn %>%
-          tbl(tbl) %>%
-          collect() %>%
-          mutate(
-            created_at = as.POSIXct(created_at, tz = "UTC"),
-            modified_at = as.POSIXct(modified_at, tz = "UTC")
-          ) %>%
-          arrange(desc(modified_at))
-      },
-      error = function(err) {
-        msg <- "Database Connection Error"
-        # print `msg` so that we can find it in the logs
-        print(msg)
-        # print the actual error to log it
-        print(error)
-        # show error `msg` to user.  User can then tell us about error and we can
-        # quickly identify where it cam from based on the value in `msg`
-        showToast("error", msg)
-      }
-    )
+    
+    if(tbl != 'rct'){
+      tryCatch(
+        {
+          out <- conn %>%
+            tbl('pros') %>%
+            collect() %>%
+            rbind(conn %>% tbl('rct') %>% collect()) %>%
+            mutate(
+              created_at = as.POSIXct(created_at, tz = "UTC"),
+              modified_at = as.POSIXct(modified_at, tz = "UTC")
+            ) %>%
+            arrange(desc(modified_at))
+        },
+        error = function(err) {
+          msg <- "Database Connection Error"
+          # print `msg` so that we can find it in the logs
+          print(msg)
+          # print the actual error to log it
+          print(error)
+          # show error `msg` to user.  User can then tell us about error and we can
+          # quickly identify where it cam from based on the value in `msg`
+          showToast("error", msg)
+        }
+      )
+    }
+    if(tbl=='rct'){
+      tryCatch(
+        {
+          out <- conn %>%
+            tbl(tbl) %>%
+            collect() %>%
+            mutate(
+              created_at = as.POSIXct(created_at, tz = "UTC"),
+              modified_at = as.POSIXct(modified_at, tz = "UTC")
+            ) %>%
+            arrange(desc(modified_at))
+        },
+        error = function(err) {
+          msg <- "Database Connection Error"
+          # print `msg` so that we can find it in the logs
+          print(msg)
+          # print the actual error to log it
+          print(error)
+          # show error `msg` to user.  User can then tell us about error and we can
+          # quickly identify where it cam from based on the value in `msg`
+          showToast("error", msg)
+        }
+      )
+    }
+    
 
     out
   })
@@ -113,7 +142,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     # data에 입력 없을시 Error
     # ids.na <- ids[apply(select(out, Initial:Comment_demo), 1, function(x) {
     # Withdrawal State 까지만 입력시 Green 으로 색상 변경
-    
+
     ids.na <- ids[apply(select(out, Initial:Withdrawal), 1, function(x) {
       any(is.na(x) | x == "")
     })]
@@ -150,12 +179,12 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
         "</center>"
       )
     })
-    
+
     # angio에 입력 없을시 Warning
     ids.na.ang <- ids[apply(select(out, Date_ang:Non_Cul_cnt_ang), 1, function(x) {
       any(is.na(x) | x == "")
     })]
-    
+
     # ang button color
     ang <- sapply(ids, function(id_) {
       btn.demo <- ifelse(id_ %in% ids.na.ang, "warning", "success")
@@ -169,13 +198,13 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
         "</center>"
       )
     })
-    
+
     # Cul1 에 입력 없을시 Warning
-    
+
     ids.na.cul1 <- ids[apply(select(out, Vessel_cul1:Perforation_cul1), 1, function(x) {
       any(is.na(x) | x == "")
     })]
-    
+
     # cul1 button color
     cul1 <- sapply(ids, function(id_) {
       btn.demo <- ifelse(id_ %in% ids.na.cul1, "warning", "success")
@@ -189,13 +218,13 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
         "</center>"
       )
     })
-    
+
 
     # outc에 입력 없을시 Warning
     ids.na.outc <- ids[apply(select(out, Discharge_out:Comment_out), 1, function(x) {
       any(is.na(x) | x == "")
     })]
-    
+
     # outc button color
     outc <- sapply(ids, function(id_) {
       btn.demo <- ifelse(id_ %in% ids.na.outc, "warning", "success")
@@ -209,8 +238,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
         "</center>"
       )
     })
-    
-    
+
+
     # Event에 입력 없을시 Warning
     # ids.na.event <- ids[apply(select(out, Last_FU_Date:TLF_Date), 1, function(x) {
     #  any(is.na(x) | x == "")
@@ -393,7 +422,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       selection = "none",
       class = "compact stripe row-border nowrap",
       # Escape the HTML in all except 1st column (which has the buttons)
-      escape = -which(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Culprit1",  "Discharge", "M1", "M3", "M6", "Mf")),
+      escape = -which(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Culprit1", "Discharge", "M1", "M3", "M6", "Mf")),
       extensions = c("Buttons"),
       options = list(
         scrollX = TRUE,
@@ -409,8 +438,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
           )
         ),
         columnDefs = list(
-          list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Culprit1",  "Discharge", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
-          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Culprit1",  "Discharge", "M1", "M3", "M6", "Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
+          list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Culprit1", "Discharge", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
+          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Culprit1", "Discharge", "M1", "M3", "M6", "Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
 
           # list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Events", "Labs", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
           # list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Events", "Labs", "M1", "M3", "M6","Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
@@ -484,12 +513,12 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
   )
 
   ## Angio
-  
+
   car_to_edit_ang <- eventReactive(input$car_id_to_edit_ang, {
     cars() %>%
       filter(pid == input$car_id_to_edit_ang)
   })
-  
+
   callModule(
     ang_edit_module,
     "edit_ang",
@@ -502,13 +531,13 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     data = cars,
     sessionid = sessionid
   )
-  
+
   # cul1
   car_to_edit_cul1 <- eventReactive(input$car_id_to_edit_cul1, {
     cars() %>%
       filter(pid == input$car_id_to_edit_cul1)
   })
-  
+
   callModule(
     cul1_edit_module,
     "edit_cul1",
@@ -521,7 +550,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     data = cars,
     sessionid = sessionid
   )
-  
+
   # Outcomes
 
   car_to_edit_outc <- eventReactive(input$car_id_to_edit_outc, {

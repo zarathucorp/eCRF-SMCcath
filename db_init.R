@@ -49,6 +49,7 @@ create_rct_query <- "CREATE TABLE rct (
   FHC_adm                         TEXT,
   CRF_adm                         TEXT,
   PCI_adm                         TEXT,
+  -- PM_adm                          TEXT,
   PCABG_adm                       TEXT,
   PCVA_adm                        TEXT,
   PCHF_adm                        TEXT,
