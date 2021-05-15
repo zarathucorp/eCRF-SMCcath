@@ -151,6 +151,28 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
         "</center>"
       )
     })
+    
+    # angio에 입력 없을시 Warning
+    # Variable names
+    ids.na.ang <- ids[apply(select(out, Date_ang:Non_Cul_cnt_ang), 1, function(x) {
+      any(is.na(x) | x == "")
+    })]
+    
+    # ang button color
+    ang <- sapply(ids, function(id_) {
+      btn.demo <- ifelse(id_ %in% ids.na.ang, "warning", "success")
+      paste0(
+        "<center>",
+        '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit angiographic">',
+        '<button class="btn btn-', btn.demo, ' edit_btnang" data-toggle="tooltip" data-placement="top" title="Edit angiographic" id = ', id_, ' style="margin: 0">',
+        '<i class="fa fa-pencil-square-o"></i>',
+        "</button>",
+        "</div>",
+        "</center>"
+      )
+    })
+    
+    
 
     # outc에 입력 없을시 Warning
     ids.na.outc <- ids[apply(select(out, Discharge_out:Comment_out), 1, function(x) {
@@ -316,6 +338,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       out[, 1:4],
       `Demographics` = actions,
       `Admission` = adm,
+      `Angiographics` = ang,
       `Discharge` = outc,
       out[, 5:24], # Initial ~ Hx_AF
       # `Events` = events,
@@ -352,7 +375,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       selection = "none",
       class = "compact stripe row-border nowrap",
       # Escape the HTML in all except 1st column (which has the buttons)
-      escape = -which(names(out) %in% c(" ", "Demographics", "Admission", "Discharge", "M1", "M3", "M6", "Mf")),
+      escape = -which(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Discharge", "M1", "M3", "M6", "Mf")),
       extensions = c("Buttons"),
       options = list(
         scrollX = TRUE,
@@ -368,8 +391,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
           )
         ),
         columnDefs = list(
-          list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Discharge", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
-          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Discharge", "M1", "M3", "M6", "Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
+          list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Discharge", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
+          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Discharge", "M1", "M3", "M6", "Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
 
           # list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Events", "Labs", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
           # list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Events", "Labs", "M1", "M3", "M6","Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
@@ -442,6 +465,26 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     sessionid = sessionid
   )
 
+  ## Angio
+  
+  car_to_edit_ang <- eventReactive(input$car_id_to_edit_ang, {
+    cars() %>%
+      filter(pid == input$car_id_to_edit_ang)
+  })
+  
+  callModule(
+    ang_edit_module,
+    "edit_ang",
+    modal_title = "Edit Angiographics",
+    car_to_edit = car_to_edit_ang,
+    modal_trigger = reactive({
+      input$car_id_to_edit_ang
+    }),
+    tbl = tbl,
+    data = cars,
+    sessionid = sessionid
+  )
+  
   # Outcomes
 
   car_to_edit_outc <- eventReactive(input$car_id_to_edit_outc, {
