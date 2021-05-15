@@ -284,7 +284,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             height = "100px"
           ),
           title = modal_title,
-          size = "m",
+          size = "l",
           footer = list(
             modalButton("Cancel"),
             actionButton(

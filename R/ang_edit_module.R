@@ -330,7 +330,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           min = 0, max = 4, step = 1, value = 0
         ),
         title = modal_title,
-        size = "m",
+        size = "l",
         footer = list(
           modalButton("Cancel"),
           actionButton(

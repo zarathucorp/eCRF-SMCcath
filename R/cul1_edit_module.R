@@ -641,7 +641,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
         ),
         
         title = modal_title,
-        size = "m",
+        size = "l",
         footer = list(
           modalButton("Cancel"),
           actionButton(

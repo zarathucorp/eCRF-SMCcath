@@ -378,7 +378,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           value =  ifelse(is.null(hold$Comment_out), "", hold$Comment_out),
         ),
         title = modal_title,
-        size = "m",
+        size = "l",
         footer = list(
           modalButton("Cancel"),
           actionButton(
