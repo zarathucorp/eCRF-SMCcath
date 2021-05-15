@@ -115,7 +115,6 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     # Withdrawal State 까지만 입력시 Green 으로 색상 변경
     
     ids.na <- ids[apply(select(out, Initial:Withdrawal), 1, function(x) {
-      
       any(is.na(x) | x == "")
     })]
 
@@ -153,7 +152,6 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     })
     
     # angio에 입력 없을시 Warning
-    # Variable names
     ids.na.ang <- ids[apply(select(out, Date_ang:Non_Cul_cnt_ang), 1, function(x) {
       any(is.na(x) | x == "")
     })]
@@ -172,6 +170,25 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       )
     })
     
+    # Cul1 에 입력 없을시 Warning
+    
+    ids.na.cul1 <- ids[apply(select(out, Vessel_cul1:Perforation_cul1), 1, function(x) {
+      any(is.na(x) | x == "")
+    })]
+    
+    # cul1 button color
+    cul1 <- sapply(ids, function(id_) {
+      btn.demo <- ifelse(id_ %in% ids.na.cul1, "warning", "success")
+      paste0(
+        "<center>",
+        '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit Culprit1">',
+        '<button class="btn btn-', btn.demo, ' edit_btncul1" data-toggle="tooltip" data-placement="top" title="Edit Culprit1" id = ', id_, ' style="margin: 0">',
+        '<i class="fa fa-pencil-square-o"></i>',
+        "</button>",
+        "</div>",
+        "</center>"
+      )
+    })
     
 
     # outc에 입력 없을시 Warning
@@ -340,6 +357,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       `Admission` = adm,
       `Angiographics` = ang,
       `Discharge` = outc,
+      `Culprit1` = cul1,
       out[, 5:24], # Initial ~ Hx_AF
       # `Events` = events,
       out[, 25:40], # Last_FU_Date ~ TLF_Date
@@ -375,7 +393,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       selection = "none",
       class = "compact stripe row-border nowrap",
       # Escape the HTML in all except 1st column (which has the buttons)
-      escape = -which(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Discharge", "M1", "M3", "M6", "Mf")),
+      escape = -which(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Culprit1",  "Discharge", "M1", "M3", "M6", "Mf")),
       extensions = c("Buttons"),
       options = list(
         scrollX = TRUE,
@@ -391,8 +409,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
           )
         ),
         columnDefs = list(
-          list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Discharge", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
-          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Discharge", "M1", "M3", "M6", "Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
+          list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Culprit1",  "Discharge", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
+          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Angiographics", "Culprit1",  "Discharge", "M1", "M3", "M6", "Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
 
           # list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Events", "Labs", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
           # list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Events", "Labs", "M1", "M3", "M6","Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
@@ -479,6 +497,25 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     car_to_edit = car_to_edit_ang,
     modal_trigger = reactive({
       input$car_id_to_edit_ang
+    }),
+    tbl = tbl,
+    data = cars,
+    sessionid = sessionid
+  )
+  
+  # cul1
+  car_to_edit_cul1 <- eventReactive(input$car_id_to_edit_cul1, {
+    cars() %>%
+      filter(pid == input$car_id_to_edit_cul1)
+  })
+  
+  callModule(
+    cul1_edit_module,
+    "edit_cul1",
+    modal_title = "Edit Culprit1",
+    car_to_edit = car_to_edit_cul1,
+    modal_trigger = reactive({
+      input$car_id_to_edit_cul1
     }),
     tbl = tbl,
     data = cars,

@@ -5,9 +5,10 @@ eCRF for SMC Cath lab
 <!-- how to edit module  -->
 
 <!-- 0. modify cars_table_module.R -->
+  <!-- ids.na.adm ~~ -->
 
 <!-- 1. build module.R -->
-
+  <!-- adm_edit_module.R -->
 <!-- 2. edit db_init.R -->
   <!-- 2-1. describe db schema-->
   <!-- 2-2. insert example data -->
