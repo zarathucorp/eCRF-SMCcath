@@ -34,7 +34,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit"),
+                ns("submit0"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -142,7 +142,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit"),
+                ns("submit1"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -304,7 +304,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit"),
+                ns("submit2"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -666,7 +666,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit"),
+                ns("submit3"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -987,7 +987,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit"),
+                ns("submit4"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -1098,7 +1098,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit"),
+                ns("submit5"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -1135,7 +1135,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit"),
+                ns("submit6"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -1611,9 +1611,16 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     out
   })
   
-  validate_edit <- eventReactive(input$submit, {
+  validate_edit <- eventReactive({
+    input$submit
+    input$submit1
+    input$submit2
+    input$submit3
+    input$submit4
+    input$submit5
+    input$submit6
+    }, {
     dat <- edit_car_dat()
-    
     # Logic to validate inputs...
     
     dat
