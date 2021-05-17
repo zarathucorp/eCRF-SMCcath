@@ -29,6 +29,35 @@ function cars_table_module_js(ns_prefix) {
     $(this).tooltip('hide');
   });
   
+  // culprit2 edit button
+  $("#" + ns_prefix + "car_table").on("click", ".edit_btncul2", function() {
+    Shiny.setInputValue(ns_prefix + "car_id_to_edit_cul2", this.id, { priority: "event"});
+    $(this).tooltip('hide');
+  });
+
+  // Non-culprit1 edit button
+  $("#" + ns_prefix + "car_table").on("click", ".edit_btnculn1", function() {
+    Shiny.setInputValue(ns_prefix + "car_id_to_edit_culn1", this.id, { priority: "event"});
+    $(this).tooltip('hide');
+  });
+
+  // Non-culprit2 edit button
+  $("#" + ns_prefix + "car_table").on("click", ".edit_btnculn2", function() {
+    Shiny.setInputValue(ns_prefix + "car_id_to_edit_culn2", this.id, { priority: "event"});
+    $(this).tooltip('hide');
+  });
+  
+  // Non-culprit3 edit button
+  $("#" + ns_prefix + "car_table").on("click", ".edit_btnculn3", function() {
+    Shiny.setInputValue(ns_prefix + "car_id_to_edit_culn3", this.id, { priority: "event"});
+    $(this).tooltip('hide');
+  });
+  
+  // Non-culprit4 edit button
+  $("#" + ns_prefix + "car_table").on("click", ".edit_btnculn4", function() {
+    Shiny.setInputValue(ns_prefix + "car_id_to_edit_culn4", this.id, { priority: "event"});
+    $(this).tooltip('hide');
+  });
   
   // outcomes edit button
   $("#" + ns_prefix + "car_table").on("click", ".edit_btnoutc", function() {
