@@ -174,7 +174,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Diabetes_adm"),
               label = "Diabetes",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = hold$DM, # character(0),
               inline = TRUE
             ),
             conditionalPanel(
