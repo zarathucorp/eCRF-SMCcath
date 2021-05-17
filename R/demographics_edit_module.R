@@ -77,7 +77,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
                 radioButtons(
                   ns("DM"),
                   "Previous DM",
-                  choices = c("No" = 0, "Yes" = 1),
+                  choices = c("Yes" = 0, "No" = 1),
                   selected = hold$DM, inline = T
                 )
               )
