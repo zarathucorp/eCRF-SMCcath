@@ -24,310 +24,586 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
 
     showModal(
       modalDialog(
-        dateInput(
-          ns("Date_ang"),
-          "Primary 시술일자",
-          value = ifelse(is.null(hold), NA, lubridate::as_date(hold$Date_ang)),
-          language = "kr"
-        ),
-        radioButtons(
-          ns("Aspirin_ang"),
-          label = "Aspirin",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = character(0),
-          inline = TRUE
-        ),
-        conditionalPanel(
-          "input.Aspirin_ang == 0",
-          ns = ns,
-          textInput(
-            ns("Aspirin_loading_ang"),
-            label = "if Yes ->",
-            placeholder = "mg"
-          ),
-          radioButtons(
-            ns("Aspirin_detail_ang"),
-            label = "Loading Time",
-            choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
-            selected = character(0),
-            inline = TRUE
-          )
-        ),
-        radioButtons(
-          ns("Clopidogrel_ang"),
-          label = "Clopidogrel",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = character(0),
-          inline = TRUE
-        ),
-        conditionalPanel(
-          "input.Clopidogrel_ang == 0",
-          ns = ns,
-          textInput(
-            ns("Clopidogrel_loading_ang"),
-            label = "if Yes ->",
-            placeholder = "mg"
-          ),
-          radioButtons(
-            ns("Clopidogrel_detail_ang"),
-            label = "Loading Time",
-            choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
-            selected = character(0),
-            inline = TRUE
-          )
-        ),
-        radioButtons(
-          ns("Prasugrel_ang"),
-          label = "Prasugrel",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = character(0),
-          inline = TRUE
-        ),
-        conditionalPanel(
-          "input.Prasugrel_ang == 0",
-          ns = ns,
-          textInput(
-            ns("Prasugrel_loading_ang"),
-            label = "if Yes ->",
-            placeholder = "mg"
-          ),
-          radioButtons(
-            ns("Prasugrel_detail_ang"),
-            label = "Loading Time",
-            choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
-            selected = character(0),
-            inline = TRUE
-          )
-        ),
-        radioButtons(
-          ns("Ticagrelor_ang"),
-          label = "Ticagrelor",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = character(0),
-          inline = TRUE
-        ),
-        conditionalPanel(
-          "input.Ticagrelor_ang == 0",
-          ns = ns,
-          textInput(
-            ns("Ticagrelor_loading_ang"),
-            label = "if Yes ->",
-            placeholder = "mg"
-          ),
-          radioButtons(
-            ns("Ticagrelor_detail_ang"),
-            label = "Loading Time",
-            choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
-            selected = character(0),
-            inline = TRUE
-          )
-        ),
-        radioButtons(
-          ns("Procedure_type_ang"),
-          label = "Procedure Type",
-          choices = c("Transradial" = 0, "Transfemoral" = 1),
-          selected = character(0),
-          inline = TRUE
-        ),
-        textInput(
-          ns("Procedure_dose_ang"),
-          label = "조영제 사용량",
-          placeholder = "cc"
-        ),
-        radioButtons(
-          ns("Disease_extent_ang"),
-          label = "Angiographica Disease Extent",
-          choices = c("1 VD" = 0, "2 VD" = 1, "3 VD" = 2),
-          selected = character(0),
-          inline = TRUE
-        ),
-        radioButtons(
-          ns("Left_main_ang"),
-          label = "Left Main Disease",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = character(0),
-          inline = TRUE
-        ),
-        numericInput(
-          ns("start_hour_ang"),
-          label = "시작시간", min = 0, max = 23, step = 1, value = NULL
-        ),
-        numericInput(
-          ns("start_min_ang"),
-          label = "분", min = 0, max = 59, step = 1, value = NULL
-        ),
-        numericInput(
-          ns("end_hour_ang"),
-          label = "종료시간", min = 0, max = 23, step = 1, value = NULL
-        ),
-        numericInput(
-          ns("end_min_ang"),
-          label = "분", min = 0, max = 59, step = 1, value = NULL
-        ),
-        shinyjs::disabled(
-          numericInput(
-            ns("time_ang"),
-            label = "소요시간(분)",
-            step = 1, value = 0
-          )
-        ),
-        textInput(
-          ns("Catheter_diagnostic_ang"),
-          label = "Diagnostic Catheter"
-        ),
-        textInput(
-          ns("Catheter_guiding_ang"),
-          label = "Guiding Catheter"
-        ),
-        radioButtons(
-          ns("staged_PCI_ang"),
-          label = "Staged PCI",
-          choices = c("Performed" = 0, "Not Performed" = 1),
-          selected = character(0),
-          inline = TRUE
-        ),
-        conditionalPanel(
-          "input.staged_PCI_ang == 0",
-          ns = ns,
-          
-            numericInput(
-              ns("stagedPCI_count_ang"),
-              label = "ea", max = 2, min = 1, step = 1, value = 1
+        tags$div(
+          HTML(
+            paste0(
+              '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+              "Title A",
+              tags$div(
+                modalButton("", icon("times")),
+                style = "float:right;"
+              ),
+              actionButton(
+                ns("submit0"),
+                HTML('<i class="fas fa-check"></i>'),
+                class = "btn",
+                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+              )
             ),
+            "</h3>"
+          )
+        ),
+        fluidRow(
+          column(
+            width = 4,
             dateInput(
-              ns('stagedPCI_1_ang'),
-              "시술일자",
-              value = lubridate::as_date(hold$stagedPCI_1_ang),
-              language = "kr"
-            ),
+              ns("Date_ang"),
+              "Primary 시술일자",
+              value = ifelse(is.null(hold), "", lubridate::as_date(hold$Date_ang)),
+              language = "ko"
+            )
+          ),
+          column(
+            width = 4,
             radioButtons(
-              ns("stagedPCI_1_procedure_ang"),
+              ns("Procedure_type_ang"),
               label = "Procedure Type",
               choices = c("Transradial" = 0, "Transfemoral" = 1),
               selected = character(0),
               inline = TRUE
-            ),
+            )
+          ),
+          column(
+            width = 4,
             textInput(
-              ns("stagedPCI_1_procedure_dose_ang"),
+              ns("Procedure_dose_ang"),
               label = "조영제 사용량",
               placeholder = "cc"
-            ),
-            numericInput(
-              ns(paste0("start_hour_PCI_1_ang")),
-              label = "시작시간", min = 0, max = 23, step = 1, value = NULL
-            ),
-            numericInput(
-              ns("start_min_PCI_1_ang"),
-              label = "분", min = 0, max = 59, step = 1, value = NULL
-            ),
-            numericInput(
-              ns("end_hour_PCI_1_ang"),
-              label = "종료시간", min = 0, max = 23, step = 1, value = NULL
-            ),
-            numericInput(
-              ns("end_min_PCI_1_ang"),
-              label = "분", min = 0, max = 59, step = 1, value = NULL
-            ),
-            shinyjs::disabled(
-              numericInput(
-                ns("time_PCI_1_ang"),
-                label = "소요시간(분)",
-                value = NULL
+            )
+          )
+        ),
+        tags$div(
+          HTML(
+            paste0(
+              '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+              "Title B",
+              tags$div(
+                modalButton("", icon("times")),
+                style = "float:right;"
+              ),
+              actionButton(
+                ns("submit0"),
+                HTML('<i class="fas fa-check"></i>'),
+                class = "btn",
+                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
-            
-            textInput(
-              ns("Diagnostic_PCI_1_ang"),
-              label = "Diagnostic",
-              placeholder = "Fr"
+            "</h3>"
+          )
+        ),
+        fluidRow(
+          column(
+            width = 3,
+            radioButtons(
+              ns("Aspirin_ang"),
+              label = "Aspirin",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
+              inline = TRUE
             ),
-            textInput(
-              ns("Guiding_PCI_1_ang"),
-              label = "Guiding",
-              placeholder = "Fr"
+            conditionalPanel(
+              "input.Aspirin_ang == 0",
+              ns = ns,
+              textInput(
+                ns("Aspirin_loading_ang"),
+                label = "Dose",
+                placeholder = "mg"
+              ),
+              radioButtons(
+                ns("Aspirin_detail_ang"),
+                label = "Loading Time",
+                choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Clopidogrel_ang"),
+              label = "Clopidogrel",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
+              inline = TRUE
             ),
-          
-          
-          ## PCI 1
-          conditionalPanel(
-            "input.stagedPCI_count_ang >= 2",
-            ns = ns,
-            
+            conditionalPanel(
+              "input.Clopidogrel_ang == 0",
+              ns = ns,
+              textInput(
+                ns("Clopidogrel_loading_ang"),
+                label = "Dose",
+                placeholder = "mg"
+              ),
+              radioButtons(
+                ns("Clopidogrel_detail_ang"),
+                label = "Loading Time",
+                choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Prasugrel_ang"),
+              label = "Prasugrel",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
+              inline = TRUE
+            ),
+            conditionalPanel(
+              "input.Prasugrel_ang == 0",
+              ns = ns,
+              textInput(
+                ns("Prasugrel_loading_ang"),
+                label = "Dose",
+                placeholder = "mg"
+              ),
+              radioButtons(
+                ns("Prasugrel_detail_ang"),
+                label = "Loading Time",
+                choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Ticagrelor_ang"),
+              label = "Ticagrelor",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
+              inline = TRUE
+            ),
+            conditionalPanel(
+              "input.Ticagrelor_ang == 0",
+              ns = ns,
+              textInput(
+                ns("Ticagrelor_loading_ang"),
+                label = "Dose",
+                placeholder = "mg"
+              ),
+              radioButtons(
+                ns("Ticagrelor_detail_ang"),
+                label = "Loading Time",
+                choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
+          )
+        ),
+        tags$div(
+          HTML(
+            paste0(
+              '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+              "Title C",
+              tags$div(
+                modalButton("", icon("times")),
+                style = "float:right;"
+              ),
+              actionButton(
+                ns("submit0"),
+                HTML('<i class="fas fa-check"></i>'),
+                class = "btn",
+                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+              )
+            ),
+            "</h3>"
+          )
+        ),
+        fluidRow(
+          column(
+            width = 4,
+            radioButtons(
+              ns("Disease_extent_ang"),
+              label = "Angiographica Disease Extent",
+              choices = c("1 VD" = 0, "2 VD" = 1, "3 VD" = 2),
+              selected = character(0),
+              inline = TRUE
+            )
+          ),
+          column(
+            width = 4,
+            radioButtons(
+              ns("Left_main_ang"),
+              label = "Left Main Disease",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
+              inline = TRUE
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 2,
+            numericInput(
+              ns("start_hour_ang"),
+              label = "시작시간", min = 0, max = 23, step = 1, value = NULL
+            )
+          ),
+          column(
+            width = 2,
+            numericInput(
+              ns("start_min_ang"),
+              label = "분", min = 0, max = 59, step = 1, value = NULL
+            )
+          ),
+          column(
+            width = 2,
+            numericInput(
+              ns("end_hour_ang"),
+              label = "종료시간", min = 0, max = 23, step = 1, value = NULL
+            )
+          ),
+          column(
+            width = 2,
+            numericInput(
+              ns("end_min_ang"),
+              label = "분", min = 0, max = 59, step = 1, value = NULL
+            )
+          ),
+          column(
+            width = 4,
+            shinyjs::disabled(
+              numericInput(
+                ns("time_ang"),
+                label = "소요시간(분)",
+                step = 1, value = 0
+              )
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 3,
+            textInput(
+              ns("Catheter_diagnostic_ang"),
+              label = "Diagnostic Catheter",
+              placeholder = "Fr"
+            )
+          ),
+          column(
+            width = 3,
+            textInput(
+              ns("Catheter_guiding_ang"),
+              label = "Guiding Catheter",
+              placeholder = "Fr"
+            )
+          ),
+          column(
+            width = 4,
+            radioButtons(
+              ns("staged_PCI_ang"),
+              label = "Staged PCI",
+              choices = c("Performed" = 0, "Not Performed" = 1),
+              selected = character(0),
+              inline = TRUE
+            )
+          ),
+          column(
+            width = 2,
+            conditionalPanel(
+              "input.staged_PCI_ang == 0",
+              ns = ns,
+              numericInput(
+                ns("stagedPCI_count_ang"),
+                label = "개수", 
+                max = 2, 
+                min = 1, 
+                step = 1, 
+                value = 1
+              )
+            )
+          )
+        ),
+        conditionalPanel(
+          "input.staged_PCI_ang == 0",
+          ns = ns,
+          tags$div(
+            HTML(
+              paste0(
+                '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+                "PCI 1st",
+                tags$div(
+                  modalButton("", icon("times")),
+                  style = "float:right;"
+                ),
+                actionButton(
+                  ns("submit0"),
+                  HTML('<i class="fas fa-check"></i>'),
+                  class = "btn",
+                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                )
+              ),
+              "</h3>"
+            )
+          ),
+          fluidRow(
+            column(
+              width = 4,
               dateInput(
-                ns('stagedPCI_2_ang'),
+                ns("stagedPCI_1_ang"),
+                "시술일자",
+                value = lubridate::as_date(hold$stagedPCI_1_ang),
+                language = "ko"
+              )
+            ),
+            column(
+              width = 4,
+              radioButtons(
+                ns("stagedPCI_1_procedure_ang"),
+                label = "Procedure Type",
+                choices = c("Transradial" = 0, "Transfemoral" = 1),
+                selected = character(0),
+                inline = TRUE
+              ) 
+            ),
+            column(
+              width = 4,
+              textInput(
+                ns("stagedPCI_1_procedure_dose_ang"),
+                label = "조영제 사용량",
+                placeholder = "cc"
+              )
+            )
+          ),
+          fluidRow(
+            column(
+              width = 2,
+              numericInput(
+                ns(paste0("start_hour_PCI_1_ang")),
+                label = "시작시간", min = 0, max = 23, step = 1, value = NULL
+              )
+            ),
+            column(
+              width = 2,
+              numericInput(
+                ns("start_min_PCI_1_ang"),
+                label = "분", min = 0, max = 59, step = 1, value = NULL
+              )
+            ),
+            column(
+              width = 2,
+              numericInput(
+                ns("end_hour_PCI_1_ang"),
+                label = "종료시간", min = 0, max = 23, step = 1, value = NULL
+              )
+            ),
+            column(
+              width = 2,
+              numericInput(
+                ns("end_min_PCI_1_ang"),
+                label = "분", min = 0, max = 59, step = 1, value = NULL
+              )
+            ),
+            column(
+              width = 4,
+              shinyjs::disabled(
+                numericInput(
+                  ns("time_PCI_1_ang"),
+                  label = "소요시간(분)",
+                  value = NULL
+                )
+              )
+            )
+          ),
+          fluidRow(
+            column(
+              width = 4,
+              textInput(
+                ns("Diagnostic_PCI_1_ang"),
+                label = "Diagnostic",
+                placeholder = "Fr"
+              ) 
+            ),
+            column(
+              width = 4,
+              textInput(
+                ns("Guiding_PCI_1_ang"),
+                label = "Guiding",
+                placeholder = "Fr"
+              )
+            )
+          )
+        ),
+        conditionalPanel(
+          "input.stagedPCI_count_ang == 2",
+          ns = ns,
+          tags$div(
+            HTML(
+              paste0(
+                '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+                "PCI 2nd",
+                tags$div(
+                  modalButton("", icon("times")),
+                  style = "float:right;"
+                ),
+                actionButton(
+                  ns("submit0"),
+                  HTML('<i class="fas fa-check"></i>'),
+                  class = "btn",
+                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                )
+              ),
+              "</h3>"
+            )
+          ),
+          fluidRow(
+            column(
+              width = 4,
+              dateInput(
+                ns("stagedPCI_2_ang"),
                 "시술일자",
                 value = lubridate::as_date(hold$stagedPCI_2_ang),
-                language = "kr"
-              ),
+                language = "ko"
+              )
+            ),
+            column(
+              width = 4,
               radioButtons(
                 ns("stagedPCI_2_procedure_ang"),
                 label = "Procedure Type",
                 choices = c("Transradial" = 0, "Transfemoral" = 1),
                 selected = character(0),
                 inline = TRUE
-              ),
+              )
+            ),
+            column(
+              width = 4,
               textInput(
                 ns("stagedPCI_2_procedure_dose_ang"),
                 label = "조영제 사용량",
                 placeholder = "cc"
-              ),
+              )
+            )
+          ),
+          fluidRow(
+            column(
+              width = 2,
               numericInput(
                 ns(paste0("start_hour_PCI_2_ang")),
                 label = "시작시간", min = 0, max = 23, step = 1, value = NULL
-              ),
+              )
+            ),
+            column(
+              width = 2,
               numericInput(
                 ns("start_min_PCI_2_ang"),
                 label = "분", min = 0, max = 59, step = 1, value = NULL
-              ),
+              )
+            ),
+            column(
+              width = 2,
               numericInput(
                 ns("end_hour_PCI_2_ang"),
                 label = "종료시간", min = 0, max = 23, step = 1, value = NULL
-              ),
+              ) 
+            ),
+            column(
+              width = 2,
               numericInput(
                 ns("end_min_PCI_2_ang"),
                 label = "분", min = 0, max = 59, step = 1, value = NULL
-              ),
+              )
+            ),
+            column(
+              width = 4,
               shinyjs::disabled(
                 numericInput(
                   ns("time_PCI_2_ang"),
                   label = "소요시간(분)",
                   value = NULL
                 )
-              ),
+              )
+            )
+          ),
+          fluidRow(
+            column(
+              width = 4,
               textInput(
                 ns("Diagnostic_PCI_2_ang"),
                 label = "Diagnostic",
                 placeholder = "Fr"
-              ),
+              )
+            ),
+            column(
+              width = 4,
               textInput(
                 ns("Guiding_PCI_2_ang"),
                 label = "Guiding",
                 placeholder = "Fr"
               )
-            
+            )
+          ),
+        ),
+        tags$div(
+          HTML(
+            paste0(
+              '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+              "Title D",
+              tags$div(
+                modalButton("", icon("times")),
+                style = "float:right;"
+              ),
+              actionButton(
+                ns("submit0"),
+                HTML('<i class="fas fa-check"></i>'),
+                class = "btn",
+                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+              )
+            ),
+            "</h3>"
           )
         ),
-        radioButtons(
-          ns("Gp_ang"),
-          label = "   Gp IIb/IIIa inhibitor	",
-          choices = c("Yes" = 0, "No" = 1),
-          checkboxGroupInput(
-            ns("Gp_detail_ang"),
-            label = "",
-            choices = c("Intra-procedure" = 0, "Post-procedure" = 1, "Abciximab" = 2, "Eptifibatide" = 3, "Tirofiban" = 4),
-            selected = character(0),
-            inline = TRUE
+        
+        fluidRow(
+          column(
+            width = 4,
+            radioButtons(
+              ns("Gp_ang"),
+              label = "Gp IIb/IIIa inhibitor	",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = character(0),
+              inline = TRUE
+            )
+          ),
+          column(
+            width = 8,
+            conditionalPanel(
+              "input.Gp_ang == 0",
+              ns = ns,
+              checkboxGroupInput(
+                ns("Gp_detail_ang"),
+                label = "Detail",
+                choices = c("Intra-procedure" = 0, "Post-procedure" = 1, "Abciximab" = 2, "Eptifibatide" = 3, "Tirofiban" = 4),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
           )
         ),
-        numericInput(
-          ns("Cul_cnt_ang"),
-          label = "Culprit Lesion 개수",
-          min = 0, max = 2, step = 1, value = 0
-        ),
-        numericInput(
-          ns("Non_Cul_cnt_ang"),
-          label = "Non-Culprit Lesion 개수",
-          min = 0, max = 4, step = 1, value = 0
+        fluidRow(
+          column(
+            width = 6,
+            numericInput(
+              ns("Cul_cnt_ang"),
+              label = "Culprit Lesion 개수",
+              min = 0, max = 2, step = 1, value = 0
+            )
+          ),
+          column(
+            width = 6,
+            numericInput(
+              ns("Non_Cul_cnt_ang"),
+              label = "Non-Culprit Lesion 개수",
+              min = 0, max = 4, step = 1, value = 0
+            )
+          )
         ),
         title = modal_title,
         size = "l",
@@ -368,7 +644,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     },
     {
       updateNumericInput(
-        session, 
+        session,
         inputId = "time_ang",
         label = "소요시간(분)",
         value = (input$end_hour_ang * 60 + input$end_min_ang - input$start_hour_ang * 60 - input$start_min_ang)
@@ -376,7 +652,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     }
   )
 
-  
+
   edit_car_dat <- reactive({
     hold <- car_to_edit()
 
