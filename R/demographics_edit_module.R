@@ -22,14 +22,14 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
   observeEvent(modal_trigger(), {
     hold <- car_to_edit()
 
-    choiceNames.DM <- c("No", "Yes")
+    choiceNames.DM <- c("Yes", "No")
     choiceValues.DM <- c("0", "1")
     selected.DM <- NULL
 
     choices.AMI_Type <- c("NSTEMI", "STEMI")
     selected.AMI_Type <- NULL
     if (tbl == "rct") {
-      choiceNames.DM <- ifelse(hold$DM == "0", "No", "Yes")
+      choiceNames.DM <- ifelse(hold$DM == "0", "Yes", "No")
       choiceValues.DM <- hold$DM
       # choices.AMI_Type <- hold$AMI_Type
       selected.AMI_Type <- hold$AMI_Type
@@ -120,7 +120,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
                 numericInput(
                   ns("Age"),
                   "Age",
-                  value = ifelse(is.null(hold), NA, hold$Age),
+                  value = ifelse(is.null(hold), "", hold$Age),
                   min = 0, max = 120,
                   step = 1
                 )
@@ -179,17 +179,11 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
                 textInput(
                   "Withdrawal_reason",
                   label = "Reason",
-                  value = ifelse(is.null(hold), NA, hold$Withdrawal_reason)
+                  value = ifelse(is.null(hold), "", hold$Withdrawal_reason)
                 ),
               )
             )
           ),
-          # textAreaInput(
-          #   ns("Comment_demo"),
-          #   "Comment",
-          #   width = "400px",
-          #   height = "100px"
-          # ),
           title = modal_title,
           size = "l",
           footer = list(
@@ -206,103 +200,115 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
     } else {
       showModal(
         modalDialog(
-          h5("Subject No"),
-          textOutput(
-            ns("pid_demo")
-          ),
-          # selectInput(
-          #  ns("pid"),
-          #  "Subject No",
-          #  choices = hold$pid,
-          #  selected = hold$pid,
-          # ),
-          radioButtons(
-            ns("Group"),
-            "Allocation Group",
-            hold$Group,
-            hold$Group,
-            inline = T
-          ),
-          textInput(
-            ns("Initial"),
-            "Initial",
-            value = hold$Initial
-          ),
-          dateInput(
-            ns("Agree_Date"),
-            "동의서 서명일",
-            value = lubridate::as_date(as.numeric(hold$Agree_Date)),
-            language = "ko"
-          ),
-          dateInput(
-            ns("Index_PCI_Date"),
-            "시술일자",
-            value = lubridate::as_date(as.numeric(hold$Index_PCI_Date)),
-            language = "ko"
-          ),
-          # fluidRow(
-          #  column(
-          #    width = 6,
-          #    textOutput(
-          #      ns('Birthday_demo')
-          #    )
-          #  ),
-          #  column(
-          #    width = 6,
-          #    textOutput(
-          #      ns('PCI_Date_demo')
-          #    )
-          #  )
-          # ),
-          dateInput(
-            ns("Birthday"),
-            "Date of Birth",
-            value = lubridate::as_date(hold$Birthday),
-            language = "ko"
-          ),
-          h5("Age"),
-          textOutput(
-            ns("Age")
-          ),
-          #        numericInput(
-          #          ns("Age"),
-          #          "Age",
-          #          value =
-          #          min = 19, max = 120,
-          #          step = 1
-          #        )
-          radioButtons(
-            ns("Sex"),
-            "Sex",
-            choices = c("M", "F"),
-            selected = hold$Sex, inline = T
-          ),
-          radioButtons(
-            ns("Withdrawal"),
-            "Withdrawal of Study",
-            choices = c("Yes" = 0, "No" = 1),
-            selected = hold$Withdrawal,
-            inline = T
-          ),
-          conditionalPanel(
-            "input.Withdrawal == 0",
-            ns = ns,
-            dateInput(
-              "Withdrawal_date",
-              "",
-              language = "ko"
+          fluidRow(
+            column(
+              width = 3,
+              shinyjs::disabled(
+                radioButtons(
+                  ns("pid_demo"),
+                  "Subject No :",
+                  hold$pid,
+                  hold$pid,
+                  inline = T
+                )
+              )
             ),
-            textInput(
-              "Withdrawal_reason",
-              label = "Reason",
-              value = ifelse(is.null(hold), NA, hold$Withdrawal_reason)
+            column(
+              width = 3,
+              shinyjs::disabled(
+                radioButtons(
+                  ns("Group"),
+                  "Allocation Group :",
+                  hold$Group,
+                  hold$Group,
+                  inline = T
+                )
+              )
             ),
+            column(
+              width = 3,
+              textInput(
+                ns("Initial"),
+                "Initial",
+                value = hold$Initial
+              )
+            ),
+            column(
+              width = 3,
+              dateInput(
+                ns("Agree_Date"),
+                "동의서 서명일",
+                value = lubridate::as_date(as.numeric(hold$Agree_Date)),
+                language = "ko"
+              )
+            )
           ),
-          textAreaInput(
-            ns("Comment_demo"),
-            "Comment",
-            width = "400px",
-            height = "100px"
+          fluidRow(
+            column(
+              width = 3,
+              dateInput(
+                ns("Index_PCI_Date"),
+                "시술일자",
+                value = lubridate::as_date(as.numeric(hold$Index_PCI_Date)),
+                language = "ko"
+              )
+            ),
+            column(
+              width = 3,
+              dateInput(
+                ns("Birthday"),
+                "Date of Birth",
+                value = lubridate::as_date(hold$Birthday),
+                language = "ko"
+              )
+            ),
+            column(
+              width = 3,
+              shinyjs::disabled(
+                numericInput(
+                  ns("Age"),
+                  "Age",
+                  value = ifelse(is.null(hold), "", hold$Age),
+                  min = 0, max = 120,
+                  step = 1
+                )
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("Sex"),
+                "Sex",
+                choices = c("M", "F"),
+                selected = hold$Sex, inline = T
+              )
+            )
+          ),
+          fluidRow(
+            column(
+              width = 3,
+              radioButtons(
+                ns("Withdrawal"),
+                "Withdrawal of Study",
+                choices = c("Yes" = 0, "No" = 1),
+                selected = hold$Withdrawal,
+                inline = T
+              ),
+              conditionalPanel(
+                "input.Withdrawal == 0",
+                ns = ns,
+                dateInput(
+                  "Withdrawal_date",
+                  "Date",
+                  language = "ko"
+                ),
+                textInput(
+                  "Withdrawal_reason",
+                  label = "Reason",
+                  value = ifelse(is.null(hold), "", hold$Withdrawal_reason)
+                ),
+              )
+            )
           ),
           title = modal_title,
           size = "l",
