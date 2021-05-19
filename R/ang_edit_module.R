@@ -593,7 +593,8 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("Cul_cnt_ang"),
               label = "Culprit Lesion 개수",
-              min = 0, max = 2, step = 1, value = 0
+              min = 0, max = 2, step = 1, 
+              value = ifelse(is.null(hold), 0, hold$Cul_cnt_ang)
             )
           ),
           column(

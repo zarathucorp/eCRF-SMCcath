@@ -204,6 +204,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ids.na.cul1 <- ids[apply(select(out, Vessel_cul1:Perforation_cul1), 1, function(x) {
       any(is.na(x) | x == "")
     })]
+    
+    
 
     # cul1 button color
     cul1 <- sapply(ids, function(id_) {
@@ -225,9 +227,20 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       any(is.na(x) | x == "")
     })]
     
+    # ids <- out$pid
+    
+    ids.na.cul2 <- ids[apply(select(out, Cul_cnt_ang), 1, function(x){
+      any(is.na(x) | x < 2)
+    })]
+    
+    
+    # 1 or 0 이면 cul 2 <- primary 가 나와야 함.
+    
     # cul2 button color
     cul2 <- sapply(ids, function(id_) {
-      btn.demo <- ifelse(id_ %in% ids.na.cul2, "warning", "success")
+      
+      # btn.demo <- ifelse(id_ %in% ids.na.cul2, "primary", "success")
+      btn.demo <- ifelse(id_ %in% ids.na.cul2, 'primary','info')
       paste0(
         "<center>",
         '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit Culprit2">',
