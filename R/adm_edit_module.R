@@ -34,7 +34,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit0"),
+                ns("submit"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -49,7 +49,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("Height"),
               "Height",
-              value = ifelse(is.null(hold), NA, hold$Height),
+              value = ifelse(is.null(hold), "", hold$Height),
               min = 0, max = 200,
               step = .1
             )
@@ -59,7 +59,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("Weight"),
               "Weight",
-              value = ifelse(is.null(hold), NA, hold$Weight),
+              value = ifelse(is.null(hold), "", hold$Weight),
               min = 0, max = 120,
               step = .1
             )
@@ -96,7 +96,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("SBP_adm"),
               "Systolic BP",
-              value = ifelse(is.null(hold), NA, hold$SBP_adm),
+              value = ifelse(is.null(hold), "", hold$SBP_adm),
               min = 0, max = 200,
               step = 1
             )
@@ -106,7 +106,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("DBP_adm"),
               "Diastolic BP",
-              value = ifelse(is.null(hold), NA, hold$DBP_adm),
+              value = ifelse(is.null(hold), "", hold$DBP_adm),
               min = 0, max = 200,
               step = 1
             )
@@ -116,7 +116,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("HR_adm"),
               "Heart Rate",
-              value = ifelse(is.null(hold), NA, hold$HR_adm),
+              value = ifelse(is.null(hold), "", hold$HR_adm),
               min = 0, max = 200,
               step = 1
             )
@@ -788,7 +788,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   )
                 )
               ),
-              value = ifelse(is.null(hold), NA, hold$HDL_adm),
+              value = ifelse(is.null(hold), "", hold$HDL_adm),
             )
           ),
           column(
@@ -805,7 +805,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   )
                 )
               ),
-              value = ifelse(is.null(hold), NA, hold$BUN_adm),
+              value = ifelse(is.null(hold), '', hold$BUN_adm),
             )
           )
         ),
@@ -825,7 +825,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   )
                 )
               ),
-              value = ifelse(is.null(hold), NA, hold$LDL_adm),
+              value = ifelse(is.null(hold), "", hold$LDL_adm),
             )
           ),
           column(
@@ -842,7 +842,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   )
                 )
               ),
-              value = ifelse(is.null(hold), NA, hold$Cr_adm),
+              value = ifelse(is.null(hold), "", hold$Cr_adm),
             )
           ),
           column(
@@ -859,7 +859,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   )
                 )
               ),
-              value = ifelse(is.null(hold), NA, hold$FG_adm),
+              value = ifelse(is.null(hold), "", hold$FG_adm),
             )
           ),
           column(
@@ -876,7 +876,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   )
                 )
               ),
-              value = ifelse(is.null(hold), NA, hold$MDRD_adm),
+              value = ifelse(is.null(hold), "", hold$MDRD_adm),
             )
           )
         ),
@@ -895,7 +895,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   )
                 )
               ),
-              value = ifelse(is.null(hold), NA, hold$HbA1C_adm),
+              value = ifelse(is.null(hold), "", hold$HbA1C_adm),
             )
           ),
           column(
@@ -912,7 +912,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   )
                 )
               ),
-              value = ifelse(is.null(hold), NA, hold$AST_adm),
+              value = ifelse(is.null(hold), "", hold$AST_adm),
             )
           ),
           column(
@@ -929,7 +929,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   )
                 )
               ),
-              value = ifelse(is.null(hold), NA, hold$hs_CRP_adm),
+              value = ifelse(is.null(hold), "", hold$hs_CRP_adm),
             )
           ),
           column(
@@ -946,7 +946,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   )
                 )
               ),
-              value = ifelse(is.null(hold), NA, hold$ALT_adm)
+              value = ifelse(is.null(hold), "", hold$ALT_adm)
             )
           )
         ),
@@ -965,7 +965,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   )
                 )
               ),
-              value = ifelse(is.null(hold), NA, hold$NT_Pro_BNP_adm),
+              value = ifelse(is.null(hold), "", hold$NT_Pro_BNP_adm),
             )
           ),
           column(
@@ -1028,7 +1028,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("BCK_adm"),
               "",
-              value = ifelse(is.null(hold), NA, hold$BCK_adm),
+              value = ifelse(is.null(hold), "", hold$BCK_adm),
               min = 0, max = 120,
               step = 1
             )
@@ -1038,7 +1038,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("BCKMB_adm"),
               "",
-              value = ifelse(is.null(hold), NA, hold$BCKMB_adm),
+              value = ifelse(is.null(hold), "", hold$BCKMB_adm),
               min = 0, max = 120,
               step = .01
             )
@@ -1048,7 +1048,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("BTroT_adm"),
               "",
-              value = ifelse(is.null(hold), NA, hold$BTroT_adm),
+              value = ifelse(is.null(hold), "", hold$BTroT_adm),
               min = 0, max = 120,
               step = .001
             )
@@ -1064,7 +1064,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("PCK_adm"),
               "",
-              value = ifelse(is.null(hold), NA, hold$PCK_adm),
+              value = ifelse(is.null(hold), "", hold$PCK_adm),
               min = 0, max = 120,
               step = 1
             )
@@ -1074,7 +1074,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("PCKMB_adm"),
               "",
-              value = ifelse(is.null(hold), NA, hold$PCKMB_adm),
+              value = ifelse(is.null(hold), "", hold$PCKMB_adm),
               min = 0, max = 120,
               step = .01
             )
@@ -1084,7 +1084,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("PTroT_adm"),
               "",
-              value = ifelse(is.null(hold), NA, hold$PTroT_adm),
+              value = ifelse(is.null(hold), "", hold$PTroT_adm),
               min = 0, max = 120,
               step = .001
             )
@@ -1353,18 +1353,18 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               style = "float:right;"
             ),
             actionButton(
-              ns("submit"),
+              inputId = ns('submit7'),
               HTML('<i class="fas fa-check"></i>'),
               class = "btn",
               style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
             )
           ),
-        # modal_title,
+        modal_title,
         size = "l",
         footer = list(
           modalButton("Cancel"),
           actionButton(
-            ns("submit"),
+            inputId = ns("submit8"),
             "Submit",
             class = "btn btn-primary",
             style = "color: white"
@@ -1389,8 +1389,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     })
   })
   
-  observeEvent(
-    {
+  observeEvent({
       input$Height
       input$Weight
     },
@@ -1613,22 +1612,39 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     out
   })
   
-  validate_edit <- eventReactive({
-    input$submit
-    input$submit1
-    input$submit2
-    input$submit3
-    input$submit4
-    input$submit5
-    input$submit6
-    }, {
-    dat <- edit_car_dat()
-    # Logic to validate inputs...
-    
-    dat
+ 
+  callEdit <- reactive({
+    list(
+        input$submit,
+        input$submit1,
+        input$submit2,
+        input$submit3,
+        input$submit4,
+        input$submit5,
+        input$submit6,
+        input$submit7,
+        input$submit8
+      )
   })
   
-  observeEvent(validate_edit(), {
+  # Reference : https://stackoverflow.com/questions/41960953/how-to-listen-for-more-than-one-event-expression-within-a-shiny-observeevent
+  
+  validate_edit <- eventReactive(
+    eventExpr = callEdit(),
+    valueExpr = {
+      if(input$submit == 0 && input$submit1 == 0 && input$submit2 == 0 && 
+         input$submit3 == 0 && input$submit4 == 0&& input$submit5 == 0 && 
+         input$submit6 == 0&& input$submit7 == 0&& input$submit8 == 0){return()}
+    dat <- edit_car_dat()
+    # Logic to validate inputs...
+    dat
+  },ignoreInit = TRUE)
+  
+  
+  observeEvent({
+    validate_edit()
+    }
+    , {
     removeModal()
     dat <- validate_edit()
     hold <- car_to_edit()
