@@ -1,4 +1,4 @@
-#' outc Add & Edit Module
+#' discharge Add & Edit Module
 #'
 #' Module to add & edit cars in the mtcars database file
 #'
@@ -24,20 +24,54 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
 
     showModal(
       modalDialog(
-        dateInput(
-          ns("Discharge_out"),
-          "Date of Discharge",
-          value = hold$Discharge_out,
-          language = "kr"
+        tags$div(
+          HTML(
+            paste0(
+              '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+              "Title A",
+              tags$div(
+                modalButton("", icon("times")),
+                style = "float:right;"
+              ),
+              actionButton(
+                ns("submit0"),
+                HTML('<i class="fas fa-check"></i>'),
+                class = "btn",
+                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+              )
+            ),
+            "</h3>"
+          )
         ),
-        radioButtons(
-          ns("General_out"),
-          label = "General Complication",
-          choices = c("Yes" = 0, "No" = 1),
-          inline = TRUE
+        fluidRow(
+          column(
+            width = 6,
+            dateInput(
+              ns("Discharge_out"),
+              "Date of Discharge",
+              value = ifelse(is.null(hold), "", lubridate::as_date(hold$Discharge_out)),
+              language = "ko"
+            )
+          ),
+          column(
+            width = 6,
+            radioButtons(
+              ns("General_out"),
+              label = "General Complication",
+              choices = c("Yes" = 0, "No" = 1),
+              inline = TRUE,
+              selected = character(0)
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 12,
+          )
         ),
         conditionalPanel(
-          "input.General_out.includes('0')",
+          "input.General_out == 0",
+          ns = ns,
           checkboxGroupInput(
             ns("General_detail_out"),
             label = "",
@@ -48,335 +82,601 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               "AV Fistula" = 10, "Peripheral Embolization" = 11, "Pseudoaneurysm" = 12,
               "CIN" = 13, "Others" = 14
             ),
-            selected = NULL,
+            selected = ifelse(is.null(hold), character(0), hold$General_detail_out),
             inline = TRUE
           ),
           conditionalPanel(
-            "input.General_detail_out.includes('14')",
+            "input.General_detail_out == 14",
+            ns = ns,
             textInput(
               "General_detail_others_out",
-              label = "",
-              value = ifelse(is.null(hold), NA, hold$General_detail_others_out)
+              label = "Detail",
+              value = ifelse(is.null(hold), "", hold$General_detail_others_out)
             ),
           )
         ),
-
-        # Medication Data
-
-        radioButtons(
-          ns("Aspirin_out"),
-          label = "Aspirin",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Aspirin_out
-        ),
-        radioButtons(
-          ns("Clopidogrel_out"),
-          label = "Clopidogrel",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Clopidogrel_out
-        ),
-        radioButtons(
-          ns("Prasugrel_out"),
-          label = "Prasugrel",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Prasugrel_out
-        ),
-        radioButtons(
-          ns("Ticagrelor_out"),
-          label = "Ticagrelor",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Ticagrelor_out
-        ),
-        radioButtons( # Beta Blocker
-          ns("BB_out"),
-          label = "Beta Blocker",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$BB_out
-        ),
-        radioButtons(
-          ns("WN_out"),
-          label = "Wafarin or NOAC",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$WN_out
-        ),
-        radioButtons(
-          ns("Statin_out"),
-          label = "Statin",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Statin_out
-        ),
-        radioButtons(
-          ns("ACE_out"),
-          label = "ACE Inhibitor or ARB",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$ACE_out
-        ),
-        radioButtons(
-          ns("Nitrate_out"),
-          label = "Nitrate (Sigmart)",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Nitrate_out
-        ),
-        radioButtons(
-          ns("Calcium_out"),
-          label = "Calcium channel antagonist",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Calcium_out
-        ),
-        radioButtons(
-          ns("Trimetazidine_out"),
-          label = "Trimetazidine (Vastinan)",
-          choices = c("Yes" = 0, "No" = 1),
-          selected = hold$Trimetazidine_out
-        ),
-
-        # Clinical Events
-
-        radioButtons(
-          ns("Events_out"),
-          label = "Clinical Events",
-          choices = c("Yes" = 0, "No" = 1),
-          inline = TRUE
-        ),
-        conditionalPanel(
-          "input.Events_out == 0",
-          checkboxGroupInput(
-            ns("Events_detail_out"),
-            label = "",
-            choices = c("Death" = 0, "MI" = 1, "Repeat Revascularization" = 2, "Stent Thrombosis" = 3, "CVA" = 4),
-            selected = NULL,
-            inline = TRUE
+        tags$div(
+          HTML(
+            paste0(
+              '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+              "Medication",
+              tags$div(
+                modalButton("", icon("times")),
+                style = "float:right;"
+              ),
+              actionButton(
+                ns("submit0"),
+                HTML('<i class="fas fa-check"></i>'),
+                class = "btn",
+                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+              )
+            ),
+            "</h3>"
           )
         ),
-
-        # Death
-
-        conditionalPanel(
-          'input.Events_out.includes("0")',
-          dateInput(
-            ns("Death_date_out"),
-            "",
-            value = hold$Death_date_out,
-            language = "kr"
+        fluidRow(
+          column(
+            width = 3,
+            radioButtons(
+              ns("Aspirin_out"),
+              label = "Aspirin",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Aspirin_out
+            )
           ),
-          radioButtons(
-            ns("Death_cause_out"),
-            "",
-            choices = c("Cardiac Death" = 0, "Non-Cardiovascular Death" = 1, "Unknown Origin Death" = 2),
-            selected = NULL,
-            inline = TRUE
+          column(
+            width = 3,
+            radioButtons(
+              ns("Clopidogrel_out"),
+              label = "Clopidogrel",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Clopidogrel_out
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Prasugrel_out"),
+              label = "Prasugrel",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Prasugrel_out
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Ticagrelor_out"),
+              label = "Ticagrelor",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Ticagrelor_out
+            )
           )
         ),
+        fluidRow(
+          column(
+            width = 3,
+            radioButtons( # Beta Blocker
+              ns("BB_out"),
+              label = "Beta Blocker",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$BB_out
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("WN_out"),
+              label = "Wafarin or NOAC",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$WN_out
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Statin_out"),
+              label = "Statin",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Statin_out
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("ACE_out"),
+              label = "ACE Inhibitor or ARB",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$ACE_out
+            )
+          )
+        ),
+        fluidRow(
+          column(
+            width = 3,
+            radioButtons(
+              ns("Nitrate_out"),
+              label = "Nitrate (Sigmart)",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Nitrate_out
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Calcium_out"),
+              label = "Calcium channel antagonist",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Calcium_out
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Trimetazidine_out"),
+              label = "Trimetazidine (Vastinan)",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Trimetazidine_out
+            )
+          )
+        ),
+        tags$div(
+          HTML(
+            paste0(
+              '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+              "Clinical Events",
+              tags$div(
+                modalButton("", icon("times")),
+                style = "float:right;"
+              ),
+              actionButton(
+                ns("submit0"),
+                HTML('<i class="fas fa-check"></i>'),
+                class = "btn",
+                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+              )
+            ),
+            "</h3>"
+          )
+        ),
+        fluidRow(
+          column(
+            width = 4,
+            radioButtons(
+              ns("Events_out"),
+              label = "Clinical Events",
+              choices = c("Yes" = 0, "No" = 1),
+              inline = TRUE,
+              selected = character(0)
+            )
+          ),
+          column(
+            width = 8,
+            conditionalPanel(
+              "input.Events_out == 0 ",
+              ns = ns,
+              checkboxGroupInput(
+                ns("Events_detail_out"),
+                label = "Detail",
+                choices = c("Death" = 0, "MI" = 1, "Repeat Revascularization" = 2, "Stent Thrombosis" = 3, "CVA" = 4),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
+          )
+        ),
+        conditionalPanel(
+          'input.Events_detail_out.includes("0")',
+          ns = ns,
+          tags$div(
+            HTML(
+              paste0(
+                '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+                "Death",
+                tags$div(
+                  modalButton("", icon("times")),
+                  style = "float:right;"
+                ),
+                actionButton(
+                  ns("submit0"),
+                  HTML('<i class="fas fa-check"></i>'),
+                  class = "btn",
+                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                )
+              ),
+              "</h3>"
+            )
+          ),
+          fluidRow(
+            column(
+              width = 4,
+              dateInput(
+                ns("Death_date_out"),
+                "Date",
+                value = hold$Death_date_out,
+                language = "ko"
+              )
+            ),
+            column(
+              width = 8,
+              radioButtons(
+                ns("Death_cause_out"),
+                "Cause",
+                choices = c("Cardiac Death" = 0, "Non-Cardiovascular Death" = 1, "Unknown Origin Death" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
+          )
+        ),
+
 
         # Myocardial Infarction
 
         conditionalPanel(
-          'input.Events_out.includes("1")',
-          dateInput(
-            ns("MI_date_out"),
-            "Date",
-            value = hold$MI_date_out,
-            language = "kr"
+          'input.Events_detail_out.includes("1")',
+          ns = ns,
+          tags$div(
+            HTML(
+              paste0(
+                '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+                "Myocardial Infarction",
+                tags$div(
+                  modalButton("", icon("times")),
+                  style = "float:right;"
+                ),
+                actionButton(
+                  ns("submit0"),
+                  HTML('<i class="fas fa-check"></i>'),
+                  class = "btn",
+                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                )
+              ),
+              "</h3>"
+            )
           ),
-          textInput(
-            "MI_Segment_out",
-            label = "Segment",
-            value = ifelse(is.null(hold), NA, hold$MI_Segment_out)
-          ),
-          radioButtons(
-            ns("MI_Type_out"),
-            "Type",
-            choices = c("STEMI" = 0, "NSTEMI" = 1),
-            selected = NULL,
-            inline = TRUE
-          ),
-
-          # ? 72시간 이나에 CK_MB > URL * 10 Or URL*5 + 도움말 참조
-          radioButtons(
-            ns("MI_Pre_out"),
-            "Pre Procedural MI",
-            choices = c("Yes" = 0, "No" = 1),
-            selected = NULL,
-            inline = TRUE
-          ),
-          radioButtons(
-            ns("MI_ST_out"),
-            "Related with Stent Thrombosis",
-            choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
-            selected = NULL,
-            inline = TRUE
-          ),
-          radioButtons(
-            ns("MI_TL_out"),
-            "Related with Target Lesion",
-            choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
-            selected = NULL,
-            inline = TRUE
-          ),
-          radioButtons(
-            ns("MI_TV_out"),
-            "Related with Target Vessel",
-            choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
-            selected = NULL,
-            inline = TRUE
-          ),
-          checkboxGroupInput(
-            ns("MI_Treat_out"),
-            label = "Type of Treatment",
-            choices = c("Medication Only" = 0, "Thrombolysis" = 1, "only Ballooning" = 2, "Stenting" = 3, "Bypass Surgery" = 4),
-            selected = NULL,
-            inline = TRUE
-          ),
-          radioButtons(
-            ns("MI_After_out"),
-            "After Treatment",
-            choices = c("Recovered" = 0, "Death" = 1, "Unknown" = 2),
-            selected = NULL,
-            inline = TRUE
-          )
-        ),
-
-
-        # Revascularization
-
-        conditionalPanel(
-          'input.Events_out.includes("2")',
-          dateInput(
-            ns("RV_date_out"),
-            "Date",
-            value = hold$RV_date_out,
-            language = "kr"
-          ),
-          textInput(
-            "RV_Segment_out",
-            label = "Segment",
-            value = ifelse(is.null(hold), NA, hold$RV_Segment_out)
-          ),
-          radioButtons(
-            ns("RV_CD_out"),
-            "Clinically Driven",
-            choices = c("Yes" = 0, "No" = 1),
-            selected = NULL,
-            inline = TRUE
-          ),
-          radioButtons(
-            ns("RV_ID_out"),
-            "Ischemia Driven",
-            choices = c("Yes" = 0, "No" = 1),
-            selected = NULL,
-            inline = TRUE
-          ),
-          checkboxGroupInput(
-            ns("RV_Treat_out"),
-            label = "Type of Treatment",
-            choices = c("only Ballooning" = 0, "Stenting" = 1, "Bypass Surgery" = 2),
-            selected = NULL,
-            inline = TRUE
-          ),
-          radioButtons(
-            ns("RV_TL_out"),
-            "Related with Target Lesion",
-            choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
-            selected = NULL,
-            inline = TRUE
-          ),
-          radioButtons(
-            ns("RV_TV_out"),
-            "Related with Target Vessel",
-            choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
-            selected = NULL,
-            inline = TRUE
-          ),
-          radioButtons(
-            ns("RV_AVP_out"),
-            "Another Vessel PCI",
-            choices = c("Yes" = 0, "No" = 1),
-            selected = NULL,
-            inline = TRUE
-          )
-        ),
-
-        # Stent Thrombosis
-
-        conditionalPanel(
-          'input.Events_out.includes("3")',
-          dateInput(
-            ns("ST_date_out"),
-            "Date",
-            value = hold$ST_date_out,
-            language = "kr"
-          ),
-          textInput(
-            "ST_Segment_out",
-            label = "Segment",
-            value = ifelse(is.null(hold), NA, hold$ST_Segment_out)
-          ),
-          radioButtons(
-            ns("ST_Type_out"),
-            "Type",
-            choices = c("Acute (< 1d)" = 0, "Subacute (1-30d)" = 1, "Late (>1m)" = 2, "Very Late(>1y)" = 3),
-            selected = NULL,
-            inline = TRUE
-          ),
-          radioButtons(
-            ns("ST_ARC_out"),
-            "ARC",
-            choices = c("Definite/Confirmed" = 0, "Probable" = 1, "Possible" = 2),
-            selected = NULL,
-            inline = TRUE
-          ),
-          checkboxGroupInput(
-            ns("ST_Clinical_out"),
-            label = "Clinical Features",
-            choices = c("Sudden Death" = 0, "STEMI" = 1, "NSTEMI" = 2, "Unstable Angina" = 3, "Stable Angina" = 4, "Other" = 5),
-            selected = NULL,
-            inline = TRUE
-          ),
-          conditionalPanel(
-            "input.ST_Clinical_out == 5",
-            textInput(
-              "ST_Clinical_other_out",
-              label = "",
-              value = ifelse(is.null(hold), NA, hold$ST_Clinical_other_out)
+          fluidRow(
+            column(
+              width = 3,
+              dateInput(
+                ns("MI_date_out"),
+                "Date",
+                value = hold$MI_date_out,
+                language = "ko"
+              )
             ),
+            column(
+              width = 3,
+              textInput(
+                "MI_Segment_out",
+                label = "Segment",
+                value = ifelse(is.null(hold), NA, hold$MI_Segment_out)
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("MI_Type_out"),
+                "Type",
+                choices = c("STEMI" = 0, "NSTEMI" = 1),
+                selected = character(0),
+                inline = TRUE
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("MI_Pre_out"),
+                "Pre Procedural MI",
+                choices = c("Yes" = 0, "No" = 1),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
           ),
-        ),
-
-        # CVA
-
-        conditionalPanel(
-          'input.Events_out.includes("4")',
-          dateInput(
-            ns("CVA_date_out"),
-            "Date",
-            value = hold$CVA_date_out,
-            language = "kr"
+          fluidRow(
+            column(
+              width = 4,
+              radioButtons(
+                ns("MI_ST_out"),
+                "Related with Stent Thrombosis",
+                choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            ),
+            column(
+              width = 4,
+              radioButtons(
+                ns("MI_TL_out"),
+                "Related with Target Lesion",
+                choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            ),
+            column(
+              width = 4,
+              radioButtons(
+                ns("MI_TV_out"),
+                "Related with Target Vessel",
+                choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
           ),
-          radioButtons(
-            ns("CVA_Type_out"),
-            "Type",
-            choices = c("Ischemic" = 0, "Hemorrhagic" = 1, "Unknown" = 2),
-            selected = NULL,
-            inline = TRUE
-          ),
-          radioButtons(
-            ns("CVA_VIS_out"),
-            "Verified with Imaging Studies",
-            choices = c("Yes" = 0, "No" = 1),
-            selected = NULL,
-            inline = TRUE
+          fluidRow(
+            column(
+              width = 8,
+              checkboxGroupInput(
+                ns("MI_Treat_out"),
+                label = "Type of Treatment",
+                choices = c("Medication Only" = 0, "Thrombolysis" = 1, "only Ballooning" = 2, "Stenting" = 3, "Bypass Surgery" = 4),
+                selected = character(0),
+                inline = TRUE
+              ),
+            ),
+            column(
+              width = 4,
+              radioButtons(
+                ns("MI_After_out"),
+                "After Treatment",
+                choices = c("Recovered" = 0, "Death" = 1, "Unknown" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
           )
         ),
-
-        # Any AE / SAE ...
-
-        textAreaInput(
-          ns("Comment_out"),
-          "Comment",
-          width = "400px",
-          height = "100px",
-          value =  ifelse(is.null(hold$Comment_out), "", hold$Comment_out),
+        conditionalPanel(
+          'input.Events_detail_out.includes("2")',
+          ns = ns,
+          tags$div(
+            HTML(
+              paste0(
+                '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+                "Revascularization",
+                tags$div(
+                  modalButton("", icon("times")),
+                  style = "float:right;"
+                ),
+                actionButton(
+                  ns("submit0"),
+                  HTML('<i class="fas fa-check"></i>'),
+                  class = "btn",
+                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                )
+              ),
+              "</h3>"
+            )
+          ),
+          fluidRow(
+            column(
+              width = 3,
+              dateInput(
+                ns("RV_date_out"),
+                "Date",
+                value = hold$RV_date_out,
+                language = "ko"
+              )
+            ),
+            column(
+              width = 3,
+              textInput(
+                "RV_Segment_out",
+                label = "Segment",
+                value = ifelse(is.null(hold), "", hold$RV_Segment_out)
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("RV_CD_out"),
+                "Clinically Driven",
+                choices = c("Yes" = 0, "No" = 1),
+                selected = character(0),
+                inline = TRUE
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("RV_ID_out"),
+                "Ischemia Driven",
+                choices = c("Yes" = 0, "No" = 1),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
+          ),
+          fluidRow(
+            column(
+              width = 3,
+              checkboxGroupInput(
+                ns("RV_Treat_out"),
+                label = "Type of Treatment",
+                choices = c("only Ballooning" = 0, "Stenting" = 1, "Bypass Surgery" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("RV_TL_out"),
+                "Related with Target Lesion",
+                choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("RV_TV_out"),
+                "Related with Target Vessel",
+                choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("RV_AVP_out"),
+                "Another Vessel PCI",
+                choices = c("Yes" = 0, "No" = 1),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
+          )
         ),
+        conditionalPanel(
+          'input.Events_detail_out.includes("3")',
+          ns = ns,
+          tags$div(
+            HTML(
+              paste0(
+                '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+                "Stent Thrombosis",
+                tags$div(
+                  modalButton("", icon("times")),
+                  style = "float:right;"
+                ),
+                actionButton(
+                  ns("submit0"),
+                  HTML('<i class="fas fa-check"></i>'),
+                  class = "btn",
+                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                )
+              ),
+              "</h3>"
+            )
+          ),
+          fluidRow(
+            column(
+              width = 2,
+              dateInput(
+                ns("ST_date_out"),
+                "Date",
+                value = hold$ST_date_out,
+                language = "ko"
+              )
+            ),
+            column(
+              width = 2,
+              textInput(
+                "ST_Segment_out",
+                label = "Segment",
+                value = ifelse(is.null(hold), "", hold$ST_Segment_out)
+              )
+            ),
+            column(
+              width = 8,
+              radioButtons(
+                ns("ST_Type_out"),
+                "Type",
+                choices = c("Acute (< 1d)" = 0, "Subacute (1-30d)" = 1, "Late (>1m)" = 2, "Very Late(>1y)" = 3),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
+          ),
+          fluidRow(
+            column(
+              width = 4,
+              radioButtons(
+                ns("ST_ARC_out"),
+                "ARC",
+                choices = c("Definite/Confirmed" = 0, "Probable" = 1, "Possible" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            ),
+            column(
+              width = 8,
+              checkboxGroupInput(
+                ns("ST_Clinical_out"),
+                label = "Clinical Features",
+                choices = c("Sudden Death" = 0, "STEMI" = 1, "NSTEMI" = 2, "Unstable Angina" = 3, "Stable Angina" = 4, "Other" = 5),
+                selected = character(0),
+                inline = TRUE
+              ),
+              conditionalPanel(
+                "input.ST_Clinical_out == 5",
+                ns = ns,
+                textInput(
+                  "ST_Clinical_other_out",
+                  label = "Detail",
+                  value = ifelse(is.null(hold), "", hold$ST_Clinical_other_out)
+                )
+              )
+            )
+          )
+        ),
+        conditionalPanel(
+          'input.Events_detail_out.includes("4")',
+          ns = ns,
+          tags$div(
+            HTML(
+              paste0(
+                '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+                "CVA",
+                tags$div(
+                  modalButton("", icon("times")),
+                  style = "float:right;"
+                ),
+                actionButton(
+                  ns("submit0"),
+                  HTML('<i class="fas fa-check"></i>'),
+                  class = "btn",
+                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                )
+              ),
+              "</h3>"
+            )
+          ),
+          fluidRow(
+            column(
+              width = 2,
+              dateInput(
+                ns("CVA_date_out"),
+                "Date",
+                value = hold$CVA_date_out,
+                language = "ko"
+              )
+            ),
+            column(
+              width = 5,
+              radioButtons(
+                ns("CVA_Type_out"),
+                "Type",
+                choices = c("Ischemic" = 0, "Hemorrhagic" = 1, "Unknown" = 2),
+                selected = character(0),
+                inline = TRUE
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("CVA_VIS_out"),
+                "Verified with Imaging Studies",
+                choices = c("Yes" = 0, "No" = 1),
+                selected = character(0),
+                inline = TRUE
+              )
+            )
+          )
+        ),
+        # Any AE / SAE ...
+        # textAreaInput(
+        #   ns("Comment_out"),
+        #   "Comment",
+        #   width = "400px",
+        #   height = "100px",
+        #   value =  ifelse(is.null(hold$Comment_out), "", hold$Comment_out),
+        # ),
         title = modal_title,
         size = "l",
         footer = list(

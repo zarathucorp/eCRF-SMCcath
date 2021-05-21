@@ -204,6 +204,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     ids.na.cul1 <- ids[apply(select(out, Vessel_cul1:Perforation_cul1), 1, function(x) {
       any(is.na(x) | x == "")
     })]
+    
+    
 
     # cul1 button color
     cul1 <- sapply(ids, function(id_) {
@@ -225,9 +227,20 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       any(is.na(x) | x == "")
     })]
     
+    # ids <- out$pid
+    
+    ids.na.cul2 <- ids[apply(select(out, Cul_cnt_ang), 1, function(x){
+      any(is.na(x) | x < 2)
+    })]
+    
+    
+    # 1 or 0 이면 cul 2 <- primary 가 나와야 함.
+    
     # cul2 button color
     cul2 <- sapply(ids, function(id_) {
-      btn.demo <- ifelse(id_ %in% ids.na.cul2, "warning", "success")
+      
+      # btn.demo <- ifelse(id_ %in% ids.na.cul2, "primary", "success")
+      btn.demo <- ifelse(id_ %in% ids.na.cul2, 'primary','info')
       paste0(
         "<center>",
         '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit Culprit2">',
@@ -476,11 +489,13 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     # Remove the `uid` column. We don't want to show this column to the user
     # out <- out %>%
     #  select(-pid)
-
+    
+    # print(colnames(out)[500:ncol(out)])
+    
     # Set the Action Buttons row to the first column of the `mtcars` table
     out <- cbind(
       tibble(" " = deletes),
-      out[, 1:4],
+      out[, c(1,2,4,8,9)], # pid, Group, Initial, Age, Sex
       `Demographics` = actions,
       `Admission` = adm,
       `Angiographics` = ang,
@@ -491,16 +506,11 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       `Non-Culprit2` = culn2,
       `Non-Culprit3` = culn3,
       `Non-Culprit4` = culn4,
-      out[, 5:24], # Initial ~ Hx_AF
-      # `Events` = events,
-      out[, 25:40], # Last_FU_Date ~ TLF_Date
-      # `Labs` = labs,
-      out[, 41:63], # Lab_Date:Lactic_Acid_Peak
       `1m-fu` = m1,
       `3m-fu` = m3,
       `6m-fu` = m6,
       `scv` = mf,
-      out[, 64:ncol(out)]
+      out[,(ncol(out)-4):ncol(out)] # Created at, Created by, Modified at, Modified by
     )
 
     # Data is empty
@@ -545,17 +555,25 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
           )
         ),
         columnDefs = list(
-          list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", 
-                                                 "Angiographics", "Culprit1", "Culprit2", 
-                                                 "Non-Culprit1", "Non-Culprit2", "Non-Culprit3", "Non-Culprit4", 
-                                                 "Discharge", "1m-fu", "3m-fu", "6m-fu", "scv")) - 1, orderable = FALSE),
-          list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", 
-                                                   "Angiographics", "Culprit1", "Culprit2", 
-                                                   "Non-Culprit1", "Non-Culprit2", "Non-Culprit3", "Non-Culprit4", 
-                                                   "Discharge", "1m-fu", "3m-fu", "6m-fu", "scv", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
-
-          # list(targets = which(names(out) %in% c(" ", "Demographics", "Admission", "Events", "Labs", "M1", "M3", "M6", "Mf")) - 1, orderable = FALSE),
-          # list(targets = which(!(names(out) %in% c(" ", "Demographics", "Admission", "Events", "Labs", "M1", "M3", "M6","Mf", "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, visible = F)
+          # not sortable columns 
+          list(
+            targets = which(names(out) %in% 
+                              c(" ", "Demographics", "Admission", 
+                                "Angiographics", "Culprit1", "Culprit2", 
+                                "Non-Culprit1", "Non-Culprit2", "Non-Culprit3", "Non-Culprit4", 
+                                "Discharge", "1m-fu", "3m-fu", "6m-fu", "scv")) - 1, 
+            orderable = FALSE
+          ),
+          # show these columns
+          list(
+            targets = which(!(names(out) %in% 
+                                c(" ", "Demographics", "Admission", 
+                                  "Angiographics", "Culprit1", "Culprit2", 
+                                  "Non-Culprit1", "Non-Culprit2", "Non-Culprit3", "Non-Culprit4", 
+                                  "Discharge", "1m-fu", "3m-fu", "6m-fu", "scv", 
+                                  "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, 
+            visible = F
+          )
         ),
         drawCallback = JS("function(settings) {
           // removes any lingering tooltips
