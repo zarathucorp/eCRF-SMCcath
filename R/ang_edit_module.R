@@ -82,7 +82,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit0"),
+                ns("submit1"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -207,7 +207,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit0"),
+                ns("submit2"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -334,7 +334,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   style = "float:right;"
                 ),
                 actionButton(
-                  ns("submit0"),
+                  ns("submit3"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
                   style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -444,7 +444,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   style = "float:right;"
                 ),
                 actionButton(
-                  ns("submit0"),
+                  ns("submit4"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
                   style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -551,7 +551,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit0"),
+                ns("submit5"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -593,8 +593,10 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("Cul_cnt_ang"),
               label = "Culprit Lesion 개수",
-              min = 0, max = 2, step = 1, 
-              value = ifelse(is.null(hold), 0, hold$Cul_cnt_ang)
+              min = 0, 
+              max = 2, 
+              step = 1, 
+              value = ifelse(is.null(hold$Cul_cnt_ang), 0, hold$Cul_cnt_ang)
             )
           ),
           column(
@@ -602,7 +604,10 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             numericInput(
               ns("Non_Cul_cnt_ang"),
               label = "Non-Culprit Lesion 개수",
-              min = 0, max = 4, step = 1, value = 0
+              min = 0, 
+              max = 4, 
+              step = 1, 
+              value = ifelse(is.null(hold$Non_Cul_cnt_ang), 0, hold$Non_Cul_cnt_ang )
             )
           )
         ),
@@ -732,13 +737,41 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     out
   })
 
-  validate_edit <- eventReactive(input$submit, {
-    dat <- edit_car_dat()
-
-    # Logic to validate inputs...
-
-    dat
+  callEdit <- reactive({
+    list(
+      input$submit,
+      input$submit0,
+      input$submit1,
+      input$submit2,
+      input$submit3,
+      input$submit4,
+      input$submit5
+    )
   })
+  
+  # Reference : https://stackoverflow.com/questions/41960953/how-to-listen-for-more-than-one-event-expression-within-a-shiny-observeevent
+  
+  validate_edit <- eventReactive(
+    eventExpr = callEdit(),
+    valueExpr = {
+      if(input$submit == 0 && input$submit0 == 0 && input$submit1 == 0 && 
+         input$submit2 == 0 && input$submit3 == 0 && input$submit4 == 0 && input$submit5 == 0){return()}
+      dat <- edit_car_dat()
+      # Logic to validate inputs...
+      dat
+    },ignoreInit = TRUE)
+  
+  
+  # validate_edit <- eventReactive({
+  #   input$submit
+  #   input$submit0
+  #   }, {
+  #   dat <- edit_car_dat()
+  # 
+  #   # Logic to validate inputs...
+  # 
+  #   dat
+  # })
 
 
 
