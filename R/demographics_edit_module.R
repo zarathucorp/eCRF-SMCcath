@@ -1,27 +1,26 @@
 #' Demographics Add & Edit Module
 #'
-#' Module to add & edit cars in the mtcars database file
+#' Module to Add & edit Demographics in to DB
 #'
 #' @importFrom shiny observeEvent showModal modalDialog removeModal fluidRow column textInput numericInput selectInput modalButton actionButton reactive eventReactive
 #' @importFrom shinyFeedback showFeedbackDanger hideFeedback showToast
-#' @importFrom shinyjs enable disable
-#' @importFrom lubridate with_tz
+#' @importFrom shinyjs enable disable disabled
+#' @importFrom lubridate with_tz as_date
 #' @importFrom DBI dbExecute
 #'
 #' @param modal_title string - the title for the modal
 #' @param car_to_edit reactive returning a 1 row data frame of the car to edit
-#' from the "mt_cars" table
 #' @param modal_trigger reactive trigger to open the modal (Add or Edit buttons)
 #' @param tbl "rct" or "pros"
 #' @param data data to extract pid
 #' @return None
+#'
 #'
 demographics_edit_module <- function(input, output, session, modal_title, car_to_edit, modal_trigger, tbl = "rct", data, sessionid) {
   ns <- session$ns
 
   observeEvent(modal_trigger(), {
     hold <- car_to_edit()
-
     choiceNames.DM <- c("Yes", "No")
     choiceValues.DM <- c("0", "1")
     selected.DM <- NULL
@@ -40,88 +39,86 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
     output$pid_demo <- renderText(hold$pid)
     output$Group <- renderText(hold$group)
 
-    # output$PCI_Date_demo <- renderText(paste0("시술일자 : ", as.character(lubridate::as_date(as.numeric(hold$Index_PCI_Date)))))
-    # output$Birthday_demo <- renderText(paste0("Birth Date : ", as.character(lubridate::as_date(hold$Birthday))))
-
     if (tbl == "rct") {
       showModal(
         modalDialog(
           fluidRow(
             column(
               width = 3,
-              shinyjs::disabled(
+              disabled(
                 radioButtons(
-                  ns("pid_demo"),
-                  "Subject No :",
-                  hold$pid,
-                  hold$pid,
+                  inputId = ns("pid_demo"),
+                  label = "Subject No :",
+                  choices = hold$pid,
+                  selected = hold$pid,
                   inline = T
                 )
               ),
             ),
             column(
               width = 3,
-              shinyjs::disabled(
+              disabled(
                 radioButtons(
-                  ns("Group"),
-                  "Allocation Group :",
-                  hold$Group,
-                  hold$Group,
+                  inputId = ns("Group"),
+                  label = "Allocation Group :",
+                  choices = hold$Group,
+                  selected = hold$Group,
                   inline = T
                 )
               )
             ),
             column(
               width = 3,
-              shinyjs::disabled(
+              disabled(
                 radioButtons(
-                  ns("DM"),
-                  "Previous DM",
+                  inputId = ns("DM"),
+                  label = "Previous DM",
                   choices = c("Yes" = 0, "No" = 1),
-                  selected = hold$DM, inline = T
+                  selected = hold$DM,
+                  inline = T
                 )
               )
             ),
             column(
               width = 3,
-              shinyjs::disabled(
-                radioButtons( # 층화?
-                  ns("AMI_Type"),
-                  "AMI Type",
+              disabled(
+                radioButtons(
+                  inputId = ns("AMI_Type"),
+                  label = "AMI Type",
                   choices = choices.AMI_Type,
-                  selected.AMI_Type,
+                  selected = selected.AMI_Type,
                   inline = T
                 )
               ),
             )
           ),
-          
           fluidRow(
             column(
               width = 3,
               textInput(
-                ns("Initial"),
-                "Initial",
-                value = hold$Initial
+                inputId = ns("Initial"),
+                label = "Initial",
+                value = ifelse(is.null(hold), "", hold$Initial)
               )
             ),
             column(
               width = 3,
               dateInput(
-                ns("Birthday"),
-                "Date of Birth",
-                value = lubridate::as_date(hold$Birthday),
+                inputId = ns("Birthday"),
+                label = "Date of Birth",
+                value = as_date(hold$Birthday),
                 language = "ko"
               )
             ),
             column(
               width = 3,
-              shinyjs::disabled(
+              disabled(
                 numericInput(
-                  ns("Age"),
-                  "Age",
+                  inputId = ns("Age"),
+                  label = "Age",
                   value = ifelse(is.null(hold), "", hold$Age),
-                  min = 0, max = 120,
+                  min = 0,
+                  max = 120,
                   step = 1
                 )
               )
@@ -129,10 +126,11 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             column(
               width = 3,
               radioButtons(
-                ns("Sex"),
-                "Sex",
+                inputId = ns("Sex"),
+                label = "Sex",
                 choices = c("M", "F"),
-                selected = hold$Sex, inline = T
+                selected = hold$Sex,
+                inline = T
               )
             )
           ),
@@ -140,44 +138,44 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             column(
               width = 3,
               dateInput(
-                ns("Agree_Date"),
-                "동의서 서명일",
-                value = lubridate::as_date(as.numeric(hold$Agree_Date)),
+                inputId = ns("Agree_Date"),
+                label = "동의서 서명일",
+                value = as_date(as.numeric(hold$Agree_Date)),
                 language = "ko"
               )
             ),
             column(
               width = 3,
               dateInput(
-                ns("Index_PCI_Date"),
-                "시술일자",
-                value = lubridate::as_date(as.numeric(hold$Index_PCI_Date)),
+                inputId = ns("Index_PCI_Date"),
+                label = "시술일자",
+                value = as_date(as.numeric(hold$Index_PCI_Date)),
                 language = "ko"
               )
             ),
             column(
               width = 3,
               radioButtons(
-                ns("Withdrawal"),
-                "Withdrawal of Study",
+                inputId = ns("Withdrawal"),
+                label = "Withdrawal of Study",
                 choices = c("Yes" = 0, "No" = 1),
-                selected = hold$Withdrawal,
+                selected = ifelse(is.null(hold), character(0), hold$Withdrawal),
                 inline = T
               )
             ),
             column(
               width = 3,
               conditionalPanel(
-                "input.Withdrawal == 0",
+                condition = "input.Withdrawal == 0",
                 ns = ns,
                 dateInput(
-                  "Withdrawal_date",
-                  "Date",
-                  value = lubridate::as_date(as.numeric(hold$Withdrawal_date)),
+                  inputId = "Withdrawal_date",
+                  label = "Date",
+                  value = as_date(as.numeric(hold$Withdrawal_date)),
                   language = "ko"
                 ),
                 textInput(
-                  "Withdrawal_reason",
+                  inputId = "Withdrawal_reason",
                   label = "Reason",
                   value = ifelse(is.null(hold), "", hold$Withdrawal_reason)
                 ),
@@ -189,8 +187,8 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
           footer = list(
             modalButton("Cancel"),
             actionButton(
-              ns("submit"),
-              "Submit",
+              inputId = ns("submit"),
+              label = "Submit",
               class = "btn btn-primary",
               style = "color: white"
             )
@@ -203,24 +201,24 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
           fluidRow(
             column(
               width = 3,
-              shinyjs::disabled(
+              disabled(
                 radioButtons(
-                  ns("pid_demo"),
-                  "Subject No :",
-                  hold$pid,
-                  hold$pid,
+                  inputId = ns("pid_demo"),
+                  label = "Subject No :",
+                  choices = hold$pid,
+                  selected = hold$pid,
                   inline = T
                 )
               )
             ),
             column(
               width = 3,
-              shinyjs::disabled(
+              disabled(
                 radioButtons(
-                  ns("Group"),
-                  "Allocation Group :",
-                  hold$Group,
-                  hold$Group,
+                  inputId = ns("Group"),
+                  label = "Allocation Group :",
+                  choices = hold$Group,
+                  selected = hold$Group,
                   inline = T
                 )
               )
@@ -228,17 +226,17 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             column(
               width = 3,
               textInput(
-                ns("Initial"),
-                "Initial",
+                inputId = ns("Initial"),
+                label = "Initial",
                 value = hold$Initial
               )
             ),
             column(
               width = 3,
               dateInput(
-                ns("Agree_Date"),
-                "동의서 서명일",
-                value = lubridate::as_date(as.numeric(hold$Agree_Date)),
+                inputId = ns("Agree_Date"),
+                label = "동의서 서명일",
+                value = as_date(as.numeric(hold$Agree_Date)),
                 language = "ko"
               )
             )
@@ -247,29 +245,30 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             column(
               width = 3,
               dateInput(
-                ns("Index_PCI_Date"),
-                "시술일자",
-                value = lubridate::as_date(as.numeric(hold$Index_PCI_Date)),
+                inputId = ns("Index_PCI_Date"),
+                label = "시술일자",
+                value = as_date(as.numeric(hold$Index_PCI_Date)),
                 language = "ko"
               )
             ),
             column(
               width = 3,
               dateInput(
-                ns("Birthday"),
-                "Date of Birth",
-                value = lubridate::as_date(hold$Birthday),
+                inputId = ns("Birthday"),
+                label = "Date of Birth",
+                value = as_date(hold$Birthday),
                 language = "ko"
               )
             ),
             column(
               width = 3,
-              shinyjs::disabled(
+              disabled(
                 numericInput(
-                  ns("Age"),
-                  "Age",
+                  inputId = ns("Age"),
+                  label = "Age",
                   value = ifelse(is.null(hold), "", hold$Age),
-                  min = 0, max = 120,
+                  min = 0,
+                  max = 120,
                   step = 1
                 )
               )
@@ -277,10 +276,11 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             column(
               width = 3,
               radioButtons(
-                ns("Sex"),
-                "Sex",
+                inputId = ns("Sex"),
+                label = "Sex",
                 choices = c("M", "F"),
-                selected = hold$Sex, inline = T
+                selected = hold$Sex,
+                inline = T
               )
             )
           ),
@@ -288,8 +288,8 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             column(
               width = 3,
               radioButtons(
-                ns("Withdrawal"),
-                "Withdrawal of Study",
+                inputId = ns("Withdrawal"),
+                label = "Withdrawal of Study",
                 choices = c("Yes" = 0, "No" = 1),
                 selected = hold$Withdrawal,
                 inline = T
@@ -298,12 +298,12 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
                 "input.Withdrawal == 0",
                 ns = ns,
                 dateInput(
-                  "Withdrawal_date",
-                  "Date",
+                  inputId = "Withdrawal_date",
+                  label = "Date",
                   language = "ko"
                 ),
                 textInput(
-                  "Withdrawal_reason",
+                  inputId = "Withdrawal_reason",
                   label = "Reason",
                   value = ifelse(is.null(hold), "", hold$Withdrawal_reason)
                 ),
@@ -325,30 +325,39 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
       )
     }
 
-    # Observe event for "Model" text input in Add/Edit Car Modal
-    # `shinyFeedback`
-
-    observeEvent(input$Birthday,{
-        updateNumericInput(session, "Age", value = as.numeric(as.period(interval(start = lubridate::as_date(input$Birthday), end = Sys.Date()))$year))
-    })
-    
-    #observeEvent(input$Birthday, {
-    #  output$Age <- renderText(as.period(interval(start = lubridate::as_date(hold$Birthday), end = Sys.Date()))$year)
-    #})
-
-    observeEvent(input$model, {
-      if (input$model == "") {
-        shinyFeedback::showFeedbackDanger(
-          "model",
-          text = "Must enter model of car!"
+    observeEvent(
+      input$Birthday,
+      {
+        updateNumericInput(
+          session = session,
+          inputId = "Age",
+          value = as.numeric(as.period(interval(start = as_date(input$Birthday), end = Sys.Date()))$year)
         )
-        shinyjs::disable("submit")
-      } else {
-        shinyFeedback::hideFeedback("model")
-        shinyjs::enable("submit")
       }
-    })
+    )
+
+    observeEvent(
+      input$model,
+      {
+        if (input$model == "") {
+          shinyFeedback::showFeedbackDanger(
+            inputId = "model",
+            text = "Must enter model of car!",
+            session = session
+          )
+          disable("submit")
+        } else {
+          shinyFeedback::hideFeedback(
+            inputId = "model",
+            session = session
+          )
+          enable("submit")
+        }
+      }
+    )
   })
+
+  # pid_demo, Group, DM, AMI_Type will not change
 
   edit_car_dat <- reactive({
     hold <- car_to_edit()
@@ -358,15 +367,14 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
       "Agree_Date" = ifelse(is.null(input$Agree_Date), "", input$Agree_Date),
       "Index_PCI_Date" = ifelse(is.null(input$Index_PCI_Date), "", input$Index_PCI_Date),
       "Birthday" = ifelse(is.null(input$Birthday), "", input$Birthday),
-      "Age" = ifelse(is.null(input$Birthday), "", as.period(interval(start = lubridate::as_date(input$Birthday), end = Sys.Date()))$year),
+      "Age" = ifelse(is.null(input$Age), "", input$Age),
       "Sex" = ifelse(is.null(input$Sex), "", input$Sex),
       "Withdrawal" = ifelse(is.null(input$Withdrawal), "", input$Withdrawal),
       "Withdrawal_date" = ifelse(is.null(input$Withdrawal_date), "", input$Withdrawal_date),
-      "Withdrawal_reason" = ifelse(is.null(input$Withdrawal_reason), "", input$Withdrawal_reason),
-      "Comment_demo" = ifelse(is.null(input$Comment_demo), "", input$Comment_demo)
+      "Withdrawal_reason" = ifelse(is.null(input$Withdrawal_reason), "", input$Withdrawal_reason)
     )
 
-    time_now <- as.character(lubridate::with_tz(Sys.time(), tzone = "UTC"))
+    time_now <- as.character(with_tz(Sys.time(), tzone = "UTC"))
 
     dat$created_at <- as.character(hold$created_at)
     dat$created_by <- hold$created_by
@@ -377,44 +385,43 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
     return(dat)
   })
 
-  validate_edit <- eventReactive(input$submit, {
-    dat <- edit_car_dat()
+  # Logic to validate inputs...
+  validate_edit <- eventReactive(
+    input$submit,
+    {
+      dat <- edit_car_dat()
+      dat
+    }
+  )
 
-    # Logic to validate inputs...
+  observeEvent(
+    validate_edit(),
+    {
+      removeModal()
+      dat <- validate_edit()
+      hold <- car_to_edit()
+      sqlsub <- paste(paste0(names(dat), "=$", 1:length(dat)), collapse = ",")
 
-    dat
-  })
-
-  observeEvent(validate_edit(), {
-    removeModal()
-    dat <- validate_edit()
-    hold <- car_to_edit()
-    sqlsub <- paste(paste0(names(dat), "=$", 1:length(dat)), collapse = ",")
-
-    tryCatch(
-      {
-        dbExecute(
-          conn,
-          paste0("UPDATE ", tbl, " SET ", sqlsub, " WHERE pid='", hold$pid, "'"),
-          params = c(
-            unname(dat)
+      tryCatch(
+        {
+          dbExecute(
+            conn,
+            paste0("UPDATE ", tbl, " SET ", sqlsub, " WHERE pid='", hold$pid, "'"),
+            params = c(
+              unname(dat)
+            )
           )
-        )
 
-        session$userData$mtcars_trigger(session$userData$mtcars_trigger() + 1)
-        showToast("success", paste0(modal_title, " Successs"))
-      },
-      error = function(error) {
-        msg <- paste0(modal_title, " Error")
-
-        # print `msg` so that we can find it in the logs
-        print(msg)
-        # print the actual error to log it
-        print(error)
-        # show error `msg` to user.  User can then tell us about error and we can
-        # quickly identify where it cam from based on the value in `msg`
-        showToast("error", msg)
-      }
-    )
-  })
+          session$userData$mtcars_trigger(session$userData$mtcars_trigger() + 1)
+          showToast("success", paste0(modal_title, " Successs"))
+        },
+        error = function(error) {
+          msg <- paste0(modal_title, " Error")
+          print(msg)
+          print(error)
+          showToast("error", msg)
+        }
+      )
+    }
+  )
 }
