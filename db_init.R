@@ -10,22 +10,23 @@ conn <- dbConnect(
 # Create a query to prepare the 'mtcars' table with additional 'uid', 'id',
 # & the 4 created/modified columns
 create_rct_query <- "CREATE TABLE rct (
-  -- Demographics --
+  
+  -- Initial Add
   pid                             TEXT PRIMARY KEY,
-  'Group'                         TEXT,
+  'Group'                           TEXT,
   DM                              TEXT,
-  -- DM_Tx                           TEXT,
+  AMI_Type                        TEXT,
+  
+  -- Demographics --
   Initial                         TEXT,
-  Agree_Date                      DATE,
-  Index_PCI_Date                  DATE,
   Birthday                        DATE,
   Age                             REAL,
   Sex                             TEXT,
-  AMI_Type                        TEXT,
+  Agree_Date                      DATE,
+  Index_PCI_Date                  DATE,
   Withdrawal                      TEXT,
   Withdrawal_date                 DATE,
   Withdrawal_reason               TEXT,
-  Comment_demo                    TEXT,
 
   -- Admission --
   Date_adm                        DATE,
@@ -64,9 +65,9 @@ create_rct_query <- "CREATE TABLE rct (
   APET_adm                        TEXT,
   APET_Date_adm                   DATE,
   APET_detail_adm                 TEXT,
-  CMR_adm                       TEXT,
-  CMR_Date_adm                  DATE,
-  CMR_detail_adm                TEXT,
+  CMR_adm                         TEXT,
+  CMR_Date_adm                    DATE,
+  CMR_detail_adm                  TEXT,
   EEcho_adm                       TEXT,
   EEcho_Date_adm                  DATE,
   EEcho_detail_adm                TEXT,
@@ -390,7 +391,7 @@ create_rct_query <- "CREATE TABLE rct (
 
   -- Non-Culprit1
   
-  Vessel_culn1                     TEXT,
+  Vessel_culn1                    TEXT,
   Lesion_culn1                     TEXT,
   Lesion_segment_1_culn1           TEXT,
   Lesion_VeS_1_culn1               TEXT,
@@ -1251,16 +1252,16 @@ dat <- cbind(
 
   # Admission
 
-  tibble(
-    SBP_adm = 120
-  ),
+  # tibble(
+  #   SBP_adm = 120
+  # ),
 
   # Outcomes
 
-  tibble(
-    Discharge_out = as.character(as.Date(Sys.time())),
-    Comment_out = "Comment outcomes"
-  ),
+  # tibble(
+  #   Discharge_out = as.character(as.Date(Sys.time())),
+  #   Comment_out = "Comment outcomes"
+  # ),
 
   # Event
   #
@@ -1310,53 +1311,53 @@ dat <- cbind(
   # ),
 
   # M1
-  tibble(
-    FU_M1 = "0",
-    Visit_Date_M1 = as.character(as.Date(Sys.time() + lubridate::days(90))),
-    Visit_M1 = "0",
-    SBP_M1 = 121,
-    DBP_M1 = 81,
-    HRT_M1 = 61,
-    Event_M1 = "1",
-    Comment_M1 = "This is Comment M1"
-  ),
-
-
-  # M3
-  tibble(
-    FU_M3 = "0",
-    Visit_Date_M3 = as.character(as.Date(Sys.time() + lubridate::days(90))),
-    Visit_M3 = "0",
-    SBP_M3 = 120,
-    DBP_M3 = 80,
-    HRT_M3 = 60,
-    Event_M3 = "1",
-    Comment_M3 = "This is Comment Month 3"
-  ),
-
-  # M6
-  tibble(
-    FU_M6 = "0",
-    Visit_Date_M6 = as.character(as.Date(Sys.time() + lubridate::days(90))),
-    Visit_M6 = "0",
-    SBP_M6 = 126,
-    DBP_M6 = 86,
-    HRT_M6 = 66,
-    Event_M6 = "1",
-    Comment_M6 = "This is Comment M6"
-  ),
-
-  # Mf
-  tibble(
-    FU_Mf = "0",
-    Visit_Date_Mf = as.character(as.Date(Sys.time() + lubridate::days(90))),
-    Visit_Mf = "0",
-    SBP_Mf = 124,
-    DBP_Mf = 84,
-    HRT_Mf = 64,
-    Event_Mf = "1",
-    Comment_Mf = "This is Comment Mfinal"
-  ),
+  # tibble(
+  #   FU_M1 = "0",
+  #   Visit_Date_M1 = as.character(as.Date(Sys.time() + lubridate::days(90))),
+  #   Visit_M1 = "0",
+  #   SBP_M1 = 121,
+  #   DBP_M1 = 81,
+  #   HRT_M1 = 61,
+  #   Event_M1 = "1",
+  #   Comment_M1 = "This is Comment M1"
+  # ),
+  # 
+  # 
+  # # M3
+  # tibble(
+  #   FU_M3 = "0",
+  #   Visit_Date_M3 = as.character(as.Date(Sys.time() + lubridate::days(90))),
+  #   Visit_M3 = "0",
+  #   SBP_M3 = 120,
+  #   DBP_M3 = 80,
+  #   HRT_M3 = 60,
+  #   Event_M3 = "1",
+  #   Comment_M3 = "This is Comment Month 3"
+  # ),
+  # 
+  # # M6
+  # tibble(
+  #   FU_M6 = "0",
+  #   Visit_Date_M6 = as.character(as.Date(Sys.time() + lubridate::days(90))),
+  #   Visit_M6 = "0",
+  #   SBP_M6 = 126,
+  #   DBP_M6 = 86,
+  #   HRT_M6 = 66,
+  #   Event_M6 = "1",
+  #   Comment_M6 = "This is Comment M6"
+  # ),
+  # 
+  # # Mf
+  # tibble(
+  #   FU_Mf = "0",
+  #   Visit_Date_Mf = as.character(as.Date(Sys.time() + lubridate::days(90))),
+  #   Visit_Mf = "0",
+  #   SBP_Mf = 124,
+  #   DBP_Mf = 84,
+  #   HRT_Mf = 64,
+  #   Event_Mf = "1",
+  #   Comment_Mf = "This is Comment Mfinal"
+  # ),
 
   # Info
   tibble(
@@ -1366,11 +1367,6 @@ dat <- cbind(
     modified_by = "jinseob2kim@gmail.com"
   )
 )
-
-
-# for (i in c(1, 10:24)) {
-#  class(dat[, i]) <- "character"
-# }
 
 dat$AMI_Type <- "NSTEMI"
 
