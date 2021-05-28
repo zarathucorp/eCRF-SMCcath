@@ -13,7 +13,8 @@ library(bslib)
 ui <- tagList(
   shinyFeedback::useShinyFeedback(),
   shinyjs::useShinyjs(),
-  navbarPage("eCRF-SMCcath",
+  navbarPage(
+    title = "PRESTIGE-AMI",
     theme = bslib::bs_theme(
       version = 3,
       primary = "#3466A1",

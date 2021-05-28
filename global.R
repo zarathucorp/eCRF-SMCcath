@@ -39,5 +39,5 @@ rd <- readRDS("data/random.RDS")
 # In global.R for example:
 set_labels(
   language = "en",
-  "Please authenticate" = "eCRF"
+  "Please authenticate" = "PRESTIGE-AMI / eCRF"
 )
