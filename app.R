@@ -13,6 +13,12 @@ library(bslib)
 ui <- tagList(
   shinyFeedback::useShinyFeedback(),
   shinyjs::useShinyjs(),
+  
+  # ICON
+  tags$head(
+    tags$link(rel = "icon", type = "image/png", sizes = "32x32", href = "/ci_slogan_new05.png")
+  ),
+  
   navbarPage(
     title = "PRESTIGE-AMI",
     theme = bslib::bs_theme(
