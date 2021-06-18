@@ -163,7 +163,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("HTN"), # Hypertension
               label = "Hypertension",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$HTN), character(0), hold$HTN),
               inline = TRUE
             )
           ),
@@ -185,7 +185,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("Diabetes_detail_adm"),
                 label = "Detail",
                 choices = c("Diet Only" = 0, "OHA" = 1, "Insulin" = 2),
-                selected = character(0)
+                selected = ifelse(is.null(hold$Diabetes_detail_adm), character(0), hold$Diabetes_detail_adm),
               )
             )
           ),
@@ -195,7 +195,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Hld_adm"), # Hyperlipidemia
               label = "Hyperlipidemia",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$Hld_adm), character(0), hold$Hld_adm),
               inline = TRUE
             )
           ),
@@ -205,7 +205,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Smoking"), # Current Smoking
               label = "Current Smoking",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$Smoking), character(0), hold$Smoking),
               inline = TRUE
             )
           )
@@ -217,7 +217,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("FHC_adm"), # Family History of CAD
               label = "Family History of CAD",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$FHC_adm), character(0), hold$FHC_adm),
               inline = TRUE
             )
           ),
@@ -227,7 +227,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("CRF_adm"), # CRF
               label = "CRF (eGFR < 60ml/min/1.73m2)",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$CRF_adm), character(0), hold$CRF_adm),
               inline = TRUE
             )
           ),
@@ -237,7 +237,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Pvd_adm"), # Peripheral vascular ds.
               label = "Peripheral Vascular ds.",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$Pvd_adm), character(0), hold$Pvd_adm),
               inline = TRUE
             )
           ),
@@ -247,7 +247,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PCI_adm"), # Previous PCI
               label = "Previous PCI",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$PCI_adm), character(0), hold$PCI_adm),
               inline = TRUE
             )
           )
@@ -259,7 +259,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PCABG_adm"), # Previous CABG
               label = "Previous CABG",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$PCABG_adm), character(0), hold$PCABG_adm),
               inline = TRUE
             )
           ),
@@ -269,7 +269,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PCVA_adm"), # Previous CVA
               label = "Previous CVA",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$PCVA_adm), character(0), hold$PCVA_adm),
               inline = TRUE
             )
           ),
@@ -279,7 +279,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PCHF_adm"), # Previous CHF
               label = "Previous CHF Admission",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$PCHF_adm), character(0), hold$PCHF_adm),
               inline = TRUE
             )
           ),
@@ -289,7 +289,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("PNTB_adm"),
               label = "Previous Spontaneuous Bleeding (BARC>=2)",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$PNTB_adm), character(0), hold$PNTB_adm),
               inline = TRUE
             )
           )
@@ -354,7 +354,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             width = 3,
             radioButtons(
               ns("Nitrate_adm"),
-              label = "Nitrate (Sigmart)",
+              label = "Nitrate, Nicorandil",
               choices = c("Yes" = 0, "No" = 1),
               selected = hold$Nitrate_adm,
               inline = T
@@ -460,7 +460,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("BB_adm"),
               label = "Beta Blocker",
               choices = c("Yes" = 0, "No" = 1),
-              selected = hold$BB_adm,
+              selected = ifelse(is.null(hold$BB_adm), character(0), hold$BB_adm),
               inline = T
             )
           )
@@ -1079,7 +1079,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("hCG_adm"),
               label = "hCG",
               choices = c("Positive" = 0, "Negative" = 1, "NA" = 2),
-              selected = character(0),
+              selected = ifelse(is.null(hold$hCG_adm), character(0), hold$hCG_adm),
               inline = TRUE
             )
           )
@@ -1221,7 +1221,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("ECG_Rhythm_adm"),
               label = "",
               choices = c("Sinus" = 0, "Atrial Fibrillation" = 1, "Others" = 2),
-              selected = character(0),
+              selected = ifelse(is.null(hold$ECG_Rhythm_adm), character(0), hold$ECG_Rhythm_adm),
               inline = TRUE
             ),
           ),
@@ -1265,7 +1265,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("MSPECT_adm"),
               label = "SPECT",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$MSPECT_adm), character(0), hold$MSPECT_adm),
               inline = TRUE
             )
           ),
@@ -1278,7 +1278,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("MSPECT_detail_adm"),
                 "",
                 choices = c("Positive" = 0, "Negative" = 1),
-                selected = character(0),
+                selected = ifelse(is.null(hold$MSPECT_detail_adm), character(0), hold$MSPECT_detail_adm),
                 inline = T
               )
             )
@@ -1304,7 +1304,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("TMT_adm"),
               label = "TMT",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$TMT_adm), character(0), hold$TMT_adm),
               inline = TRUE
             )
           ),
@@ -1317,7 +1317,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("TMT_detail_adm"),
                 "",
                 choices = c("Positive" = 0, "Negative" = 1, "Suggestive Positivie" = 2, "Incomplete (Inadequate)" = 3),
-                selected = character(0),
+                selected = ifelse(is.null(hold$TMT_detail_adm), character(0), hold$TMT_detail_adm),
                 inline = T
               )
             )
@@ -1343,7 +1343,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("EEcho_adm"),
               label = "Stress Echo",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$EEcho_adm), character(0), hold$EEcho_adm),
               inline = TRUE
             )
           ),
@@ -1356,7 +1356,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("EEcho_detail_adm"),
                 "",
                 choices = c("Positive" = 0, "Negative" = 1, "Equivocal" = 2, "Incomplete" = 3),
-                selected = character(0),
+                selected = ifelse(is.null(hold$EEcho_detail_adm), character(0), hold$EEcho_detail_adm),
                 inline = T
               )
             )
@@ -1382,7 +1382,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("APET_adm"),
               label = "PET",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$APET_adm), character(0), hold$APET_adm),
               inline = TRUE
             )
           ),
@@ -1395,7 +1395,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("APET_detail_adm"),
                 "",
                 choices = c("Positive" = 0, "Negative" = 1, "Equivocal" = 2),
-                selected = character(0),
+                selected = ifelse(is.null(hold$APET_detail_adm), character(0), hold$APET_detail_adm),
                 inline = T
               )
             )
@@ -1423,7 +1423,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("CMR_adm"),
               label = "CMR",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$CMR_adm), character(0), hold$CMR_adm),
               inline = TRUE
             )
           ),
@@ -1436,7 +1436,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("CMR_detail_adm"),
                 "",
                 choices = c("Positive" = 0, "Negative" = 1),
-                selected = character(0),
+                selected = ifelse(is.null(hold$CMR_detail_adm), character(0), hold$CMR_detail_adm),
                 inline = T
               )
             )
