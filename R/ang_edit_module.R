@@ -28,7 +28,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           HTML(
             paste0(
               '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
-              "Title A",
+              "Primary PCI",
               tags$div(
                 modalButton("", icon("times")),
                 style = "float:right;"
@@ -76,7 +76,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           HTML(
             paste0(
               '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
-              "Title B",
+              "Antiplatelet agent loading",
               tags$div(
                 modalButton("", icon("times")),
                 style = "float:right;"
@@ -201,7 +201,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           HTML(
             paste0(
               '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
-              "Title C",
+              "Angiographic data",
               tags$div(
                 modalButton("", icon("times")),
                 style = "float:right;"
@@ -545,7 +545,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           HTML(
             paste0(
               '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
-              "Title D",
+              "Lesion",
               tags$div(
                 modalButton("", icon("times")),
                 style = "float:right;"
