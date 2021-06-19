@@ -28,7 +28,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           HTML(
             paste0(
               '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
-              "Title A",
+              "Lesion location",
               tags$div(
                 modalButton("", icon("times")),
                 style = "float:right;"
@@ -50,7 +50,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               ns("Lesion_cul1"),
               label = "Lesion",
               choices = c("1" = 1, "2" = 2, "3" = 3),
-              selected = character(0),
+              selected = ifelse(is.null(hold$Lesion_cul1), character(0), hold$Lesion_cul1),
               inline = TRUE
             )
           ),
@@ -59,8 +59,8 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             checkboxGroupInput(
               ns("Vessel_cul1"),
               label = "Vessel",
-              choices = c("LM" = 0, "LAD" = 1, "LCx" = 2, "RCA" = 3),
-              selected = character(0),
+              choices = c("LM" = "LM", "LAD" = "LAD", "LCx" = "LCx", "RCA" = "RCA"),
+              selected = strsplit(ifelse(is.null(hold$Vessel_cul1), character(0), hold$Vessel_cul1), ',')[[1]],
               inline = TRUE
             )
           )
@@ -78,7 +78,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                   style = "float:right;"
                 ),
                 actionButton(
-                  ns("submit0"),
+                  ns("submit1"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
                   style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -149,7 +149,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                   "CTO Lesion" = 0, "True bifurcation lesion ( medina 1,1,1/1,0,1/0,1,1)" = 1, "Long lesion (≥38mm stent)" = 2,
                   "Unprotected Left Main" = 3, "ISR lesion" = 4, "Calcified lesion" = 5, "Not applicable" = 6
                 ),
-                selected = character(0)
+                selected = strsplit(ifelse(is.null(hold$Lesion_Type_cul1), character(0), hold$Lesion_Type_cul1), ',')[[1]]
               )
             )
           )
@@ -164,7 +164,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit0"),
+                ns("submit2"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -223,7 +223,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit0"),
+                ns("submit3"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -282,7 +282,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit0"),
+                ns("submit4"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -311,7 +311,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("Intervention_cnt_cul1"),
                 label = "개수",
                 choices = c("1" = 1, "2" = 2, "3" = 3, "4" = 4, "5" = 5, "6" = 6, "7" = 7, "8" = 8, "9" = 9, "10" = 10),
-                selected = character(0),
+                selected = ifelse(is.null(hold$Intervention_cnt_cul1), character(0), hold$Intervention_cnt_cul1),
                 inline = TRUE
               )
             )
@@ -327,7 +327,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("Intervention1_treat_cul1"),
                 label = "Treatment",
                 choices = c("Ballooning" = 0, "Stenting" = 1),
-                selected = character(0)
+                selected = ifelse(is.null(hold$Intervention1_treat_cul1), character(0), hold$Intervention1_treat_cul1)
               )
             ),
             column(
@@ -382,7 +382,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("Intervention2_treat_cul1"),
                 label = "Treatment",
                 choices = c("Ballooning" = 0, "Stenting" = 1),
-                selected = character(0)
+                selected = ifelse(is.null(hold$Intervention2_treat_cul1), character(0), hold$Intervention2_treat_cul1)
               )
             ),
             column(
@@ -437,7 +437,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("Intervention3_treat_cul1"),
                 label = "Treatment",
                 choices = c("Ballooning" = 0, "Stenting" = 1),
-                selected = character(0)
+                selected = ifelse(is.null(hold$Intervention3_treat_cul1), character(0), hold$Intervention3_treat_cul1)
               )
             ),
             column(
@@ -492,7 +492,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("Intervention4_treat_cul1"),
                 label = "Treatment",
                 choices = c("Ballooning" = 0, "Stenting" = 1),
-                selected = character(0)
+                selected = ifelse(is.null(hold$Intervention4_treat_cul1), character(0), hold$Intervention4_treat_cul1)
               )
             ),
             column(
@@ -547,7 +547,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("Intervention5_treat_cul1"),
                 label = "Treatment",
                 choices = c("Ballooning" = 0, "Stenting" = 1),
-                selected = character(0)
+                selected = ifelse(is.null(hold$Intervention5_treat_cul1), character(0), hold$Intervention5_treat_cul1)
               )
             ),
             column(
@@ -605,7 +605,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                   style = "float:right;"
                 ),
                 actionButton(
-                  ns("submit0"),
+                  ns("submit5"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
                   style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -621,7 +621,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("Intervention6_treat_cul1"),
                 label = "Treatment",
                 choices = c("Ballooning" = 0, "Stenting" = 1),
-                selected = character(0)
+                selected = ifelse(is.null(hold$Intervention6_treat_cul1), character(0), hold$Intervention6_treat_cul1)
               )
             ),
             column(
@@ -676,7 +676,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("Intervention7_treat_cul1"),
                 label = "Treatment",
                 choices = c("Ballooning" = 0, "Stenting" = 1),
-                selected = character(0)
+                selected = ifelse(is.null(hold$Intervention7_treat_cul1), character(0), hold$Intervention7_treat_cul1)
               )
             ),
             column(
@@ -731,7 +731,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("Intervention8_treat_cul1"),
                 label = "Treatment",
                 choices = c("Ballooning" = 0, "Stenting" = 1),
-                selected = character(0)
+                selected = ifelse(is.null(hold$Intervention8_treat_cul1), character(0), hold$Intervention8_treat_cul1)
               )
             ),
             column(
@@ -786,7 +786,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("Intervention9_treat_cul1"),
                 label = "Treatment",
                 choices = c("Ballooning" = 0, "Stenting" = 1),
-                selected = character(0)
+                selected = ifelse(is.null(hold$Intervention9_treat_cul1), character(0), hold$Intervention9_treat_cul1)
               )
             ),
             column(
@@ -841,7 +841,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("Intervention10_treat_cul1"),
                 label = "Treatment",
                 choices = c("Ballooning" = 0, "Stenting" = 1),
-                selected = character(0)
+                selected = ifelse(is.null(hold$Intervention10_treat_cul1), character(0), hold$Intervention10_treat_cul1)
               )
             ),
             column(
@@ -896,7 +896,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit0"),
+                ns("submit6"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -1045,16 +1045,16 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 )
               )
             ),
-            column(
-              width = 3,
-              radioButtons(
-                ns("Intervention_P_cul1"),
-                label = "Perforation",
-                choices = c("Yes" = 0, "No" = 1),
-                selected = hold$Intervention_P_cul1,
-                inline = TRUE
-              )
-            ),
+            # column(
+            #   width = 3,
+            #   radioButtons(
+            #     ns("Intervention_P_cul1"),
+            #     label = "Perforation",
+            #     choices = c("Yes" = 0, "No" = 1),
+            #     selected = hold$Intervention_P_cul1,
+            #     inline = TRUE
+            #   )
+            # ),
             column(
               width = 3,
               radioButtons(
@@ -1102,7 +1102,8 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
         )
       )
     )
-
+    
+    
     # Observe event for "Model" text input in Add/Edit Car Modal
     # `shinyFeedback`
     observeEvent(input$model, {
@@ -1119,23 +1120,12 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
     })
   })
 
-  observeEvent(
-    {
-      input$Height
-      input$Weight
-    },
-    {
-      updateNumericInput(session, "BMI", value = round(input$Weight / (input$Height / 100)^2, 1))
-      updateNumericInput(session, "BSA_adm", value = round(sqrt(input$Weight * input$Height / 3600), 1))
-    }
-  )
-
   edit_car_dat <- reactive({
     hold <- car_to_edit()
 
     out <- list(
       data = list(
-        "Vessel_cul1" = ifelse(is.null(input$Vessel_cul1), "", input$Vessel_cul1),
+        "Vessel_cul1" = ifelse(is.null(input$Vessel_cul1),"", paste0(input$Vessel_cul1, collapse = ',')),
         "Lesion_cul1" = ifelse(is.null(input$Lesion_cul1), "", input$Lesion_cul1),
         "Lesion_segment_1_cul1" = ifelse(is.null(input$Lesion_segment_1_cul1), "", input$Lesion_segment_1_cul1),
         "Lesion_VeS_1_cul1" = ifelse(is.null(input$Lesion_VeS_1_cul1), "", input$Lesion_VeS_1_cul1),
@@ -1143,7 +1133,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
         "Lesion_VeS_2_cul1" = ifelse(is.null(input$Lesion_VeS_2_cul1), "", input$Lesion_VeS_2_cul1),
         "Lesion_segment_3_cul1" = ifelse(is.null(input$Lesion_segment_3_cul1), "", input$Lesion_segment_3_cul1),
         "Lesion_VeS_3_cul1" = ifelse(is.null(input$Lesion_VeS_3_cul1), "", input$Lesion_VeS_3_cul1),
-        "Lesion_Type_cul1" = ifelse(is.null(input$Lesion_Type_cul1), "", input$Lesion_Type_cul1),
+        "Lesion_Type_cul1" = ifelse(is.null(input$Lesion_Type_cul1), "", paste0(input$Lesion_Type_cul1, collapse = ',')),
         "FFR_cul1" = ifelse(is.null(input$FFR_cul1), "", input$FFR_cul1),
         "FFR_pre_cul1" = ifelse(is.null(input$FFR_pre_cul1), "", input$FFR_pre_cul1),
         "FFR_post_cul1" = ifelse(is.null(input$FFR_post_cul1), "", input$FFR_post_cul1),
@@ -1225,16 +1215,15 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
         "Intervention_AC_cul1" = ifelse(is.null(input$Intervention_AC_cul1), "", input$Intervention_AC_cul1),
         "Intervention_O_cul1" = ifelse(is.null(input$Intervention_O_cul1), "", input$Intervention_O_cul1),
         "Intervention_O_detail_cul1" = ifelse(is.null(input$Intervention_O_detail_cul1), "", input$Intervention_O_detail_cul1),
-        "Intervention_P_cul1" = ifelse(is.null(input$Intervention_P_cul1), "", input$Intervention_P_cul1),
+        # "Intervention_P_cul1" = ifelse(is.null(input$Intervention_P_cul1), "", input$Intervention_P_cul1),
         "Intervention_CPS_cul1" = ifelse(is.null(input$Intervention_CPS_cul1), "", input$Intervention_CPS_cul1),
         "Intervention_CPS_detail_cul1" = ifelse(is.null(input$Intervention_CPS_detail_cul1), "", input$Intervention_CPS_detail_cul1),
         "Trombosuction_cul1" = ifelse(is.null(input$Trombosuction_cul1), "", input$Trombosuction_cul1),
         "Perforation_cul1" = ifelse(is.null(input$Perforation_cul1), "", input$Perforation_cul1)
       )
     )
-
+    
     time_now <- as.character(lubridate::with_tz(Sys.time(), tzone = "UTC"))
-
     if (is.null(hold)) {
       # adding a new car
       out$data$created_at <- time_now
@@ -1250,13 +1239,37 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
     out
   })
 
-  validate_edit <- eventReactive(input$submit, {
-    dat <- edit_car_dat()
-
-    # Logic to validate inputs...
-
-    dat
+  
+  
+  callEdit <- reactive({
+    list(
+      input$submit,
+      input$submit0,
+      input$submit1,
+      input$submit2,
+      input$submit3,
+      input$submit4,
+      input$submit5,
+      input$submit6
+    )
   })
+  
+  # Reference : https://stackoverflow.com/questions/41960953/how-to-listen-for-more-than-one-event-expression-within-a-shiny-observeevent
+  
+  validate_edit <- eventReactive(
+    eventExpr = callEdit(),
+    valueExpr = {
+      if (input$submit0 == 0 && input$submit1 == 0 && input$submit2 == 0 &&
+          input$submit3 == 0 && input$submit4 == 0 && input$submit5 == 0 &&
+          input$submit6 == 0 && input$submit == 0) {
+        return()
+      }
+      dat <- edit_car_dat()
+      # Logic to validate inputs...
+      dat
+    }, ignoreInit = TRUE
+  )
+  
 
   observeEvent(validate_edit(), {
     removeModal()
