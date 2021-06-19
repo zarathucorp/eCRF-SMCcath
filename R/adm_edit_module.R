@@ -354,7 +354,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             width = 3,
             radioButtons(
               ns("Nitrate_adm"),
-              label = "Nitrate, Nicorandil",
+              label = "Nitrate",
               choices = c("Yes" = 0, "No" = 1),
               selected = hold$Nitrate_adm,
               inline = T
@@ -430,6 +430,16 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 3,
             radioButtons(
+              ns("Nicorandil_adm"),
+              label = "Nicorandil",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Nicorandil_adm,
+              inline = T
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
               ns("NOAC_adm"),
               label = "NOAC",
               choices = c("Yes" = 0, "No" = 1),
@@ -462,6 +472,23 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               choices = c("Yes" = 0, "No" = 1),
               selected = ifelse(is.null(hold$BB_adm), character(0), hold$BB_adm),
               inline = T
+            ),
+            conditionalPanel(
+              "input.BB_adm == 0",
+              ns = ns,
+              textInput(
+                ns("BB_name_adm"),
+                label = "Name",
+                value = hold$BB_name_adm
+              ),
+              numericInput(
+                ns("BB_dose_adm"),
+                label = "Dose",
+                value = hold$BB_dose_adm,
+                min = 0,
+                max = 200,
+                step = 1
+              )
             )
           )
         ),
