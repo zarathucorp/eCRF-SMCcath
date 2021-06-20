@@ -340,13 +340,13 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
           HTML(
             paste0(
               '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
-              "Lab Data",
+              "Baseline Lab Data",
               tags$div(
                 modalButton("", icon("times")),
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit0"),
+                ns("submit3"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
@@ -357,225 +357,308 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
         ),
         fluidRow(
           column(
-            width = 6,
-            conditionalPanel(
-              "input.Lab_data_Unknown_M1 == 1",
-              ns = ns,
-              dateInput(
-                ns("Lab_Data_M1"),
-                "Date of Lab",
-                value = hold$Lab_Data_M1,
-                language = "ko"
-              )
-            )
+            width = 3,
+            dateInput(
+              ns("Lab_Date_M1"),
+              "Lab Date",
+              value = lubridate::as_date(hold$Lab_Date_M1),
+              language = "ko"
+            ),
           ),
           column(
-            width = 6,
-            radioButtons(
-              ns("Lab_data_Unknown_M1"),
-              label = "Date Unknown",
-              choices = c("Yes" = 0, "No" = 1),
-              selected = character(0)
-            )
-          )
-        ),
-        fluidRow(
-          column(
             width = 3,
-            numericInput(
+            textInput(
               ns("WBC_M1"),
-              "WBC",
-              value = ifelse(is.null(hold), NA, hold$WBC_M1),
-              min = 0, max = 120,
-              step = 1
+              placeholder = '10^3/ul',
+              HTML(
+                paste0(
+                  "WBC",
+                  actionButton(
+                    inputId = ns("wbcND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$WBC_M1)
             )
           ),
           column(
             width = 3,
-            numericInput(
+            textInput(
               ns("TC_M1"),
-              "Total Chol",
-              value = ifelse(is.null(hold), NA, hold$TC_M1),
-              min = 0, max = 120,
-              step = 1
+              placeholder = 'mg/dl',
+              HTML(
+                paste0(
+                  "Total Chol",
+                  actionButton(
+                    inputId = ns("tcND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$TC_M1)
             )
           ),
           column(
             width = 3,
-            numericInput(
+            textInput(
               ns("Hb_M1"),
-              "Hb",
-              value = ifelse(is.null(hold), NA, hold$Hb_M1),
-              min = 0, max = 120,
-              step = 1
+              placeholder = 'g/dl',
+              HTML(
+                paste0(
+                  "Hgb",
+                  actionButton(
+                    inputId = ns("hbND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$Hb_M1)
             )
-          ),
+          )
+        ),
+        fluidRow(
           column(
             width = 3,
-            numericInput(
+            textInput(
               ns("TG_M1"),
-              "TG",
-              value = ifelse(is.null(hold), NA, hold$TG_M1),
-              min = 0, max = 120,
-              step = 1
+              placeholder = 'mg/dl',
+              HTML(
+                paste0(
+                  "Triglyceride",
+                  actionButton(
+                    inputId = ns("tgND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$TG_M1)
             )
-          )
-        ),
-        fluidRow(
+          ),
           column(
             width = 3,
-            numericInput(
+            textInput(
               ns("Platelet_M1"),
-              "Platelet",
-              value = ifelse(is.null(hold), NA, hold$Platelet_M1),
-              min = 0, max = 120,
-              step = 1
+              placeholder = '10^3/ul',
+              HTML(
+                paste0(
+                  "Platelet",
+                  actionButton(
+                    inputId = ns("plND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$Platelet_M1)
             )
           ),
           column(
             width = 3,
-            numericInput(
+            textInput(
               ns("HDL_M1"),
-              "HDL",
-              value = ifelse(is.null(hold), NA, hold$HDL_M1),
-              min = 0, max = 120,
-              step = 1
+              placeholder = 'mg/dl',
+              HTML(
+                paste0(
+                  "HDL",
+                  actionButton(
+                    inputId = ns("hdlND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$HDL_M1),
             )
           ),
           column(
             width = 3,
-            numericInput(
+            textInput(
               ns("BUN_M1"),
-              "BUN",
-              value = ifelse(is.null(hold), NA, hold$BUN_M1),
-              min = 0, max = 120,
-              step = 1
+              placeholder = 'mg/dl',
+              HTML(
+                paste0(
+                  "BUN",
+                  actionButton(
+                    inputId = ns("bunND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$BUN_M1),
             )
-          ),
+          )
+        ),
+        fluidRow(
           column(
             width = 3,
-            numericInput(
+            textInput(
               ns("LDL_M1"),
-              "LDL",
-              value = ifelse(is.null(hold), NA, hold$LDL_M1),
-              min = 0, max = 120,
-              step = 1
+              placeholder = 'mg/dl',
+              HTML(
+                paste0(
+                  "LDL",
+                  actionButton(
+                    inputId = ns("ldlND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$LDL_M1),
             )
-          )
-        ),
-        fluidRow(
+          ),
           column(
             width = 3,
-            numericInput(
+            textInput(
               ns("Cr_M1"),
-              "Cr",
-              value = ifelse(is.null(hold), NA, hold$Cr_M1),
-              min = 0, max = 120,
-              step = 1
+              placeholder = 'mg/dl',
+              HTML(
+                paste0(
+                  "Cr",
+                  actionButton(
+                    inputId = ns("crND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$Cr_M1),
             )
           ),
           column(
             width = 3,
-            numericInput(
-              ns("LDL_Cal_M1"),
-              "LDL, cal",
-              value = ifelse(is.null(hold), NA, hold$LDL_Cal_M1),
-              min = 0, max = 120,
-              step = 1
-            )
-          ),
-          column(
-            width = 3,
-            numericInput(
-              ns("BNP_M1"),
-              "BNP",
-              value = ifelse(is.null(hold), NA, hold$BNP_M1),
-              min = 0, max = 120,
-              step = 1
-            )
-          ),
-          column(
-            width = 3,
-            numericInput(
+            textInput(
               ns("FG_M1"),
-              "Fasting Glucose",
-              value = ifelse(is.null(hold), NA, hold$FG_M1),
-              min = 0, max = 120,
-              step = 1
+              placeholder = 'mg/dl',
+              HTML(
+                paste0(
+                  "Fasting Glucose",
+                  actionButton(
+                    inputId = ns("fgND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$FG_M1),
+            )
+          ),
+          column(
+            width = 3,
+            textInput(
+              ns("MDRD_M1"),
+              placeholder = 'ml/min/1.73m2',
+              HTML(
+                paste0(
+                  "MDRD-eGFR",
+                  actionButton(
+                    inputId = ns("mdND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$MDRD_M1),
             )
           )
         ),
         fluidRow(
           column(
             width = 3,
-            numericInput(
-              ns("Pro_BNP_M1"),
-              "pro BNP",
-              value = ifelse(is.null(hold), NA, hold$Pro_BNP_M1),
-              min = 0, max = 120,
-              step = 1
-            )
-          ),
-          column(
-            width = 3,
-            numericInput(
+            textInput(
               ns("HbA1C_M1"),
-              "HbA1C",
-              value = ifelse(is.null(hold), NA, hold$HbA1C_M1),
-              min = 0, max = 120,
-              step = 1
+              placeholder = '%',
+              HTML(
+                paste0(
+                  "HbA1C",
+                  actionButton(
+                    inputId = ns("hb1ND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$HbA1C_M1),
             )
           ),
           column(
             width = 3,
-            numericInput(
-              ns("N_Pro_BNP_M1"),
-              "N-pro BNP",
-              value = ifelse(is.null(hold), NA, hold$N_Pro_BNP_M1),
-              min = 0, max = 120,
-              step = 1
+            textInput(
+              ns("AST_M1"),
+              placeholder = 'IU/L',
+              HTML(
+                paste0(
+                  "AST",
+                  actionButton(
+                    inputId = ns("astND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$AST_M1),
             )
           ),
           column(
             width = 3,
-            numericInput(
+            textInput(
               ns("hs_CRP_M1"),
-              "hs-CRP",
-              value = ifelse(is.null(hold), NA, hold$hs_CRP_M1),
-              min = 0, max = 120,
-              step = 1
+              placeholder = 'mg/dl',
+              HTML(
+                paste0(
+                  "hs-CRP",
+                  actionButton(
+                    inputId = ns("hsND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$hs_CRP_M1),
+            )
+          ),
+          column(
+            width = 3,
+            textInput(
+              ns("ALT_M1"),
+              placeholder = 'IU/L',
+              HTML(
+                paste0(
+                  "ALT",
+                  actionButton(
+                    inputId = ns("altND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$ALT_M1)
             )
           )
         ),
         fluidRow(
           column(
             width = 3,
-            numericInput(
-              ns("CK_MB_M1"),
-              "Platelet",
-              value = ifelse(is.null(hold), NA, hold$Platelet_M1),
-              min = 0, max = 120,
-              step = 1
-            )
-          ),
-          column(
-            width = 3,
-            numericInput(
-              ns("Troponin_I_M1"),
-              "Troponin I",
-              value = ifelse(is.null(hold), NA, hold$Troponin_I_M1),
-              min = 0, max = 120,
-              step = 1
-            )
-          ),
-          column(
-            width = 3,
-            numericInput(
-              ns("Troponin_T_M1"),
-              "Troponin T",
-              value = ifelse(is.null(hold), NA, hold$Troponin_T_M1),
-              min = 0, max = 120,
-              step = 1
+            textInput(
+              ns("NT_Pro_BNP_M1"),
+              placeholder = 'pg/ml',
+              HTML(
+                paste0(
+                  "NT-Pro BNP",
+                  actionButton(
+                    inputId = ns("ntpND"),
+                    label = "ND",
+                    style = "font-size : 2px; padding : 0px 2em 0px 2em; margin-left : 10px; background-color : #f39c12"
+                  )
+                )
+              ),
+              value = ifelse(is.null(hold), "", hold$NT_Pro_BNP_M1),
             )
           )
         ),
@@ -1188,8 +1271,8 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
         "Stress_ECG_M1" = ifelse(is.null(input$Stress_ECG_M1), "", input$Stress_ECG_M1),
         "Stress_ECG_Date_M1" = ifelse(is.null(input$Stress_ECG_Date_M1), "", as.character(input$Stress_ECG_Date_M1)),
         "Stress_ECG_Detail_M1" = ifelse(is.null(input$Stress_ECG_Detail_M1), "", input$Stress_ECG_Detail_M1),
-        "Lab_data_Unknown_M1" = ifelse(is.null(input$Lab_data_Unknown_M1), "", input$Lab_data_Unknown_M1),
-        "Lab_Data_M1" = ifelse(is.null(input$Lab_Data_M1), "", as.character(input$Lab_Data_M1)),
+
+        "Lab_Date_M1" = ifelse(is.null(input$Lab_Date_M1), "", lubridate::as_date(input$Lab_Date_M1)),        
         "WBC_M1" = ifelse(is.null(input$WBC_M1), "", input$WBC_M1),
         "TC_M1" = ifelse(is.null(input$TC_M1), "", input$TC_M1),
         "Hb_M1" = ifelse(is.null(input$Hb_M1), "", input$Hb_M1),
@@ -1199,16 +1282,14 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
         "BUN_M1" = ifelse(is.null(input$BUN_M1), "", input$BUN_M1),
         "LDL_M1" = ifelse(is.null(input$LDL_M1), "", input$LDL_M1),
         "Cr_M1" = ifelse(is.null(input$Cr_M1), "", input$Cr_M1),
-        "LDL_Cal_M1" = ifelse(is.null(input$LDL_Cal_M1), "", input$LDL_Cal_M1),
-        "BNP_M1" = ifelse(is.null(input$BNP_M1), "", input$BNP_M1),
         "FG_M1" = ifelse(is.null(input$FG_M1), "", input$FG_M1),
-        "Pro_BNP_M1" = ifelse(is.null(input$Pro_BNP_M1), "", input$Pro_BNP_M1),
+        "MDRD_M1" = ifelse(is.null(input$MDRD_M1), "", input$MDRD_M1),
         "HbA1C_M1" = ifelse(is.null(input$HbA1C_M1), "", input$HbA1C_M1),
-        "N_Pro_BNP_M1" = ifelse(is.null(input$N_Pro_BNP_M1), "", input$N_Pro_BNP_M1),
+        "AST_M1" = ifelse(is.null(input$AST_M1), "", input$AST_M1),
         "hs_CRP_M1" = ifelse(is.null(input$hs_CRP_M1), "", input$hs_CRP_M1),
-        "CK_MB_M1" = ifelse(is.null(input$CK_MB_M1), "", input$CK_MB_M1),
-        "Troponin_I_M1" = ifelse(is.null(input$Troponin_I_M1), "", input$Troponin_I_M1),
-        "Troponin_T_M1" = ifelse(is.null(input$Troponin_T_M1), "", input$Troponin_T_M1),
+        "ALT_M1" = ifelse(is.null(input$ALT_M1), "", input$ALT_M1),
+        "NT_Pro_BNP_M1" = ifelse(is.null(input$NT_Pro_BNP_M1), "", input$NT_Pro_BNP_M1),
+        
         "Aspirin_M1" = ifelse(is.null(input$Aspirin_M1), "", input$Aspirin_M1),
         "Clopidogrel_M1" = ifelse(is.null(input$Clopidogrel_M1), "", input$Clopidogrel_M1),
         "Prasugrel_M1" = ifelse(is.null(input$Prasugrel_M1), "", input$Prasugrel_M1),
