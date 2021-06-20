@@ -18,10 +18,10 @@
 #'
 cul2_edit_module <- function(input, output, session, modal_title, car_to_edit, modal_trigger, tbl = "rct", data, sessionid) {
   ns <- session$ns
-
+  
   observeEvent(modal_trigger(), {
     hold <- car_to_edit()
-
+    
     showModal(
       modalDialog(
         tags$div(
@@ -60,7 +60,7 @@ cul2_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               ns("Vessel_cul2"),
               label = "Vessel",
               choices = c("LM" = "LM", "LAD" = "LAD", "LCx" = "LCx", "RCA" = "RCA"),
-              selected = strsplit(ifelse(is.null(hold$Vessel_cul2), character(0), hold$Vessel_cul2), ',')[[1]],
+              selected = strsplit(ifelse(is.null(hold$Vessel_cul2), character(0), hold$Vessel_cul2), ",")[[1]],
               inline = TRUE
             )
           )
@@ -149,7 +149,7 @@ cul2_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                   "CTO Lesion" = 0, "True bifurcation lesion ( medina 1,1,1/1,0,1/0,1,1)" = 1, "Long lesion (≥38mm stent)" = 2,
                   "Unprotected Left Main" = 3, "ISR lesion" = 4, "Calcified lesion" = 5, "Not applicable" = 6
                 ),
-                selected = strsplit(ifelse(is.null(hold$Lesion_Type_cul2), character(0), hold$Lesion_Type_cul2), ',')[[1]]
+                selected = strsplit(ifelse(is.null(hold$Lesion_Type_cul2), character(0), hold$Lesion_Type_cul2), ",")[[1]]
               )
             )
           )
@@ -1119,13 +1119,13 @@ cul2_edit_module <- function(input, output, session, modal_title, car_to_edit, m
       }
     })
   })
-
+  
   edit_car_dat <- reactive({
     hold <- car_to_edit()
-
+    
     out <- list(
       data = list(
-        "Vessel_cul2" = ifelse(is.null(input$Vessel_cul2),"", paste0(input$Vessel_cul2, collapse = ',')),
+        "Vessel_cul2" = ifelse(is.null(input$Vessel_cul2), "", paste0(input$Vessel_cul2, collapse = ",")),
         "Lesion_cul2" = ifelse(is.null(input$Lesion_cul2), "", input$Lesion_cul2),
         "Lesion_segment_1_cul2" = ifelse(is.null(input$Lesion_segment_1_cul2), "", input$Lesion_segment_1_cul2),
         "Lesion_VeS_1_cul2" = ifelse(is.null(input$Lesion_VeS_1_cul2), "", input$Lesion_VeS_1_cul2),
@@ -1133,7 +1133,7 @@ cul2_edit_module <- function(input, output, session, modal_title, car_to_edit, m
         "Lesion_VeS_2_cul2" = ifelse(is.null(input$Lesion_VeS_2_cul2), "", input$Lesion_VeS_2_cul2),
         "Lesion_segment_3_cul2" = ifelse(is.null(input$Lesion_segment_3_cul2), "", input$Lesion_segment_3_cul2),
         "Lesion_VeS_3_cul2" = ifelse(is.null(input$Lesion_VeS_3_cul2), "", input$Lesion_VeS_3_cul2),
-        "Lesion_Type_cul2" = ifelse(is.null(input$Lesion_Type_cul2), "", paste0(input$Lesion_Type_cul2, collapse = ',')),
+        "Lesion_Type_cul2" = ifelse(is.null(input$Lesion_Type_cul2), "", paste0(input$Lesion_Type_cul2, collapse = ",")),
         "FFR_cul2" = ifelse(is.null(input$FFR_cul2), "", input$FFR_cul2),
         "FFR_pre_cul2" = ifelse(is.null(input$FFR_pre_cul2), "", input$FFR_pre_cul2),
         "FFR_post_cul2" = ifelse(is.null(input$FFR_post_cul2), "", input$FFR_post_cul2),
@@ -1233,13 +1233,11 @@ cul2_edit_module <- function(input, output, session, modal_title, car_to_edit, m
       out$data$created_at <- as.character(hold$created_at)
       out$data$created_by <- hold$created_by
     }
-
+    
     out$data$modified_at <- time_now
     out$data$modified_by <- sessionid
     out
   })
-
-  
   
   callEdit <- reactive({
     list(
@@ -1270,13 +1268,13 @@ cul2_edit_module <- function(input, output, session, modal_title, car_to_edit, m
     }, ignoreInit = TRUE
   )
   
-
+  
   observeEvent(validate_edit(), {
     removeModal()
     dat <- validate_edit()
     hold <- car_to_edit()
     sqlsub <- paste(paste0(names(dat$data), "=$", 1:length(dat$data)), collapse = ",")
-
+    
     tryCatch(
       {
         dbExecute(
@@ -1288,14 +1286,14 @@ cul2_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             unname(dat$data)
           )
         )
-
+        
         session$userData$mtcars_trigger(session$userData$mtcars_trigger() + 1)
         showToast("success", paste0(modal_title, " Successs"))
       },
       error = function(error) {
         msg <- paste0(modal_title, " Error")
-
-
+        
+        
         # print `msg` so that we can find it in the logs
         print(msg)
         # print the actual error to log it

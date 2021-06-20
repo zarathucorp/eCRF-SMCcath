@@ -60,7 +60,7 @@ culn3_edit_module <- function(input, output, session, modal_title, car_to_edit, 
               ns("Vessel_culn3"),
               label = "Vessel",
               choices = c("LM" = "LM", "LAD" = "LAD", "LCx" = "LCx", "RCA" = "RCA"),
-              selected = strsplit(ifelse(is.null(hold$Vessel_culn3), character(0), hold$Vessel_culn3), ',')[[1]],
+              selected = strsplit(ifelse(is.null(hold$Vessel_culn3), character(0), hold$Vessel_culn3), ",")[[1]],
               inline = TRUE
             )
           )
@@ -149,7 +149,7 @@ culn3_edit_module <- function(input, output, session, modal_title, car_to_edit, 
                   "CTO Lesion" = 0, "True bifurcation lesion ( medina 1,1,1/1,0,1/0,1,1)" = 1, "Long lesion (≥38mm stent)" = 2,
                   "Unprotected Left Main" = 3, "ISR lesion" = 4, "Calcified lesion" = 5, "Not applicable" = 6
                 ),
-                selected = strsplit(ifelse(is.null(hold$Lesion_Type_culn3), character(0), hold$Lesion_Type_culn3), ',')[[1]]
+                selected = strsplit(ifelse(is.null(hold$Lesion_Type_culn3), character(0), hold$Lesion_Type_culn3), ",")[[1]]
               )
             )
           )
@@ -1125,7 +1125,7 @@ culn3_edit_module <- function(input, output, session, modal_title, car_to_edit, 
     
     out <- list(
       data = list(
-        "Vessel_culn3" = ifelse(is.null(input$Vessel_culn3),"", paste0(input$Vessel_culn3, collapse = ',')),
+        "Vessel_culn3" = ifelse(is.null(input$Vessel_culn3), "", paste0(input$Vessel_culn3, collapse = ",")),
         "Lesion_culn3" = ifelse(is.null(input$Lesion_culn3), "", input$Lesion_culn3),
         "Lesion_segment_1_culn3" = ifelse(is.null(input$Lesion_segment_1_culn3), "", input$Lesion_segment_1_culn3),
         "Lesion_VeS_1_culn3" = ifelse(is.null(input$Lesion_VeS_1_culn3), "", input$Lesion_VeS_1_culn3),
@@ -1133,7 +1133,7 @@ culn3_edit_module <- function(input, output, session, modal_title, car_to_edit, 
         "Lesion_VeS_2_culn3" = ifelse(is.null(input$Lesion_VeS_2_culn3), "", input$Lesion_VeS_2_culn3),
         "Lesion_segment_3_culn3" = ifelse(is.null(input$Lesion_segment_3_culn3), "", input$Lesion_segment_3_culn3),
         "Lesion_VeS_3_culn3" = ifelse(is.null(input$Lesion_VeS_3_culn3), "", input$Lesion_VeS_3_culn3),
-        "Lesion_Type_culn3" = ifelse(is.null(input$Lesion_Type_culn3), "", paste0(input$Lesion_Type_culn3, collapse = ',')),
+        "Lesion_Type_culn3" = ifelse(is.null(input$Lesion_Type_culn3), "", paste0(input$Lesion_Type_culn3, collapse = ",")),
         "FFR_culn3" = ifelse(is.null(input$FFR_culn3), "", input$FFR_culn3),
         "FFR_pre_culn3" = ifelse(is.null(input$FFR_pre_culn3), "", input$FFR_pre_culn3),
         "FFR_post_culn3" = ifelse(is.null(input$FFR_post_culn3), "", input$FFR_post_culn3),
@@ -1238,8 +1238,6 @@ culn3_edit_module <- function(input, output, session, modal_title, car_to_edit, 
     out$data$modified_by <- sessionid
     out
   })
-  
-  
   
   callEdit <- reactive({
     list(

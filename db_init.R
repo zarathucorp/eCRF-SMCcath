@@ -313,7 +313,7 @@ create_rct_query <- "CREATE TABLE rct (
   Intervention_CPS_detail_cul1    TEXT,
   Trombosuction_cul1              TEXT,
   Perforation_cul1                TEXT,
-
+  
   -- Culprit2
   
   Vessel_cul2                     TEXT,
@@ -412,9 +412,10 @@ create_rct_query <- "CREATE TABLE rct (
   Trombosuction_cul2              TEXT,
   Perforation_cul2                TEXT,
 
+  
   -- Non-Culprit1
   
-  Vessel_culn1                    TEXT,
+  Vessel_culn1                     TEXT,
   Lesion_culn1                     TEXT,
   Lesion_segment_1_culn1           TEXT,
   Lesion_VeS_1_culn1               TEXT,
@@ -509,6 +510,7 @@ create_rct_query <- "CREATE TABLE rct (
   Intervention_CPS_detail_culn1    TEXT,
   Trombosuction_culn1              TEXT,
   Perforation_culn1                TEXT,
+
 
   -- Non-Culprit2
   
@@ -607,9 +609,10 @@ create_rct_query <- "CREATE TABLE rct (
   Intervention_CPS_detail_culn2    TEXT,
   Trombosuction_culn2              TEXT,
   Perforation_culn2                TEXT,
+
   
   -- Non-Culprit3
-  
+
   Vessel_culn3                     TEXT,
   Lesion_culn3                     TEXT,
   Lesion_segment_1_culn3           TEXT,
@@ -705,9 +708,9 @@ create_rct_query <- "CREATE TABLE rct (
   Intervention_CPS_detail_culn3    TEXT,
   Trombosuction_culn3              TEXT,
   Perforation_culn3                TEXT,
-  
+
   -- Non-Culprit4
-  
+
   Vessel_culn4                     TEXT,
   Lesion_culn4                     TEXT,
   Lesion_segment_1_culn4           TEXT,
@@ -1514,115 +1517,6 @@ dat <- cbind(
     Index_PCI_Date = as.character(as.Date(Sys.time()))
   ),
   dat[, -1],
-
-  # Admission
-
-  # tibble(
-  #   SBP_adm = 120
-  # ),
-
-  # Outcomes
-
-  # tibble(
-  #   Discharge_out = as.character(as.Date(Sys.time())),
-  #   Comment_out = "Comment outcomes"
-  # ),
-
-  # Event
-  #
-  # tibble(
-  #  Last_FU_Date = as.character(as.Date(Sys.time())),
-  #  Death = "1",
-  #  Death_Date = as.character(as.Date(Sys.time())),
-  #  MI = "1",
-  #  MI_Date = as.character(as.Date(Sys.time())),
-  #  TVMI = "1",
-  #  TVMI_Date = as.character(as.Date(Sys.time())),
-  #  TLR = "1",
-  #  TLR_Date = as.character(as.Date(Sys.time())),
-  #  TVR = "1",
-  #  TVR_Date = as.character(as.Date(Sys.time())),
-  #  Readmission_Total = "1",
-  #  Readmission_Total_Date = as.character(as.Date(Sys.time())),
-  #  TLF = "1",
-  #  TLF_Date = as.character(as.Date(Sys.time()))
-  # ),
-
-  # Lab
-  # tibble(
-  #  Lab_Date = as.character(as.Date(Sys.time())),
-  #  WBC = 7.5,
-  #  Hb = 13,
-  #  Plt = 215,
-  #  Cholesterol = 230,
-  #  TG = 150,
-  #  LDL = 138,
-  #  HDL = 32,
-  #  BUN = 24.8,
-  #  Creatinine = 0.79,
-  #  eCFR = 97.78,
-  #  Bilirubin = 1.1,
-  #  AST = 34,
-  #  ALT = 32,
-  #  hsCRP = 0.03,
-  #  HbA1c = 5,
-  #  Pre_CK_MB = 1.67,
-  #  Pre_cTnT = 0.058,
-  #  Post_Peak_CK_MB = 198.78,
-  #  Post_Peak_cTnT = 1.875,
-  #  NT_proBNP_Baseline = 148.7,
-  #  Lactic_Acid_Pre = 2.1,
-  #  Lactic_Acid_Peak = 3
-  # ),
-
-  # M1
-  # tibble(
-  #   FU_M1 = "0",
-  #   Visit_Date_M1 = as.character(as.Date(Sys.time() + lubridate::days(90))),
-  #   Visit_M1 = "0",
-  #   SBP_M1 = 121,
-  #   DBP_M1 = 81,
-  #   HRT_M1 = 61,
-  #   Event_M1 = "1",
-  #   Comment_M1 = "This is Comment M1"
-  # ),
-  # 
-  # 
-  # # M3
-  # tibble(
-  #   FU_M3 = "0",
-  #   Visit_Date_M3 = as.character(as.Date(Sys.time() + lubridate::days(90))),
-  #   Visit_M3 = "0",
-  #   SBP_M3 = 120,
-  #   DBP_M3 = 80,
-  #   HRT_M3 = 60,
-  #   Event_M3 = "1",
-  #   Comment_M3 = "This is Comment Month 3"
-  # ),
-  # 
-  # # M6
-  # tibble(
-  #   FU_M6 = "0",
-  #   Visit_Date_M6 = as.character(as.Date(Sys.time() + lubridate::days(90))),
-  #   Visit_M6 = "0",
-  #   SBP_M6 = 126,
-  #   DBP_M6 = 86,
-  #   HRT_M6 = 66,
-  #   Event_M6 = "1",
-  #   Comment_M6 = "This is Comment M6"
-  # ),
-  # 
-  # # Mf
-  # tibble(
-  #   FU_Mf = "0",
-  #   Visit_Date_Mf = as.character(as.Date(Sys.time() + lubridate::days(90))),
-  #   Visit_Mf = "0",
-  #   SBP_Mf = 124,
-  #   DBP_Mf = 84,
-  #   HRT_Mf = 64,
-  #   Event_Mf = "1",
-  #   Comment_Mf = "This is Comment Mfinal"
-  # ),
 
   # Info
   tibble(

@@ -60,7 +60,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               ns("Vessel_cul1"),
               label = "Vessel",
               choices = c("LM" = "LM", "LAD" = "LAD", "LCx" = "LCx", "RCA" = "RCA"),
-              selected = strsplit(ifelse(is.null(hold$Vessel_cul1), character(0), hold$Vessel_cul1), ',')[[1]],
+              selected = strsplit(ifelse(is.null(hold$Vessel_cul1), character(0), hold$Vessel_cul1), ",")[[1]],
               inline = TRUE
             )
           )
@@ -149,7 +149,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                   "CTO Lesion" = 0, "True bifurcation lesion ( medina 1,1,1/1,0,1/0,1,1)" = 1, "Long lesion (≥38mm stent)" = 2,
                   "Unprotected Left Main" = 3, "ISR lesion" = 4, "Calcified lesion" = 5, "Not applicable" = 6
                 ),
-                selected = strsplit(ifelse(is.null(hold$Lesion_Type_cul1), character(0), hold$Lesion_Type_cul1), ',')[[1]]
+                selected = strsplit(ifelse(is.null(hold$Lesion_Type_cul1), character(0), hold$Lesion_Type_cul1), ",")[[1]]
               )
             )
           )
@@ -1102,8 +1102,8 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
         )
       )
     )
-    
-    
+
+
     # Observe event for "Model" text input in Add/Edit Car Modal
     # `shinyFeedback`
     observeEvent(input$model, {
@@ -1125,7 +1125,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
 
     out <- list(
       data = list(
-        "Vessel_cul1" = ifelse(is.null(input$Vessel_cul1),"", paste0(input$Vessel_cul1, collapse = ',')),
+        "Vessel_cul1" = ifelse(is.null(input$Vessel_cul1), "", paste0(input$Vessel_cul1, collapse = ",")),
         "Lesion_cul1" = ifelse(is.null(input$Lesion_cul1), "", input$Lesion_cul1),
         "Lesion_segment_1_cul1" = ifelse(is.null(input$Lesion_segment_1_cul1), "", input$Lesion_segment_1_cul1),
         "Lesion_VeS_1_cul1" = ifelse(is.null(input$Lesion_VeS_1_cul1), "", input$Lesion_VeS_1_cul1),
@@ -1133,7 +1133,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
         "Lesion_VeS_2_cul1" = ifelse(is.null(input$Lesion_VeS_2_cul1), "", input$Lesion_VeS_2_cul1),
         "Lesion_segment_3_cul1" = ifelse(is.null(input$Lesion_segment_3_cul1), "", input$Lesion_segment_3_cul1),
         "Lesion_VeS_3_cul1" = ifelse(is.null(input$Lesion_VeS_3_cul1), "", input$Lesion_VeS_3_cul1),
-        "Lesion_Type_cul1" = ifelse(is.null(input$Lesion_Type_cul1), "", paste0(input$Lesion_Type_cul1, collapse = ',')),
+        "Lesion_Type_cul1" = ifelse(is.null(input$Lesion_Type_cul1), "", paste0(input$Lesion_Type_cul1, collapse = ",")),
         "FFR_cul1" = ifelse(is.null(input$FFR_cul1), "", input$FFR_cul1),
         "FFR_pre_cul1" = ifelse(is.null(input$FFR_pre_cul1), "", input$FFR_pre_cul1),
         "FFR_post_cul1" = ifelse(is.null(input$FFR_post_cul1), "", input$FFR_post_cul1),
@@ -1222,7 +1222,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
         "Perforation_cul1" = ifelse(is.null(input$Perforation_cul1), "", input$Perforation_cul1)
       )
     )
-    
+
     time_now <- as.character(lubridate::with_tz(Sys.time(), tzone = "UTC"))
     if (is.null(hold)) {
       # adding a new car
@@ -1239,8 +1239,6 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
     out
   })
 
-  
-  
   callEdit <- reactive({
     list(
       input$submit,
@@ -1253,15 +1251,15 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
       input$submit6
     )
   })
-  
+
   # Reference : https://stackoverflow.com/questions/41960953/how-to-listen-for-more-than-one-event-expression-within-a-shiny-observeevent
-  
+
   validate_edit <- eventReactive(
     eventExpr = callEdit(),
     valueExpr = {
       if (input$submit0 == 0 && input$submit1 == 0 && input$submit2 == 0 &&
-          input$submit3 == 0 && input$submit4 == 0 && input$submit5 == 0 &&
-          input$submit6 == 0 && input$submit == 0) {
+        input$submit3 == 0 && input$submit4 == 0 && input$submit5 == 0 &&
+        input$submit6 == 0 && input$submit == 0) {
         return()
       }
       dat <- edit_car_dat()
@@ -1269,7 +1267,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
       dat
     }, ignoreInit = TRUE
   )
-  
+
 
   observeEvent(validate_edit(), {
     removeModal()
