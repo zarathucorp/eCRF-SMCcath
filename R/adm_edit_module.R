@@ -847,7 +847,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               placeholder = 'g/dl',
               HTML(
                 paste0(
-                  "Hgb)",
+                  "Hgb",
                   actionButton(
                     inputId = ns("hbND"),
                     label = "ND",
