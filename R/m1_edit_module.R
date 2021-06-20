@@ -220,57 +220,57 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             )
           )
         ),
-        fluidRow(
-          column(
-            width = 2,
-            radioButtons(
-              ns("Readmission_M1"),
-              "Readmission",
-              choices = c("Yes" = 0, "No" = 1),
-              selected = hold$Readmission_M1,
-              inline = T
-            )
-          ),
-          column(
-            width = 3,
-            conditionalPanel(
-              "input.Readmission_M1 == 0",
-              ns = ns,
-              dateInput(
-                ns("Readmission_Date_M1"),
-                "Readmission Date",
-                value = lubridate::as_date(hold$Readmission_Date_M1),
-                language = "ko"
-              )
-            )
-          ),
-          column(
-            width = 3,
-            conditionalPanel(
-              "input.Readmission_M1 == 0",
-              ns = ns,
-              checkboxGroupInput(
-                ns("Readmission_reason_M1"),
-                label = "Reason",
-                choices = c("Cardiac" = 0, "Non-Cardiac" = 1),
-                inline = TRUE,
-                selected = character(0)
-              )
-            )
-          ),
-          column(
-            width = 4,
-            conditionalPanel(
-              "input.Readmission_M1 == 0",
-              ns = ns,
-              textAreaInput(
-                ns("Readmission_reason_text_M1"),
-                "Detail",
-                height = "3em"
-              )
-            )
-          )
-        ),
+        # fluidRow(
+        #   column(
+        #     width = 2,
+        #     radioButtons(
+        #       ns("Readmission_M1"),
+        #       "Readmission",
+        #       choices = c("Yes" = 0, "No" = 1),
+        #       selected = hold$Readmission_M1,
+        #       inline = T
+        #     )
+        #   ),
+        #   column(
+        #     width = 3,
+        #     conditionalPanel(
+        #       "input.Readmission_M1 == 0",
+        #       ns = ns,
+        #       dateInput(
+        #         ns("Readmission_Date_M1"),
+        #         "Readmission Date",
+        #         value = lubridate::as_date(hold$Readmission_Date_M1),
+        #         language = "ko"
+        #       )
+        #     )
+        #   ),
+        #   column(
+        #     width = 3,
+        #     conditionalPanel(
+        #       "input.Readmission_M1 == 0",
+        #       ns = ns,
+        #       checkboxGroupInput(
+        #         ns("Readmission_reason_M1"),
+        #         label = "Reason",
+        #         choices = c("Cardiac" = 0, "Non-Cardiac" = 1),
+        #         inline = TRUE,
+        #         selected = character(0)
+        #       )
+        #     )
+        #   ),
+        #   column(
+        #     width = 4,
+        #     conditionalPanel(
+        #       "input.Readmission_M1 == 0",
+        #       ns = ns,
+        #       textAreaInput(
+        #         ns("Readmission_reason_text_M1"),
+        #         "Detail",
+        #         height = "3em"
+        #       )
+        #     )
+        #   )
+        # ),
         fluidRow(
           column(
             width = 6,
@@ -369,7 +369,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("WBC_M1"),
-              placeholder = '10^3/ul',
+              placeholder = "10^3/ul",
               HTML(
                 paste0(
                   "WBC",
@@ -387,7 +387,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("TC_M1"),
-              placeholder = 'mg/dl',
+              placeholder = "mg/dl",
               HTML(
                 paste0(
                   "Total Chol",
@@ -405,7 +405,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("Hb_M1"),
-              placeholder = 'g/dl',
+              placeholder = "g/dl",
               HTML(
                 paste0(
                   "Hgb",
@@ -425,7 +425,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("TG_M1"),
-              placeholder = 'mg/dl',
+              placeholder = "mg/dl",
               HTML(
                 paste0(
                   "Triglyceride",
@@ -443,7 +443,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("Platelet_M1"),
-              placeholder = '10^3/ul',
+              placeholder = "10^3/ul",
               HTML(
                 paste0(
                   "Platelet",
@@ -461,7 +461,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("HDL_M1"),
-              placeholder = 'mg/dl',
+              placeholder = "mg/dl",
               HTML(
                 paste0(
                   "HDL",
@@ -479,7 +479,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("BUN_M1"),
-              placeholder = 'mg/dl',
+              placeholder = "mg/dl",
               HTML(
                 paste0(
                   "BUN",
@@ -499,7 +499,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("LDL_M1"),
-              placeholder = 'mg/dl',
+              placeholder = "mg/dl",
               HTML(
                 paste0(
                   "LDL",
@@ -517,7 +517,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("Cr_M1"),
-              placeholder = 'mg/dl',
+              placeholder = "mg/dl",
               HTML(
                 paste0(
                   "Cr",
@@ -535,7 +535,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("FG_M1"),
-              placeholder = 'mg/dl',
+              placeholder = "mg/dl",
               HTML(
                 paste0(
                   "Fasting Glucose",
@@ -553,7 +553,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("MDRD_M1"),
-              placeholder = 'ml/min/1.73m2',
+              placeholder = "ml/min/1.73m2",
               HTML(
                 paste0(
                   "MDRD-eGFR",
@@ -573,7 +573,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("HbA1C_M1"),
-              placeholder = '%',
+              placeholder = "%",
               HTML(
                 paste0(
                   "HbA1C",
@@ -591,7 +591,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("AST_M1"),
-              placeholder = 'IU/L',
+              placeholder = "IU/L",
               HTML(
                 paste0(
                   "AST",
@@ -609,7 +609,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("hs_CRP_M1"),
-              placeholder = 'mg/dl',
+              placeholder = "mg/dl",
               HTML(
                 paste0(
                   "hs-CRP",
@@ -627,7 +627,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("ALT_M1"),
-              placeholder = 'IU/L',
+              placeholder = "IU/L",
               HTML(
                 paste0(
                   "ALT",
@@ -647,7 +647,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             width = 3,
             textInput(
               ns("NT_Pro_BNP_M1"),
-              placeholder = 'pg/ml',
+              placeholder = "pg/ml",
               HTML(
                 paste0(
                   "NT-Pro BNP",
@@ -666,16 +666,22 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
           HTML(
             paste0(
               '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
-              "Medication Data",
+              "Medication",
               tags$div(
                 modalButton("", icon("times")),
                 style = "float:right;"
               ),
               actionButton(
-                ns("submit0"),
+                ns("submit2"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
                 style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+              ),
+              actionButton(
+                ns("CYfA"),
+                "Yes",
+                class = "btn",
+                style = "color: white; float:right; margin-right:10px; background-color : #f39c12;"
               )
             ),
             "</h3>"
@@ -688,7 +694,18 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
               ns("Aspirin_M1"),
               label = "Aspirin",
               choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-              selected = hold$Aspirin_M1
+              selected = hold$Aspirin_M1,
+              inline = T
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Trimetazidine_M1"),
+              label = "Trimetazidine (Vastinan)",
+              choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+              selected = hold$Trimetazidine_M1,
+              inline = T
             )
           ),
           column(
@@ -697,45 +714,30 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
               ns("Clopidogrel_M1"),
               label = "Clopidogrel",
               choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-              selected = hold$Clopidogrel_M1
+              selected = hold$Clopidogrel_M1,
+              inline = T
             )
           ),
           column(
             width = 3,
             radioButtons(
-              ns("Prasugrel_M1"),
-              label = "Prasugrel",
+              ns("Nitrate_M1"),
+              label = "Nitrate",
               choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-              selected = hold$Prasugrel_M1
-            )
-          ),
-          column(
-            width = 3,
-            radioButtons(
-              ns("Ticagrelor_M1"),
-              label = "Ticagrelor",
-              choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-              selected = hold$Ticagrelor_M1
+              selected = hold$Nitrate_M1,
+              inline = T
             )
           )
         ),
         fluidRow(
           column(
             width = 3,
-            radioButtons( # Beta Blocker
-              ns("BB_M1"),
-              label = "Beta Blocker",
-              choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-              selected = hold$BB_M1
-            )
-          ),
-          column(
-            width = 3,
             radioButtons(
-              ns("WN_M1"),
-              label = "Wafarin or NOAC",
+              ns("Prasugrel_M1"),
+              label = "Prasugrel",
               choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-              selected = hold$WN_M1
+              selected = hold$Prasugrel_M1,
+              inline = T
             )
           ),
           column(
@@ -744,16 +746,117 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
               ns("Statin_M1"),
               label = "Statin",
               choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-              selected = hold$Statin_M1
+              selected = hold$Statin_M1,
+              inline = T
+            ),
+            conditionalPanel(
+              "input.Statin_M1 == 0",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 6,
+                  textInput(
+                    ns("Statin_name_M1"),
+                    label = "Name",
+                    value = hold$Statin_name_M1
+                  )
+                ),
+                column(
+                  width = 6,
+                  numericInput(
+                    ns("Statin_dose_M1"),
+                    label = "Dose",
+                    value = hold$Statin_dose_M1,
+                    min = 0,
+                    max = 200,
+                    step = 1
+                  )
+                )
+              )
             )
           ),
           column(
             width = 3,
             radioButtons(
-              ns("ACE_M1"),
-              label = "ACE Inhibitor or ARB",
+              ns("Ticagrelor_M1"),
+              label = "Ticagrelor",
               choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-              selected = hold$ACE_M1
+              selected = hold$Ticagrelor_M1,
+              inline = T
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Wafarin_M1"),
+              label = "Wafarin",
+              choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+              selected = hold$Wafarin_M1,
+              inline = T
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Nicorandil_M1"),
+              label = "Nicorandil",
+              choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+              selected = hold$Nicorandil_M1,
+              inline = T
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("NOAC_M1"),
+              label = "NOAC",
+              choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+              selected = hold$NOAC_M1,
+              inline = T
+            ),
+            conditionalPanel(
+              "input.NOAC_M1 == 0",
+              ns = ns,
+              textInput(
+                ns("NOAC_name_M1"),
+                label = "Name",
+                value = hold$NOAC_name_M1
+              ),
+              numericInput(
+                ns("NOAC_dose_M1"),
+                label = "Dose",
+                value = hold$NOAC_dose_M1,
+                min = 0,
+                max = 200,
+                step = 1
+              )
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons( # Beta Blocker
+              ns("BB_M1"),
+              label = "Beta Blocker",
+              choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+              selected = ifelse(is.null(hold$BB_M1), character(0), hold$BB_M1),
+              inline = T
+            ),
+            conditionalPanel(
+              "input.BB_M1 == 0",
+              ns = ns,
+              textInput(
+                ns("BB_name_M1"),
+                label = "Name",
+                value = hold$BB_name_M1
+              ),
+              numericInput(
+                ns("BB_dose_M1"),
+                label = "Dose",
+                value = hold$BB_dose_M1,
+                min = 0,
+                max = 200,
+                step = 1
+              )
             )
           )
         ),
@@ -761,37 +864,282 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
           column(
             width = 3,
             radioButtons(
-              ns("Nitrate_M1"),
-              label = "Nitrate (Sigmart)",
+              ns("ACE_M1"),
+              label = "ACE Inhibitor or ARB",
               choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-              selected = hold$Nitrate_M1
+              selected = hold$ACE_M1,
+              inline = T
+            ),
+            conditionalPanel(
+              "input.ACE_M1 == 0",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 6,
+                  textInput(
+                    ns("ACE_name_M1"),
+                    label = "Name",
+                    value = hold$ACE_name_M1
+                  )
+                ),
+                column(
+                  width = 6,
+                  numericInput(
+                    ns("ACE_dose_M1"),
+                    label = "Dose",
+                    value = hold$ACE_dose_M1,
+                    min = 0,
+                    max = 200,
+                    step = 1
+                  )
+                )
+              )
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("DPP4_M1"),
+              label = "DPP4 Inhibitor",
+              choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+              selected = hold$DPP4_M1,
+              inline = T
+            ),
+            conditionalPanel(
+              "input.DPP4_M1 == 0",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 6,
+                  textInput(
+                    ns("DPP4_name_M1"),
+                    label = "Name",
+                    value = hold$DPP4_name_M1
+                  )
+                ),
+                column(
+                  width = 6,
+                  numericInput(
+                    ns("DPP4_dose_M1"),
+                    label = "Dose",
+                    value = hold$DPP4_dose_M1,
+                    min = 0,
+                    max = 200,
+                    step = 1
+                  )
+                )
+              )
             )
           ),
           column(
             width = 3,
             radioButtons(
               ns("Calcium_M1"),
-              label = "Calcium channel antagonist",
+              label = "Calcium channel blocker",
               choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-              selected = hold$Calcium_M1
+              selected = hold$Calcium_M1,
+              inline = T
+            ),
+            conditionalPanel(
+              "input.Calcium_M1 == 0",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 6,
+                  textInput(
+                    ns("Calcium_name_M1"),
+                    label = "Name",
+                    value = hold$Calcium_name_M1
+                  )
+                ),
+                column(
+                  width = 6,
+                  numericInput(
+                    ns("Calcium_dose_M1"),
+                    label = "Dose",
+                    value = hold$Calcium_dose_M1,
+                    min = 0,
+                    max = 200,
+                    step = 1
+                  )
+                )
+              )
             )
           ),
           column(
             width = 3,
             radioButtons(
-              ns("Calcium_M1"),
-              label = "Calcium channel antagonist",
+              ns("Metformin_M1"),
+              label = "Metformin",
               choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-              selected = hold$Calcium_M1
+              selected = hold$Metformin_M1,
+              inline = T
+            ),
+            conditionalPanel(
+              "input.Metformin_M1 == 0",
+              ns = ns,
+              numericInput(
+                ns("Metformin_dose_M1"),
+                label = "Dose",
+                value = hold$Metformin_dose_M1,
+                min = 0,
+                max = 200,
+                step = 1
+              )
+            )
+          ),
+        ),
+        fluidRow(
+          column(
+            width = 3,
+            radioButtons(
+              ns("Sulf_M1"),
+              label = "Sulfonylurea",
+              choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+              selected = hold$Sulf_M1,
+              inline = T
+            ),
+            conditionalPanel(
+              "input.Sulf_M1 == 0",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 6,
+                  textInput(
+                    ns("Sulf_name_M1"),
+                    label = "Name",
+                    value = hold$Sulf_name_M1
+                  )
+                ),
+                column(
+                  width = 6,
+                  numericInput(
+                    ns("Sulf_dose_M1"),
+                    label = "Dose",
+                    value = hold$Sulf_dose_M1,
+                    min = 0,
+                    max = 200,
+                    step = 1
+                  )
+                )
+              )
             )
           ),
           column(
             width = 3,
             radioButtons(
-              ns("Trimetazidine_M1"),
-              label = "Trimetazidine",
+              ns("Thia_M1"),
+              label = "Thiazolidinedione",
               choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-              selected = hold$Trimetazidine_M1
+              selected = hold$Thia_M1,
+              inline = T
+            ),
+            conditionalPanel(
+              "input.Thia_M1 == 0",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 6,
+                  textInput(
+                    ns("Thia_name_M1"),
+                    label = "Name",
+                    value = hold$Thia_name_M1
+                  )
+                ),
+                column(
+                  width = 6,
+                  numericInput(
+                    ns("Thia_dose_M1"),
+                    label = "Dose",
+                    value = hold$Thia_dose_M1,
+                    min = 0,
+                    max = 200,
+                    step = 1
+                  )
+                )
+              )
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("GLP_M1"),
+              label = "GLP-1 Agonist",
+              choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+              selected = hold$GLP_M1,
+              inline = T
+            ),
+            conditionalPanel(
+              "input.GLP_M1 == 0",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 6,
+                  textInput(
+                    ns("GLP_name_M1"),
+                    label = "Name",
+                    value = hold$GLP_name_M1
+                  )
+                ),
+                column(
+                  width = 6,
+                  numericInput(
+                    ns("GLP_dose_M1"),
+                    label = "Dose",
+                    value = hold$GLP_dose_M1,
+                    min = 0,
+                    max = 200,
+                    step = 1
+                  )
+                )
+              )
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
+              ns("Alpha_M1"),
+              label = "Alpha-glucosidase inhibitor",
+              choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+              selected = hold$Alpha_M1,
+              inline = T
+            ),
+            conditionalPanel(
+              "input.Alpha_M1 == 0",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 6,
+                  textInput(
+                    ns("Alpha_name_M1"),
+                    label = "Name",
+                    value = hold$Alpha_name_M1
+                  )
+                ),
+                column(
+                  width = 6,
+                  numericInput(
+                    ns("Alpha_dose_M1"),
+                    label = "Dose",
+                    value = hold$Alpha_dose_M1,
+                    min = 0,
+                    max = 200,
+                    step = 1
+                  )
+                )
+              )
+            )
+          ),
+        ),
+        fluidRow(
+          column(
+            width = 3,
+            radioButtons(
+              ns("Insulin_M1"),
+              label = "Insulin",
+              choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+              selected = hold$Insulin_M1,
+              inline = T
             )
           )
         ),
@@ -833,8 +1181,8 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
               checkboxGroupInput(
                 ns("Event_Details_M1"),
                 "Detail",
-                choices = c("Death" = 0, "MI" = 1, "Repeat Revascularization" = 2, "Stent Thrombosis" = 3, "CVA" = 4),
-                selected = hold$Event_Details_M1,
+                choices = c("Death" = 0, "MI" = 1, "Repeat Revascularization" = 2, "Stent Thrombosis" = 3, "CVA" = 4, "Bleeding" = 5, "Readmission" = 6),
+                selected = strsplit(ifelse(is.null(hold$Event_Details_M1), character(0), hold$Event_Details_M1), ',')[[1]],
                 inline = TRUE
               )
             )
@@ -1064,7 +1412,6 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             )
           )
         ),
-        
         conditionalPanel(
           'input.Event_Details_M1.includes("3")',
           ns = ns,
@@ -1201,6 +1548,230 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
           )
         ),
 
+        # Bleeding
+        conditionalPanel(
+          'input.Event_Details_M1.includes("5")',
+          ns = ns,
+          tags$div(
+            HTML(
+              paste0(
+                '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+                "Bleeding",
+                tags$div(
+                  modalButton("", icon("times")),
+                  style = "float:right;"
+                ),
+                actionButton(
+                  ns("submit8"),
+                  HTML('<i class="fas fa-check"></i>'),
+                  class = "btn",
+                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                )
+              ),
+              "</h3>"
+            )
+          ),
+          fluidRow(
+            column(
+              width = 2,
+              numericInput(
+                ns("Bleed_count_M1"),
+                "Count",
+                value = ifelse(is.null(hold$Bleed_count_M1), 0, hold$Bleed_count_M1),
+                min = 1,
+                max = 2
+              )
+            ),
+            conditionalPanel(
+              "input.Bleed_count_M1 >= 1",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 2,
+                  dateInput(
+                    ns("Bleed1_date_M1"),
+                    "Date",
+                    value = lubridate::as_date(hold$Bleed1_date_M1),
+                    language = "ko"
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC1_Type_M1"),
+                    "BARC Type",
+                    choices = c("BARC 2" = 0, "BARC 3" = 1, "BARC 5" = 2),
+                    selected = ifelse(is.null(hold$BARC1_Type_M1), character(0), hold$BARC1_Type_M1),
+                    inline = TRUE
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC1_ST_M1"),
+                    "Spontaneous or Traumatic",
+                    choices = c("Spontaneous" = 0, "Traumatic" = 1),
+                    selected = ifelse(is.null(hold$BARC1_ST_M1), character(0), hold$BARC1_ST_M1),
+                    inline = TRUE
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC1_HT_M1"),
+                    "Requiring hospitalization or transfusion",
+                    choices = c("Yes" = 0, "No" = 1),
+                    selected = ifelse(is.null(hold$BARC1_HT_M1), character(0), hold$BARC1_HT_M1),
+                    inline = TRUE
+                  )
+                ),
+                column(
+                  width = 2,
+                  textInput(
+                    ns("BARC1_Origin_M1"),
+                    label = "Origin of Bleeding	",
+                    value = ifelse(is.null(hold$BARC1_Origin_M1), "", hold$BARC1_Origin_M1)
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC1_AT_M1"),
+                    "After Treatment",
+                    choices = c("Recovered" = 0, "Death" = 1),
+                    selected = ifelse(is.null(hold$BARC1_AT_M1), character(0), hold$BARC1_AT_M1),
+                    inline = TRUE
+                  )
+                )
+              )
+            ),
+            conditionalPanel(
+              "input.Bleed_count_M1 >= 2",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 2,
+                  dateInput(
+                    ns("Bleed2_date_M1"),
+                    "Date",
+                    value = lubridate::as_date(hold$Bleed2_date_M1),
+                    language = "ko"
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC2_Type_M1"),
+                    "BARC Type",
+                    choices = c("BARC 2" = 0, "BARC 3" = 1, "BARC 5" = 2),
+                    selected = ifelse(is.null(hold$BARC2_Type_M1), character(0), hold$BARC2_Type_M1),
+                    inline = TRUE
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC2_ST_M1"),
+                    "Spontaneous or Traumatic",
+                    choices = c("Spontaneous" = 0, "Traumatic" = 1),
+                    selected = ifelse(is.null(hold$BARC2_ST_M1), character(0), hold$BARC2_ST_M1),
+                    inline = TRUE
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC2_HT_M1"),
+                    "Requiring hospitalization or transfusion",
+                    choices = c("Yes" = 0, "No" = 1),
+                    selected = ifelse(is.null(hold$BARC2_HT_M1), character(0), hold$BARC2_HT_M1),
+                    inline = TRUE
+                  )
+                ),
+                column(
+                  width = 2,
+                  textInput(
+                    ns("BARC2_Origin_M1"),
+                    label = "Origin of Bleeding	",
+                    value = ifelse(is.null(hold$BARC2_Origin_M1), "", hold$BARC2_Origin_M1)
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC2_AT_M1"),
+                    "After Treatment",
+                    choices = c("Recovered" = 0, "Death" = 1),
+                    selected = ifelse(is.null(hold$BARC2_AT_M1), character(0), hold$BARC2_AT_M1),
+                    inline = TRUE
+                  )
+                )
+              )
+            ),
+          )
+        ),
+
+        # Readmission
+        conditionalPanel(
+          'input.Event_Details_M1.includes("6")',
+          ns = ns,
+          tags$div(
+            HTML(
+              paste0(
+                '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
+                "Readmission",
+                tags$div(
+                  modalButton("", icon("times")),
+                  style = "float:right;"
+                ),
+                actionButton(
+                  ns("submit0"),
+                  HTML('<i class="fas fa-check"></i>'),
+                  class = "btn",
+                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                )
+              ),
+              "</h3>"
+            )
+          ),
+          fluidRow(
+            column(
+              width = 3,
+              dateInput(
+                ns("Readmission_Date_M1"),
+                label = "Date",
+                value = lubridate::as_date(hold$Readmission_Date_M1),
+                language = "ko"
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("Readmission_Type_M1"),
+                label = "Type",
+                choices = c("Heart failure" = 0, "cardiac problem(not heart failure)" = 1, "Other" = 2),
+                selected = ifelse(is.null(hold$Readmission_Type_M1), character(0), hold$Readmission_Type_M1),
+                inline = TRUE
+              )
+            ),
+            column(
+              width = 3,
+              conditionalPanel(
+                "input.Readmission_Type_M1 == 2", # if Other : Show text box.
+                ns = ns,
+                textAreaInput(
+                  ns("Readmission_Other_M1"),
+                  "Comment",
+                  width = "400px",
+                  height = "100px",
+                  value = ifelse(is.null(hold$Readmission_Other_M1), "", hold$Readmission_Other_M1)
+                )
+              )
+            )
+          )
+        ),
+
+
         # textAreaInput(
         #   ns("Comment_M1"),
         #   "Comment",
@@ -1262,17 +1833,16 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
         "Cardiac_Status_M1" = ifelse(is.null(input$Cardiac_Status_M1), "", input$Cardiac_Status_M1),
         "CCS_M1" = ifelse(is.null(input$CCS_M1), "", input$CCS_M1),
         "Other_Cardiac_Status_M1" = ifelse(is.null(input$Other_Cardiac_Status_M1), "", input$Other_Cardiac_Status_M1),
-        "Readmission_M1" = ifelse(is.null(input$Readmission_M1), "", input$Readmission_M1),
-        "Readmission_Date_M1" = ifelse(is.null(input$Readmission_Date_M1), "", input$Readmission_Date_M1),
-        "Readmission_reason_M1" = ifelse(is.null(input$Readmission_reason_M1), "", input$Readmission_reason_M1),
-        "Readmission_reason_text_M1" = ifelse(is.null(input$Readmission_reason_text_M1), "", input$Readmission_reason_text_M1),
+        # "Readmission_M1" = ifelse(is.null(input$Readmission_M1), "", input$Readmission_M1),
+        # "Readmission_Date_M1" = ifelse(is.null(input$Readmission_Date_M1), "", input$Readmission_Date_M1),
+        # "Readmission_reason_M1" = ifelse(is.null(input$Readmission_reason_M1), "", input$Readmission_reason_M1),
+        # "Readmission_reason_text_M1" = ifelse(is.null(input$Readmission_reason_text_M1), "", input$Readmission_reason_text_M1),
         "ECG_Rhythm_M1" = ifelse(is.null(input$ECG_Rhythm_M1), "", input$ECG_Rhythm_M1),
         "ECG_Rhythm_Other_M1" = ifelse(is.null(input$ECG_Rhythm_Other_M1), "", input$ECG_Rhythm_Other_M1),
         "Stress_ECG_M1" = ifelse(is.null(input$Stress_ECG_M1), "", input$Stress_ECG_M1),
         "Stress_ECG_Date_M1" = ifelse(is.null(input$Stress_ECG_Date_M1), "", as.character(input$Stress_ECG_Date_M1)),
         "Stress_ECG_Detail_M1" = ifelse(is.null(input$Stress_ECG_Detail_M1), "", input$Stress_ECG_Detail_M1),
-
-        "Lab_Date_M1" = ifelse(is.null(input$Lab_Date_M1), "", lubridate::as_date(input$Lab_Date_M1)),        
+        "Lab_Date_M1" = ifelse(is.null(input$Lab_Date_M1), "", lubridate::as_date(input$Lab_Date_M1)),
         "WBC_M1" = ifelse(is.null(input$WBC_M1), "", input$WBC_M1),
         "TC_M1" = ifelse(is.null(input$TC_M1), "", input$TC_M1),
         "Hb_M1" = ifelse(is.null(input$Hb_M1), "", input$Hb_M1),
@@ -1289,19 +1859,50 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
         "hs_CRP_M1" = ifelse(is.null(input$hs_CRP_M1), "", input$hs_CRP_M1),
         "ALT_M1" = ifelse(is.null(input$ALT_M1), "", input$ALT_M1),
         "NT_Pro_BNP_M1" = ifelse(is.null(input$NT_Pro_BNP_M1), "", input$NT_Pro_BNP_M1),
-        
         "Aspirin_M1" = ifelse(is.null(input$Aspirin_M1), "", input$Aspirin_M1),
-        "Clopidogrel_M1" = ifelse(is.null(input$Clopidogrel_M1), "", input$Clopidogrel_M1),
-        "Prasugrel_M1" = ifelse(is.null(input$Prasugrel_M1), "", input$Prasugrel_M1),
-        "Ticagrelor_M1" = ifelse(is.null(input$Ticagrelor_M1), "", input$Ticagrelor_M1),
-        "BB_M1" = ifelse(is.null(input$BB_M1), "", input$BB_M1),
-        "WN_M1" = ifelse(is.null(input$WN_M1), "", input$WN_M1),
-        "Statin_M1" = ifelse(is.null(input$Statin_M1), "", input$Statin_M1),
-        "ACE_M1" = ifelse(is.null(input$ACE_M1), "", input$ACE_M1),
-        "Nitrate_M1" = ifelse(is.null(input$Nitrate_M1), "", input$Nitrate_M1),
-        "Calcium_M1" = ifelse(is.null(input$Calcium_M1), "", input$Calcium_M1),
         "Trimetazidine_M1" = ifelse(is.null(input$Trimetazidine_M1), "", input$Trimetazidine_M1),
-        "Event_Details_M1" = ifelse(is.null(input$Event_Details_M1), "", input$Event_Details_M1),
+        "Clopidogrel_M1" = ifelse(is.null(input$Clopidogrel_M1), "", input$Clopidogrel_M1),
+        "Nitrate_M1" = ifelse(is.null(input$Nitrate_M1), "", input$Nitrate_M1),
+        "Nicorandil_M1" = ifelse(is.null(input$Nicorandil_M1), "", input$Nicorandil_M1),
+        "Prasugrel_M1" = ifelse(is.null(input$Prasugrel_M1), "", input$Prasugrel_M1),
+        "Statin_M1" = ifelse(is.null(input$Statin_M1), "", input$Statin_M1),
+        "Statin_name_M1" = ifelse(is.null(input$Statin_name_M1), "", input$Statin_name_M1),
+        "Statin_dose_M1" = ifelse(is.null(input$Statin_dose_M1), "", input$Statin_dose_M1),
+        "Ticagrelor_M1" = ifelse(is.null(input$Ticagrelor_M1), "", input$Ticagrelor_M1),
+        "Wafarin_M1" = ifelse(is.null(input$Wafarin_M1), "", input$Wafarin_M1),
+        "NOAC_M1" = ifelse(is.null(input$NOAC_M1), "", input$NOAC_M1),
+        "NOAC_name_M1" = ifelse(is.null(input$NOAC_name_M1), "", input$NOAC_name_M1),
+        "NOAC_dose_M1" = ifelse(is.null(input$NOAC_dose_M1), "", input$NOAC_dose_M1),
+        "BB_M1" = ifelse(is.null(input$BB_M1), "", input$BB_M1),
+        "BB_name_M1" = ifelse(is.null(input$BB_name_M1), "", input$BB_name_M1),
+        "BB_dose_M1" = ifelse(is.null(input$BB_dose_M1), "", input$BB_dose_M1),
+        "ACE_M1" = ifelse(is.null(input$ACE_M1), "", input$ACE_M1),
+        "ACE_name_M1" = ifelse(is.null(input$ACE_name_M1), "", input$ACE_name_M1),
+        "ACE_dose_M1" = ifelse(is.null(input$ACE_dose_M1), "", input$ACE_dose_M1),
+        "DPP4_M1" = ifelse(is.null(input$DPP4_M1), "", input$DPP4_M1),
+        "DPP4_name_M1" = ifelse(is.null(input$DPP4_name_M1), "", input$DPP4_name_M1),
+        "DPP4_dose_M1" = ifelse(is.null(input$DPP4_dose_M1), "", input$DPP4_dose_M1),
+        "Calcium_M1" = ifelse(is.null(input$Calcium_M1), "", input$Calcium_M1),
+        "Calcium_name_M1" = ifelse(is.null(input$Calcium_name_M1), "", input$Calcium_name_M1),
+        "Calcium_dose_M1" = ifelse(is.null(input$Calcium_dose_M1), "", input$Calcium_dose_M1),
+        "Metformin_M1" = ifelse(is.null(input$Metformin_M1), "", input$Metformin_M1),
+        "Metformin_dose_M1" = ifelse(is.null(input$Metformin_dose_M1), "", input$Metformin_dose_M1),
+        "Sulf_M1" = ifelse(is.null(input$Sulf_M1), "", input$Sulf_M1),
+        "Sulf_name_M1" = ifelse(is.null(input$Sulf_name_M1), "", input$Sulf_name_M1),
+        "Sulf_dose_M1" = ifelse(is.null(input$Sulf_dose_M1), "", input$Sulf_dose_M1),
+        "Thia_M1" = ifelse(is.null(input$Thia_M1), "", input$Thia_M1),
+        "Thia_name_M1" = ifelse(is.null(input$Thia_name_M1), "", input$Thia_name_M1),
+        "Thia_dose_M1" = ifelse(is.null(input$Thia_dose_M1), "", input$Thia_dose_M1),
+        "GLP_M1" = ifelse(is.null(input$GLP_M1), "", input$GLP_M1),
+        "GLP_name_M1" = ifelse(is.null(input$GLP_name_M1), "", input$GLP_name_M1),
+        "GLP_dose_M1" = ifelse(is.null(input$GLP_dose_M1), "", input$GLP_dose_M1),
+        "Alpha_M1" = ifelse(is.null(input$Alpha_M1), "", input$Alpha_M1),
+        "Alpha_name_M1" = ifelse(is.null(input$Alpha_name_M1), "", input$Alpha_name_M1),
+        "Alpha_dose_M1" = ifelse(is.null(input$Alpha_dose_M1), "", input$Alpha_dose_M1),
+        "Insulin_M1" = ifelse(is.null(input$Insulin_M1), "", input$Insulin_M1),
+        
+        "Event_Details_M1" = ifelse(is.null(input$Event_Details_M1),"", paste0(input$Event_Details_M1, collapse = ',')),
+        
         "Death_date_M1" = ifelse(is.null(input$Death_date_M1), "", as.character(input$Death_date_M1)),
         "Death_reason_M1" = ifelse(is.null(input$Death_reason_M1), "", input$Death_reason_M1),
         "MI_date_M1" = ifelse(is.null(input$MI_date_M1), "", as.character(input$MI_date_M1)),
@@ -1326,6 +1927,22 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
         "Clinical_feature_other_M1" = ifelse(is.null(input$Clinical_feature_other_M1), "", input$Clinical_feature_other_M1),
         "CVA_date_M1" = ifelse(is.null(input$CVA_date_M1), "", as.character(input$CVA_date_M1)),
         "CVA_Type_M1" = ifelse(is.null(input$CVA_Type_M1), "", input$CVA_Type_M1),
+        "Bleed_count_M1" = ifelse(is.null(input$Bleed_count_M1), "", input$Bleed_count_M1),
+        "Bleed1_date_M1" = ifelse(is.null(input$Bleed1_date_M1), "", lubridate::as_date(input$Bleed1_date_M1)),
+        "BARC1_Type_M1" = ifelse(is.null(input$BARC1_Type_M1), "", input$BARC1_Type_M1),
+        "BARC1_ST_M1" = ifelse(is.null(input$BARC1_ST_M1), "", input$BARC1_ST_M1),
+        "BARC1_HT_M1" = ifelse(is.null(input$BARC1_HT_M1), "", input$BARC1_HT_M1),
+        "BARC1_Origin_M1" = ifelse(is.null(input$BARC1_Origin_M1), "", input$BARC1_Origin_M1),
+        "BARC1_AT_M1" = ifelse(is.null(input$BARC1_AT_M1), "", input$BARC1_AT_M1),
+        "Bleed2_date_M1" = ifelse(is.null(input$Bleed2_date_M1), "", lubridate::as_date(input$Bleed2_date_M1)),
+        "BARC2_Type_M1" = ifelse(is.null(input$BARC2_Type_M1), "", input$BARC2_Type_M1),
+        "BARC2_ST_M1" = ifelse(is.null(input$BARC2_ST_M1), "", input$BARC2_ST_M1),
+        "BARC2_HT_M1" = ifelse(is.null(input$BARC2_HT_M1), "", input$BARC2_HT_M1),
+        "BARC2_Origin_M1" = ifelse(is.null(input$BARC2_Origin_M1), "", input$BARC2_Origin_M1),
+        "BARC2_AT_M1" = ifelse(is.null(input$BARC2_AT_M1), "", input$BARC2_AT_M1),
+        "Readmission_Date_M1" = ifelse(is.null(input$Readmission_Date_M1), "", lubridate::as_date(input$Readmission_Date_M1)),
+        "Readmission_Type_M1" = ifelse(is.null(input$Readmission_Type_M1), "", input$Readmission_Type_M1),
+        "Readmission_Other_M1" = ifelse(is.null(input$Readmission_Other_M1), "", input$Readmission_Other_M1),
         "Imaging_M1" = ifelse(is.null(input$Imaging_M1), "", input$Imaging_M1),
         "Comment_M1" = ifelse(is.null(input$Comment_M1), "", input$Comment_M1)
 
