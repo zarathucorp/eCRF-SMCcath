@@ -28,7 +28,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           HTML(
             paste0(
               '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
-              "Title A",
+              "Primary PCI",
               tags$div(
                 modalButton("", icon("times")),
                 style = "float:right;"
@@ -59,7 +59,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Procedure_type_ang"),
               label = "Procedure Type",
               choices = c("Transradial" = 0, "Transfemoral" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$Procedure_type_ang), character(0), hold$Procedure_type_ang),
               inline = TRUE
             )
           ),
@@ -68,7 +68,8 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             textInput(
               ns("Procedure_dose_ang"),
               label = "조영제 사용량",
-              placeholder = "cc"
+              placeholder = "cc",
+              value = hold$Procedure_dose_ang
             )
           )
         ),
@@ -76,7 +77,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           HTML(
             paste0(
               '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
-              "Title B",
+              "Antiplatelet agent loading",
               tags$div(
                 modalButton("", icon("times")),
                 style = "float:right;"
@@ -98,7 +99,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Aspirin_ang"),
               label = "Aspirin",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$Aspirin_ang), character(0), hold$Aspirin_ang),
               inline = TRUE
             ),
             conditionalPanel(
@@ -107,13 +108,14 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               textInput(
                 ns("Aspirin_loading_ang"),
                 label = "Dose",
-                placeholder = "mg"
+                placeholder = "mg",
+                value = hold$Aspirin_loading_ang
               ),
               radioButtons(
                 ns("Aspirin_detail_ang"),
                 label = "Loading Time",
                 choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
-                selected = character(0),
+                selected = ifelse(is.null(hold$Aspirin_detail_ang), character(0), hold$Aspirin_detail_ang),
                 inline = TRUE
               )
             )
@@ -124,7 +126,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Clopidogrel_ang"),
               label = "Clopidogrel",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$Clopidogrel_ang), character(0), hold$Clopidogrel_ang),
               inline = TRUE
             ),
             conditionalPanel(
@@ -133,13 +135,14 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               textInput(
                 ns("Clopidogrel_loading_ang"),
                 label = "Dose",
-                placeholder = "mg"
+                placeholder = "mg",
+                value = hold$Clopidogrel_loading_ang
               ),
               radioButtons(
                 ns("Clopidogrel_detail_ang"),
                 label = "Loading Time",
                 choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
-                selected = character(0),
+                selected = ifelse(is.null(hold$Clopidogrel_detail_ang), character(0), hold$Clopidogrel_detail_ang),
                 inline = TRUE
               )
             )
@@ -150,7 +153,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Prasugrel_ang"),
               label = "Prasugrel",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$Prasugrel_ang), character(0), hold$Prasugrel_ang),
               inline = TRUE
             ),
             conditionalPanel(
@@ -159,13 +162,14 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               textInput(
                 ns("Prasugrel_loading_ang"),
                 label = "Dose",
-                placeholder = "mg"
+                placeholder = "mg",
+                value = hold$Prasugrel_loading_ang
               ),
               radioButtons(
                 ns("Prasugrel_detail_ang"),
                 label = "Loading Time",
                 choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
-                selected = character(0),
+                selected = ifelse(is.null(hold$Prasugrel_detail_ang), character(0), hold$Prasugrel_detail_ang),
                 inline = TRUE
               )
             )
@@ -176,7 +180,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Ticagrelor_ang"),
               label = "Ticagrelor",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$Ticagrelor_ang), character(0), hold$Ticagrelor_ang),
               inline = TRUE
             ),
             conditionalPanel(
@@ -185,13 +189,14 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               textInput(
                 ns("Ticagrelor_loading_ang"),
                 label = "Dose",
-                placeholder = "mg"
+                placeholder = "mg",
+                value = hold$Ticagrelor_loading_ang
               ),
               radioButtons(
                 ns("Ticagrelor_detail_ang"),
                 label = "Loading Time",
                 choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
-                selected = character(0),
+                selected = ifelse(is.null(hold$Ticagrelor_detail_ang), character(0), hold$Ticagrelor_detail_ang),
                 inline = TRUE
               )
             )
@@ -201,7 +206,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           HTML(
             paste0(
               '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
-              "Title C",
+              "Angiographic data",
               tags$div(
                 modalButton("", icon("times")),
                 style = "float:right;"
@@ -223,7 +228,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Disease_extent_ang"),
               label = "Angiographica Disease Extent",
               choices = c("1 VD" = 0, "2 VD" = 1, "3 VD" = 2),
-              selected = character(0),
+              selected = ifelse(is.null(hold$Disease_extent_ang), character(0), hold$Disease_extent_ang),
               inline = TRUE
             )
           ),
@@ -233,7 +238,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Left_main_ang"),
               label = "Left Main Disease",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$Left_main_ang), character(0), hold$Left_main_ang),
               inline = TRUE
             )
           )
@@ -243,28 +248,28 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             width = 2,
             numericInput(
               ns("start_hour_ang"),
-              label = "시작시간", min = 0, max = 23, step = 1, value = NULL
+              label = "시작시간", min = 0, max = 23, step = 1, value = hold$start_hour_ang
             )
           ),
           column(
             width = 2,
             numericInput(
               ns("start_min_ang"),
-              label = "분", min = 0, max = 59, step = 1, value = NULL
+              label = "분", min = 0, max = 59, step = 1, value = hold$start_min_ang
             )
           ),
           column(
             width = 2,
             numericInput(
               ns("end_hour_ang"),
-              label = "종료시간", min = 0, max = 23, step = 1, value = NULL
+              label = "종료시간", min = 0, max = 23, step = 1, value = hold$end_hour_ang
             )
           ),
           column(
             width = 2,
             numericInput(
               ns("end_min_ang"),
-              label = "분", min = 0, max = 59, step = 1, value = NULL
+              label = "분", min = 0, max = 59, step = 1, value = hold$end_min_ang
             )
           ),
           column(
@@ -273,7 +278,8 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               numericInput(
                 ns("time_ang"),
                 label = "소요시간(분)",
-                step = 1, value = 0
+                step = 1, 
+                value = hold$time_ang
               )
             )
           )
@@ -284,6 +290,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             textInput(
               ns("Catheter_diagnostic_ang"),
               label = "Diagnostic Catheter",
+              value = hold$Catheter_diagnostic_ang,
               placeholder = "Fr"
             )
           ),
@@ -292,7 +299,8 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             textInput(
               ns("Catheter_guiding_ang"),
               label = "Guiding Catheter",
-              placeholder = "Fr"
+              placeholder = "Fr",
+              value = hold$Catheter_guiding_ang
             )
           ),
           column(
@@ -301,7 +309,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("staged_PCI_ang"),
               label = "Staged PCI",
               choices = c("Performed" = 0, "Not Performed" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$staged_PCI_ang), character(0), hold$staged_PCI_ang),
               inline = TRUE
             )
           ),
@@ -316,7 +324,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 max = 2, 
                 min = 1, 
                 step = 1, 
-                value = 1
+                value = ifelse(is.null(hold$stagedPCI_count_ang), 1, hold$stagedPCI_count_ang),
               )
             )
           )
@@ -359,7 +367,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("stagedPCI_1_procedure_ang"),
                 label = "Procedure Type",
                 choices = c("Transradial" = 0, "Transfemoral" = 1),
-                selected = character(0),
+                selected = ifelse(is.null(hold$stagedPCI_1_procedure_ang), character(0), hold$stagedPCI_1_procedure_ang),
                 inline = TRUE
               ) 
             ),
@@ -368,7 +376,8 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               textInput(
                 ns("stagedPCI_1_procedure_dose_ang"),
                 label = "조영제 사용량",
-                placeholder = "cc"
+                placeholder = "cc",
+                value = hold$stagedPCI_1_procedure_dose_ang
               )
             )
           ),
@@ -377,28 +386,32 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               width = 2,
               numericInput(
                 ns(paste0("start_hour_PCI_1_ang")),
-                label = "시작시간", min = 0, max = 23, step = 1, value = NULL
+                label = "시작시간", min = 0, max = 23, step = 1, 
+                value = ifelse(is.null(hold$start_hour_PCI_1_ang), character(0), hold$start_hour_PCI_1_ang)
               )
             ),
             column(
               width = 2,
               numericInput(
                 ns("start_min_PCI_1_ang"),
-                label = "분", min = 0, max = 59, step = 1, value = NULL
+                label = "분", min = 0, max = 59, step = 1, 
+                value = ifelse(is.null(hold$start_min_PCI_1_ang), character(0), hold$start_min_PCI_1_ang)
               )
             ),
             column(
               width = 2,
               numericInput(
                 ns("end_hour_PCI_1_ang"),
-                label = "종료시간", min = 0, max = 23, step = 1, value = NULL
+                label = "종료시간", min = 0, max = 23, step = 1, 
+                value = ifelse(is.null(hold$end_hour_PCI_1_ang), character(0), hold$end_hour_PCI_1_ang)
               )
             ),
             column(
               width = 2,
               numericInput(
                 ns("end_min_PCI_1_ang"),
-                label = "분", min = 0, max = 59, step = 1, value = NULL
+                label = "분", min = 0, max = 59, step = 1, 
+                value = ifelse(is.null(hold$end_min_PCI_1_ang), character(0), hold$end_min_PCI_1_ang)
               )
             ),
             column(
@@ -407,7 +420,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 numericInput(
                   ns("time_PCI_1_ang"),
                   label = "소요시간(분)",
-                  value = NULL
+                  value = hold$time_PCI_1_ang
                 )
               )
             )
@@ -418,7 +431,8 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               textInput(
                 ns("Diagnostic_PCI_1_ang"),
                 label = "Diagnostic",
-                placeholder = "Fr"
+                placeholder = "Fr",
+                value = hold$Diagnostic_PCI_1_ang
               ) 
             ),
             column(
@@ -426,7 +440,8 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               textInput(
                 ns("Guiding_PCI_1_ang"),
                 label = "Guiding",
-                placeholder = "Fr"
+                placeholder = "Fr",
+                value = hold$Guiding_PCI_1_ang
               )
             )
           )
@@ -469,7 +484,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("stagedPCI_2_procedure_ang"),
                 label = "Procedure Type",
                 choices = c("Transradial" = 0, "Transfemoral" = 1),
-                selected = character(0),
+                selected = ifelse(is.null(hold$stagedPCI_2_procedure_ang), character(0), hold$stagedPCI_2_procedure_ang),
                 inline = TRUE
               )
             ),
@@ -478,7 +493,8 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               textInput(
                 ns("stagedPCI_2_procedure_dose_ang"),
                 label = "조영제 사용량",
-                placeholder = "cc"
+                placeholder = "cc",
+                value = ifelse(is.null(hold$stagedPCI_2_procedure_dose_ang), character(0), hold$stagedPCI_2_procedure_dose_ang)
               )
             )
           ),
@@ -487,28 +503,32 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               width = 2,
               numericInput(
                 ns(paste0("start_hour_PCI_2_ang")),
-                label = "시작시간", min = 0, max = 23, step = 1, value = NULL
+                label = "시작시간", min = 0, max = 23, step = 1, 
+                value = ifelse(is.null(hold$start_hour_PCI_2_ang), character(0), hold$start_hour_PCI_2_ang)
               )
             ),
             column(
               width = 2,
               numericInput(
                 ns("start_min_PCI_2_ang"),
-                label = "분", min = 0, max = 59, step = 1, value = NULL
+                label = "분", min = 0, max = 59, step = 1, 
+                value = ifelse(is.null(hold$start_min_PCI_2_ang), character(0), hold$start_min_PCI_2_ang)
               )
             ),
             column(
               width = 2,
               numericInput(
                 ns("end_hour_PCI_2_ang"),
-                label = "종료시간", min = 0, max = 23, step = 1, value = NULL
+                label = "종료시간", min = 0, max = 23, step = 1, 
+                value = ifelse(is.null(hold$end_hour_PCI_2_ang), character(0), hold$end_hour_PCI_2_ang)
               ) 
             ),
             column(
               width = 2,
               numericInput(
                 ns("end_min_PCI_2_ang"),
-                label = "분", min = 0, max = 59, step = 1, value = NULL
+                label = "분", min = 0, max = 59, step = 1,
+                value = ifelse(is.null(hold$end_min_PCI_2_ang), character(0), hold$end_min_PCI_2_ang)
               )
             ),
             column(
@@ -517,7 +537,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 numericInput(
                   ns("time_PCI_2_ang"),
                   label = "소요시간(분)",
-                  value = NULL
+                  value = ifelse(is.null(hold$time_PCI_2_ang), character(0), hold$time_PCI_2_ang)
                 )
               )
             )
@@ -528,7 +548,8 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               textInput(
                 ns("Diagnostic_PCI_2_ang"),
                 label = "Diagnostic",
-                placeholder = "Fr"
+                placeholder = "Fr",
+                value = ifelse(is.null(hold$Diagnostic_PCI_2_ang), character(0), hold$Diagnostic_PCI_2_ang)
               )
             ),
             column(
@@ -536,7 +557,8 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               textInput(
                 ns("Guiding_PCI_2_ang"),
                 label = "Guiding",
-                placeholder = "Fr"
+                placeholder = "Fr",
+                value = ifelse(is.null(hold$Guiding_PCI_2_ang), character(0), hold$Guiding_PCI_2_ang)
               )
             )
           ),
@@ -545,7 +567,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           HTML(
             paste0(
               '<h3 style= "background:#3466A1; color:#FFFFFF; padding:0.3em;padding-bottom:0.6em;">',
-              "Title D",
+              "Lesion",
               tags$div(
                 modalButton("", icon("times")),
                 style = "float:right;"
@@ -568,7 +590,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               ns("Gp_ang"),
               label = "Gp IIb/IIIa inhibitor	",
               choices = c("Yes" = 0, "No" = 1),
-              selected = character(0),
+              selected = ifelse(is.null(hold$Gp_ang), character(0), hold$Gp_ang),
               inline = TRUE
             )
           ),
@@ -581,7 +603,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("Gp_detail_ang"),
                 label = "Detail",
                 choices = c("Intra-procedure" = 0, "Post-procedure" = 1, "Abciximab" = 2, "Eptifibatide" = 3, "Tirofiban" = 4),
-                selected = character(0),
+                selected = ifelse(is.null(hold$Gp_detail_ang), character(0), hold$Gp_detail_ang),
                 inline = TRUE
               )
             )
@@ -657,7 +679,40 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
       )
     }
   )
-
+  
+  observeEvent(
+    {
+      input$start_hour_PCI_1_ang
+      input$start_min_PCI_1_ang
+      input$end_hour_PCI_1_ang
+      input$end_min_PCI_1_ang
+    },
+    {
+      updateNumericInput(
+        session,
+        inputId = "time_PCI_1_ang",
+        label = "소요시간(분)",
+        value = (input$end_hour_PCI_1_ang * 60 + input$end_min_PCI_1_ang - input$start_hour_PCI_1_ang * 60 - input$start_min_PCI_1_ang)
+      )
+    }
+  )
+  
+  observeEvent(
+    {
+      input$start_hour_PCI_2_ang
+      input$start_min_PCI_2_ang
+      input$end_hour_PCI_2_ang
+      input$end_min_PCI_2_ang
+    },
+    {
+      updateNumericInput(
+        session,
+        inputId = "time_PCI_2_ang",
+        label = "소요시간(분)",
+        value = (input$end_hour_PCI_2_ang * 60 + input$end_min_PCI_2_ang - input$start_hour_PCI_2_ang * 60 - input$start_min_PCI_2_ang)
+      )
+    }
+  )
 
   edit_car_dat <- reactive({
     hold <- car_to_edit()

@@ -354,7 +354,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             width = 3,
             radioButtons(
               ns("Nitrate_adm"),
-              label = "Nitrate, Nicorandil",
+              label = "Nitrate",
               choices = c("Yes" = 0, "No" = 1),
               selected = hold$Nitrate_adm,
               inline = T
@@ -430,6 +430,16 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 3,
             radioButtons(
+              ns("Nicorandil_adm"),
+              label = "Nicorandil",
+              choices = c("Yes" = 0, "No" = 1),
+              selected = hold$Nicorandil_adm,
+              inline = T
+            )
+          ),
+          column(
+            width = 3,
+            radioButtons(
               ns("NOAC_adm"),
               label = "NOAC",
               choices = c("Yes" = 0, "No" = 1),
@@ -462,6 +472,23 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               choices = c("Yes" = 0, "No" = 1),
               selected = ifelse(is.null(hold$BB_adm), character(0), hold$BB_adm),
               inline = T
+            ),
+            conditionalPanel(
+              "input.BB_adm == 0",
+              ns = ns,
+              textInput(
+                ns("BB_name_adm"),
+                label = "Name",
+                value = hold$BB_name_adm
+              ),
+              numericInput(
+                ns("BB_dose_adm"),
+                label = "Dose",
+                value = hold$BB_dose_adm,
+                min = 0,
+                max = 200,
+                step = 1
+              )
             )
           )
         ),
@@ -820,7 +847,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               placeholder = 'g/dl',
               HTML(
                 paste0(
-                  "Hgb)",
+                  "Hgb",
                   actionButton(
                     inputId = ns("hbND"),
                     label = "ND",
@@ -1776,6 +1803,9 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
     updateRadioButtons(session, "BB_adm", selected = 0)
     updateRadioButtons(session, "ACE_adm", selected = 0)
     updateRadioButtons(session, "DPP4_adm", selected = 0)
+    updateRadioButtons(session, "Wafarin_adm", selected = 0)
+    updateRadioButtons(session, "NOAC_adm", selected = 0)
+    updateRadioButtons(session, "Nicorandil_adm", selected = 0)
     updateRadioButtons(session, "Calcium_adm", selected = 0)
     updateRadioButtons(session, "Metformin_adm", selected = 0)
     updateRadioButtons(session, "Sulf_adm", selected = 0)
@@ -1817,6 +1847,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         "Trimetazidine_adm" = ifelse(is.null(input$Trimetazidine_adm), "", input$Trimetazidine_adm),
         "Clopidogrel_adm" = ifelse(is.null(input$Clopidogrel_adm), "", input$Clopidogrel_adm),
         "Nitrate_adm" = ifelse(is.null(input$Nitrate_adm), "", input$Nitrate_adm),
+        "Nicorandil_adm" = ifelse(is.null(input$Nicorandil_adm), "", input$Nicorandil_adm),
         "Prasugrel_adm" = ifelse(is.null(input$Prasugrel_adm), "", input$Prasugrel_adm),
         "Statin_adm" = ifelse(is.null(input$Statin_adm), "", input$Statin_adm),
         "Statin_name_adm" = ifelse(is.null(input$Statin_name_adm), "", input$Statin_name_adm),
@@ -1827,6 +1858,8 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
         'NOAC_name_adm' = ifelse(is.null(input$NOAC_name_adm), '', input$NOAC_name_adm),
         'NOAC_dose_adm' = ifelse(is.null(input$NOAC_dose_adm), '', input$NOAC_dose_adm),
         "BB_adm" = ifelse(is.null(input$BB_adm), "", input$BB_adm),
+        "BB_name_adm" = ifelse(is.null(input$BB_name_adm), "", input$BB_name_adm),
+        "BB_dose_adm" = ifelse(is.null(input$BB_dose_adm), "", input$BB_dose_adm),
         "ACE_adm" = ifelse(is.null(input$ACE_adm), "", input$ACE_adm),
         "ACE_name_adm" = ifelse(is.null(input$ACE_name_adm), "", input$ACE_name_adm),
         "ACE_dose_adm" = ifelse(is.null(input$ACE_dose_adm), "", input$ACE_dose_adm),
