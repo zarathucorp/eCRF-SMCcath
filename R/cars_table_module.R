@@ -23,6 +23,7 @@ cars_table_module_ui <- function(id) {
   ns <- NS(id)
 
   tagList(
+    shiny::downloadButton(ns('mydownload'), "Download"),
     fluidRow(
       column(
         width = 2,
@@ -132,6 +133,15 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     out
   })
 
+  output$mydownload <- shiny::downloadHandler(
+    filename = function(){
+      paste("data-", Sys.Date(), ".csv", sep="")
+    },
+    content = function(file){
+      write.csv(cars(), file)
+    }
+  )
+  
   car_table_prep <- reactiveVal(NULL)
 
   observeEvent(cars(), {
@@ -512,7 +522,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       `scv` = mf,
       out[,(ncol(out)-4):ncol(out)] # Created at, Created by, Modified at, Modified by
     )
-
+    
     # Data is empty
     if (is.null(car_table_prep())) {
       # loading data into the table for the first time, so we render the entire table
@@ -525,6 +535,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     }
   })
 
+  
+  
   output$car_table <- renderDT({
     req(car_table_prep())
     out <- car_table_prep()
@@ -540,20 +552,20 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
                                         "Angiographics", "Culprit1", "Culprit2", 
                                         "Non-Culprit1", "Non-Culprit2", "Non-Culprit3", "Non-Culprit4", 
                                         "Discharge", "1m-fu", "3m-fu", "6m-fu", "scv")),
-      extensions = c("Buttons"),
+      # extensions = c("Buttons"),
       options = list(
         scrollX = TRUE,
         dom = "Bftip",
-        buttons = list(
-          list(
-            extend = "csv",
-            text = "Download",
-            title = paste0(tbl, "-", Sys.Date()),
-            exportOptions = list(
-              columns = 1:(length(out) - 1)
-            )
-          )
-        ),
+        # buttons = list(
+        #   list(
+        #     extend = "csv",
+        #     text = "Download",
+        #     title = paste0(tbl, "-", Sys.Date()),
+        #     exportOptions = list(
+        #       columns = 1:(length(out) - 1)
+        #     )
+        #   )
+        # ),
         columnDefs = list(
           # not sortable columns 
           list(
@@ -587,6 +599,8 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       )
   })
 
+  
+  
   car_table_proxy <- DT::dataTableProxy("car_table")
 
   callModule(
