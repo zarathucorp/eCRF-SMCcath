@@ -136,7 +136,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
           ),
           fluidRow(
             column(
-              width = 3,
+              width = 2,
               dateInput(
                 inputId = ns("Agree_Date"),
                 label = "동의서 서명일",
@@ -145,7 +145,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
               )
             ),
             column(
-              width = 3,
+              width = 2,
               dateInput(
                 inputId = ns("Index_PCI_Date"),
                 label = "시술일자",
@@ -164,7 +164,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
               )
             ),
             column(
-              width = 3,
+              width = 2,
               conditionalPanel(
                 condition = "input.Withdrawal == 0",
                 ns = ns,
@@ -173,7 +173,14 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
                   label = "Date",
                   value = as_date(as.numeric(hold$Withdrawal_date)),
                   language = "ko"
-                ),
+                )
+              )
+            ),
+            column(
+              width = 2,
+              conditionalPanel(
+                condition = "input.Withdrawal == 0",
+                ns = ns,
                 textInput(
                   inputId = "Withdrawal_reason",
                   label = "Reason",
