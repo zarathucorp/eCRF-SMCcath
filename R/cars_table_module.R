@@ -29,7 +29,7 @@ cars_table_module_ui <- function(id) {
         width = 2,
         actionButton(
           ns("add_patient"),
-          "Add",
+          "Add Patient",
           class = "btn-success",
           style = "color: #fff;",
           icon = icon("plus"),
@@ -216,10 +216,16 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     })]
     
     
+    ids.na.cul1 <- ids[apply(select(out, Cul_cnt_ang), 1, function(x){
+      any(is.na(x) | x < 1)
+    })]
+    
+    # 1 or 0 이면 cul 2 <- primary 가 나와야 함.
+    
 
     # cul1 button color
     cul1 <- sapply(ids, function(id_) {
-      btn.demo <- ifelse(id_ %in% ids.na.cul1, "warning", "success")
+      btn.demo <- ifelse(id_ %in% ids.na.cul1, "primary", "success")
       paste0(
         "<center>",
         '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit Culprit1">',
@@ -250,7 +256,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     cul2 <- sapply(ids, function(id_) {
       
       # btn.demo <- ifelse(id_ %in% ids.na.cul2, "primary", "success")
-      btn.demo <- ifelse(id_ %in% ids.na.cul2, 'primary','info')
+      btn.demo <- ifelse(id_ %in% ids.na.cul2, 'primary','success')
       paste0(
         "<center>",
         '<div class="btn-group" style="width: 75px;" role="group" aria-label="Edit Culprit2">',

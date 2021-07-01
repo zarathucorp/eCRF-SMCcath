@@ -699,6 +699,73 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             column(
               width = 3,
               radioButtons(
+                ns("Ticagrelor_M1"),
+                label = "Ticagrelor",
+                choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+                selected = ifelse(is.null(hold$Ticagrelor_M1),character(0), hold$Ticagrelor_M1),
+                inline = T
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("Wafarin_M1"),
+                label = "Wafarin",
+                choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+                selected = ifelse(is.null(hold$Wafarin_M1),character(0), hold$Wafarin_M1),
+                inline = T
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("Nicorandil_M1"),
+                label = "Nicorandil",
+                choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+                selected = ifelse(is.null(hold$Nicorandil_M1),character(0), hold$Nicorandil_M1),
+                inline = T
+              )
+            )
+          ),
+          fluidRow(
+            column(
+              width = 3,
+              radioButtons(
+                ns("NOAC_M1"),
+                label = "NOAC",
+                choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+                selected = ifelse(is.null(hold$NOAC_M1),character(0), hold$NOAC_M1),
+                inline = T
+              ),
+              conditionalPanel(
+                "input.NOAC_M1 == 0",
+                ns = ns,
+                fluidRow(
+                  column(
+                    width = 6,
+                    textInput(
+                      ns("NOAC_name_M1"),
+                      label = "Name",
+                      value = ifelse(is.null(hold$NOAC_name_M1), '', hold$NOAC_name_M1),
+                    )
+                  ),
+                  column(
+                    width = 6,
+                    numericInput(
+                      ns("NOAC_dose_M1"),
+                      label = "Dose",
+                      value = ifelse(is.null(hold$NOAC_dose_M1), character(0), hold$NOAC_dose_M1),
+                      min = 0,
+                      max = 200,
+                      step = 1
+                    )
+                  )
+                )
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
                 ns("Statin_M1"),
                 label = "Statin",
                 choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
@@ -733,63 +800,6 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
             ),
             column(
               width = 3,
-              radioButtons(
-                ns("Ticagrelor_M1"),
-                label = "Ticagrelor",
-                choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-                selected = ifelse(is.null(hold$Ticagrelor_M1),character(0), hold$Ticagrelor_M1),
-                inline = T
-              )
-            ),
-            column(
-              width = 3,
-              radioButtons(
-                ns("Wafarin_M1"),
-                label = "Wafarin",
-                choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-                selected = ifelse(is.null(hold$Wafarin_M1),character(0), hold$Wafarin_M1),
-                inline = T
-              )
-            ),
-            column(
-              width = 3,
-              radioButtons(
-                ns("Nicorandil_M1"),
-                label = "Nicorandil",
-                choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-                selected = ifelse(is.null(hold$Nicorandil_M1),character(0), hold$Nicorandil_M1),
-                inline = T
-              )
-            ),
-            column(
-              width = 3,
-              radioButtons(
-                ns("NOAC_M1"),
-                label = "NOAC",
-                choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-                selected = ifelse(is.null(hold$NOAC_M1),character(0), hold$NOAC_M1),
-                inline = T
-              ),
-              conditionalPanel(
-                "input.NOAC_M1 == 0",
-                ns = ns,
-                textInput(
-                  ns("NOAC_name_M1"),
-                  label = "Name",
-                  value = ifelse(is.null(hold$NOAC_name_M1), '', hold$NOAC_name_M1),
-                ),
-                numericInput(
-                  ns("NOAC_dose_M1"),
-                  label = "Dose",
-                  value = ifelse(is.null(hold$NOAC_dose_M1), character(0), hold$NOAC_dose_M1),
-                  min = 0,
-                  max = 200,
-                  step = 1
-                )
-              )
-            ),
-            column(
-              width = 3,
               radioButtons( # Beta Blocker
                 ns("BB_M1"),
                 label = "Beta Blocker",
@@ -800,19 +810,37 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
               conditionalPanel(
                 "input.BB_M1 == 0",
                 ns = ns,
-                textInput(
-                  ns("BB_name_M1"),
-                  label = "Name",
-                  value = ifelse(is.null(hold$BB_name_M1), '',hold$BB_name_M1)
-                ),
-                numericInput(
-                  ns("BB_dose_M1"),
-                  label = "Dose",
-                  value = ifelse(is.null(hold$BB_dose_M1), character(0), hold$BB_dose_M1),
-                  min = 0,
-                  max = 200,
-                  step = 1
+                fluidRow(
+                  column(
+                    width = 6,
+                    textInput(
+                      ns("BB_name_M1"),
+                      label = "Name",
+                      value = ifelse(is.null(hold$BB_name_M1), '',hold$BB_name_M1)
+                    )
+                  ),
+                  column(
+                    width = 6,
+                    numericInput(
+                      ns("BB_dose_M1"),
+                      label = "Dose",
+                      value = ifelse(is.null(hold$BB_dose_M1), character(0), hold$BB_dose_M1),
+                      min = 0,
+                      max = 200,
+                      step = 1
+                    )
+                  )
                 )
+              )
+            ),
+            column(
+              width = 3,
+              radioButtons(
+                ns("Insulin_M1"),
+                label = "Insulin",
+                choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
+                selected = ifelse(is.null(hold$Insulin_M1),character(0), hold$Insulin_M1),
+                inline = T
               )
             )
           ),
@@ -1087,18 +1115,6 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
               )
             ),
           ),
-          fluidRow(
-            column(
-              width = 3,
-              radioButtons(
-                ns("Insulin_M1"),
-                label = "Insulin",
-                choices = c("Yes" = 0, "No" = 1, "Unknown" = 2),
-                selected = ifelse(is.null(hold$Insulin_M1),character(0), hold$Insulin_M1),
-                inline = T
-              )
-            )
-          ),
           tags$div(
             HTML(
               paste0(
@@ -1120,7 +1136,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
           ),
           fluidRow(
             column(
-              width = 3,
+              width = 2,
               radioButtons(
                 ns("Event_M1"),
                 "Clinical Events",
@@ -1130,7 +1146,7 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
               )
             ),
             column(
-              width = 9,
+              width = 10,
               conditionalPanel(
                 "input.Event_M1 == 0",
                 ns = ns,
@@ -1555,133 +1571,133 @@ m1_edit_module <- function(input, output, session, modal_title, car_to_edit, mod
                   min = 1,
                   max = 2
                 )
-              ),
-              conditionalPanel(
-                "input.Bleed_count_M1 >= 1",
-                ns = ns,
-                fluidRow(
-                  column(
-                    width = 2,
-                    dateInput(
-                      ns("Bleed1_date_M1"),
-                      "Date",
-                      value = lubridate::as_date(hold$Bleed1_date_M1),
-                      language = "ko"
-                    )
-                  ),
-                  column(
-                    width = 2,
-                    radioButtons(
-                      ns("BARC1_Type_M1"),
-                      "BARC Type",
-                      choices = c("BARC 2" = 0, "BARC 3" = 1, "BARC 5" = 2),
-                      selected = ifelse(is.null(hold$BARC1_Type_M1), character(0), hold$BARC1_Type_M1),
-                      inline = TRUE
-                    )
-                  ),
-                  column(
-                    width = 2,
-                    radioButtons(
-                      ns("BARC1_ST_M1"),
-                      "Spontaneous or Traumatic",
-                      choices = c("Spontaneous" = 0, "Traumatic" = 1),
-                      selected = ifelse(is.null(hold$BARC1_ST_M1), character(0), hold$BARC1_ST_M1),
-                      inline = TRUE
-                    )
-                  ),
-                  column(
-                    width = 2,
-                    radioButtons(
-                      ns("BARC1_HT_M1"),
-                      "Requiring hospitalization or transfusion",
-                      choices = c("Yes" = 0, "No" = 1),
-                      selected = ifelse(is.null(hold$BARC1_HT_M1), character(0), hold$BARC1_HT_M1),
-                      inline = TRUE
-                    )
-                  ),
-                  column(
-                    width = 2,
-                    textInput(
-                      ns("BARC1_Origin_M1"),
-                      label = "Origin of Bleeding	",
-                      value = ifelse(is.null(hold$BARC1_Origin_M1), "", hold$BARC1_Origin_M1)
-                    )
-                  ),
-                  column(
-                    width = 2,
-                    radioButtons(
-                      ns("BARC1_AT_M1"),
-                      "After Treatment",
-                      choices = c("Recovered" = 0, "Death" = 1),
-                      selected = ifelse(is.null(hold$BARC1_AT_M1), character(0), hold$BARC1_AT_M1),
-                      inline = TRUE
-                    )
+              )
+            ),
+            conditionalPanel(
+              "input.Bleed_count_M1 >= 1",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 2,
+                  dateInput(
+                    ns("Bleed1_date_M1"),
+                    "Date",
+                    value = lubridate::as_date(hold$Bleed1_date_M1),
+                    language = "ko"
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC1_Type_M1"),
+                    "BARC Type",
+                    choices = c("BARC 2" = 0, "BARC 3" = 1, "BARC 5" = 2),
+                    selected = ifelse(is.null(hold$BARC1_Type_M1), character(0), hold$BARC1_Type_M1),
+                    inline = TRUE
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC1_ST_M1"),
+                    "Spontaneous or Traumatic",
+                    choices = c("Spontaneous" = 0, "Traumatic" = 1),
+                    selected = ifelse(is.null(hold$BARC1_ST_M1), character(0), hold$BARC1_ST_M1),
+                    inline = TRUE
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC1_HT_M1"),
+                    "Requiring hospitalization or transfusion",
+                    choices = c("Yes" = 0, "No" = 1),
+                    selected = ifelse(is.null(hold$BARC1_HT_M1), character(0), hold$BARC1_HT_M1),
+                    inline = TRUE
+                  )
+                ),
+                column(
+                  width = 2,
+                  textInput(
+                    ns("BARC1_Origin_M1"),
+                    label = "Origin of Bleeding	",
+                    value = ifelse(is.null(hold$BARC1_Origin_M1), "", hold$BARC1_Origin_M1)
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC1_AT_M1"),
+                    "After Treatment",
+                    choices = c("Recovered" = 0, "Death" = 1),
+                    selected = ifelse(is.null(hold$BARC1_AT_M1), character(0), hold$BARC1_AT_M1),
+                    inline = TRUE
                   )
                 )
-              ),
-              conditionalPanel(
-                "input.Bleed_count_M1 >= 2",
-                ns = ns,
-                fluidRow(
-                  column(
-                    width = 2,
-                    dateInput(
-                      ns("Bleed2_date_M1"),
-                      "Date",
-                      value = lubridate::as_date(hold$Bleed2_date_M1),
-                      language = "ko"
-                    )
-                  ),
-                  column(
-                    width = 2,
-                    radioButtons(
-                      ns("BARC2_Type_M1"),
-                      "BARC Type",
-                      choices = c("BARC 2" = 0, "BARC 3" = 1, "BARC 5" = 2),
-                      selected = ifelse(is.null(hold$BARC2_Type_M1), character(0), hold$BARC2_Type_M1),
-                      inline = TRUE
-                    )
-                  ),
-                  column(
-                    width = 2,
-                    radioButtons(
-                      ns("BARC2_ST_M1"),
-                      "Spontaneous or Traumatic",
-                      choices = c("Spontaneous" = 0, "Traumatic" = 1),
-                      selected = ifelse(is.null(hold$BARC2_ST_M1), character(0), hold$BARC2_ST_M1),
-                      inline = TRUE
-                    )
-                  ),
-                  column(
-                    width = 2,
-                    radioButtons(
-                      ns("BARC2_HT_M1"),
-                      "Requiring hospitalization or transfusion",
-                      choices = c("Yes" = 0, "No" = 1),
-                      selected = ifelse(is.null(hold$BARC2_HT_M1), character(0), hold$BARC2_HT_M1),
-                      inline = TRUE
-                    )
-                  ),
-                  column(
-                    width = 2,
-                    textInput(
-                      ns("BARC2_Origin_M1"),
-                      label = "Origin of Bleeding	",
-                      value = ifelse(is.null(hold$BARC2_Origin_M1), "", hold$BARC2_Origin_M1)
-                    )
-                  ),
-                  column(
-                    width = 2,
-                    radioButtons(
-                      ns("BARC2_AT_M1"),
-                      "After Treatment",
-                      choices = c("Recovered" = 0, "Death" = 1),
-                      selected = ifelse(is.null(hold$BARC2_AT_M1), character(0), hold$BARC2_AT_M1),
-                      inline = TRUE
-                    )
+              )
+            ),
+            conditionalPanel(
+              "input.Bleed_count_M1 >= 2",
+              ns = ns,
+              fluidRow(
+                column(
+                  width = 2,
+                  dateInput(
+                    ns("Bleed2_date_M1"),
+                    "Date",
+                    value = lubridate::as_date(hold$Bleed2_date_M1),
+                    language = "ko"
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC2_Type_M1"),
+                    "BARC Type",
+                    choices = c("BARC 2" = 0, "BARC 3" = 1, "BARC 5" = 2),
+                    selected = ifelse(is.null(hold$BARC2_Type_M1), character(0), hold$BARC2_Type_M1),
+                    inline = TRUE
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC2_ST_M1"),
+                    "Spontaneous or Traumatic",
+                    choices = c("Spontaneous" = 0, "Traumatic" = 1),
+                    selected = ifelse(is.null(hold$BARC2_ST_M1), character(0), hold$BARC2_ST_M1),
+                    inline = TRUE
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC2_HT_M1"),
+                    "Requiring hospitalization or transfusion",
+                    choices = c("Yes" = 0, "No" = 1),
+                    selected = ifelse(is.null(hold$BARC2_HT_M1), character(0), hold$BARC2_HT_M1),
+                    inline = TRUE
+                  )
+                ),
+                column(
+                  width = 2,
+                  textInput(
+                    ns("BARC2_Origin_M1"),
+                    label = "Origin of Bleeding	",
+                    value = ifelse(is.null(hold$BARC2_Origin_M1), "", hold$BARC2_Origin_M1)
+                  )
+                ),
+                column(
+                  width = 2,
+                  radioButtons(
+                    ns("BARC2_AT_M1"),
+                    "After Treatment",
+                    choices = c("Recovered" = 0, "Death" = 1),
+                    selected = ifelse(is.null(hold$BARC2_AT_M1), character(0), hold$BARC2_AT_M1),
+                    inline = TRUE
                   )
                 )
-              ),
+              )
             )
           ),
           
