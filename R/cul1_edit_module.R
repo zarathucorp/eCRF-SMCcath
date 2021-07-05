@@ -49,7 +49,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Lesion_cul1"),
               label = "Lesion",
-              choices = c("1" = 1, "2" = 2, "3" = 3),
+              choices = c(1:3),
               selected = ifelse(is.null(hold$Lesion_cul1), character(0), hold$Lesion_cul1),
               inline = TRUE
             )
@@ -146,8 +146,8 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("Lesion_Type_cul1"),
                 label = "Lesion Type",
                 choices = c(
-                  "CTO Lesion" = 0, "True bifurcation lesion ( medina 1,1,1/1,0,1/0,1,1)" = 1, "Long lesion (≥38mm stent)" = 2,
-                  "Unprotected Left Main" = 3, "ISR lesion" = 4, "Calcified lesion" = 5, "Not applicable" = 6
+                  "CTO Lesion" , "True bifurcation lesion ( medina 1,1,1/1,0,1/0,1,1)" , "Long lesion (≥38mm stent)" ,
+                  "Unprotected Left Main" , "ISR lesion" , "Calcified lesion", "Not applicable"
                 ),
                 selected = strsplit(ifelse(is.null(hold$Lesion_Type_cul1), character(0), hold$Lesion_Type_cul1), ",")[[1]]
               )
@@ -179,7 +179,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("FFR_cul1"),
               label = "FFR",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = hold$FFR_cul1,
               inline = TRUE
             )
@@ -187,12 +187,12 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           column(
             width = 4,
             conditionalPanel(
-              "input.FFR_cul1 == 0",
+              "input.FFR_cul1 == 'Yes'",
               ns = ns,
               radioButtons(
                 ns("FFR_pre_cul1"),
                 label = "Pre-PCI FFR",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = hold$FFR_pre_cul1,
                 inline = TRUE
               )
@@ -201,12 +201,12 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           column(
             width = 4,
             conditionalPanel(
-              "input.FFR_cul1 == 0",
+              "input.FFR_cul1 == 'Yes'",
               ns = ns,
               radioButtons(
                 ns("FFR_post_cul1"),
                 label = "Post-PCI FFR",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = hold$FFR_post_cul1,
                 inline = TRUE
               )
@@ -238,7 +238,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Image_cul1"),
               label = "Image Device",
-              choices = c("IVUS" = 0, "OCT" = 1, "ND" = 2),
+              choices = c("IVUS" , "OCT" , "ND" ),
               selected = hold$FFR_cul1,
               inline = TRUE
             )
@@ -251,7 +251,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Pre_stent_cul1"),
                 label = "Pre-Stenting",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = hold$Pre_stent_cul1,
                 inline = TRUE
               )
@@ -265,7 +265,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Post_stent_cul1"),
                 label = "Post-Stenting",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = hold$Post_stent_cul1,
                 inline = TRUE
               )
@@ -297,7 +297,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Intervention_cul1"),
               label = "Intervention Data",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = hold$Intervention_cul1,
               inline = TRUE
             )
@@ -305,12 +305,12 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           column(
             width = 8,
             conditionalPanel(
-              "input.Intervention_cul1 == 0",
+              "input.Intervention_cul1 == 'Yes'",
               ns = ns,
               radioButtons(
                 ns("Intervention_cnt_cul1"),
                 label = "개수",
-                choices = c("1" = 1, "2" = 2, "3" = 3, "4" = 4, "5" = 5, "6" = 6, "7" = 7, "8" = 8, "9" = 9, "10" = 10),
+                choices = c(1:10),
                 selected = ifelse(is.null(hold$Intervention_cnt_cul1), character(0), hold$Intervention_cnt_cul1),
                 inline = TRUE
               )
@@ -318,7 +318,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           )
         ),
         conditionalPanel(
-          "input.Intervention_cul1 == 0",
+          "input.Intervention_cul1 == 'Yes'",
           ns = ns,
           fluidRow(
             column(
@@ -326,7 +326,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention1_treat_cul1"),
                 label = "Treatment",
-                choices = c("Ballooning" = 0, "Stenting" = 1),
+                choices = c("Ballooning" , "Stenting" ),
                 selected = ifelse(is.null(hold$Intervention1_treat_cul1), character(0), hold$Intervention1_treat_cul1)
               )
             ),
@@ -381,7 +381,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention2_treat_cul1"),
                 label = "Treatment",
-                choices = c("Ballooning" = 0, "Stenting" = 1),
+                choices = c("Ballooning" , "Stenting" ),
                 selected = ifelse(is.null(hold$Intervention2_treat_cul1), character(0), hold$Intervention2_treat_cul1)
               )
             ),
@@ -436,7 +436,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention3_treat_cul1"),
                 label = "Treatment",
-                choices = c("Ballooning" = 0, "Stenting" = 1),
+                choices = c("Ballooning" , "Stenting" ),
                 selected = ifelse(is.null(hold$Intervention3_treat_cul1), character(0), hold$Intervention3_treat_cul1)
               )
             ),
@@ -491,7 +491,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention4_treat_cul1"),
                 label = "Treatment",
-                choices = c("Ballooning" = 0, "Stenting" = 1),
+                choices = c("Ballooning" , "Stenting" ),
                 selected = ifelse(is.null(hold$Intervention4_treat_cul1), character(0), hold$Intervention4_treat_cul1)
               )
             ),
@@ -546,7 +546,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention5_treat_cul1"),
                 label = "Treatment",
-                choices = c("Ballooning" = 0, "Stenting" = 1),
+                choices = c("Ballooning" , "Stenting" ),
                 selected = ifelse(is.null(hold$Intervention5_treat_cul1), character(0), hold$Intervention5_treat_cul1)
               )
             ),
@@ -620,7 +620,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention6_treat_cul1"),
                 label = "Treatment",
-                choices = c("Ballooning" = 0, "Stenting" = 1),
+                choices = c("Ballooning" , "Stenting" ),
                 selected = ifelse(is.null(hold$Intervention6_treat_cul1), character(0), hold$Intervention6_treat_cul1)
               )
             ),
@@ -675,7 +675,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention7_treat_cul1"),
                 label = "Treatment",
-                choices = c("Ballooning" = 0, "Stenting" = 1),
+                choices = c("Ballooning" , "Stenting" ),
                 selected = ifelse(is.null(hold$Intervention7_treat_cul1), character(0), hold$Intervention7_treat_cul1)
               )
             ),
@@ -730,7 +730,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention8_treat_cul1"),
                 label = "Treatment",
-                choices = c("Ballooning" = 0, "Stenting" = 1),
+                choices = c("Ballooning" , "Stenting" ),
                 selected = ifelse(is.null(hold$Intervention8_treat_cul1), character(0), hold$Intervention8_treat_cul1)
               )
             ),
@@ -785,7 +785,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention9_treat_cul1"),
                 label = "Treatment",
-                choices = c("Ballooning" = 0, "Stenting" = 1),
+                choices = c("Ballooning" , "Stenting" ),
                 selected = ifelse(is.null(hold$Intervention9_treat_cul1), character(0), hold$Intervention9_treat_cul1)
               )
             ),
@@ -840,7 +840,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention10_treat_cul1"),
                 label = "Treatment",
-                choices = c("Ballooning" = 0, "Stenting" = 1),
+                choices = c("Ballooning" , "Stenting" ),
                 selected = ifelse(is.null(hold$Intervention10_treat_cul1), character(0), hold$Intervention10_treat_cul1)
               )
             ),
@@ -911,13 +911,13 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Intervention_ab_cul1"),
               label = "Adjunctive Balloon",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.null(hold), character(0), hold$Intervention_ab_cul1),
               inline = TRUE,
             )
           ),
           conditionalPanel(
-            "input.Intervention_ab_cul1 == 0",
+            "input.Intervention_ab_cul1 == 'Yes'",
             ns = ns,
             column(
               width = 3,
@@ -951,7 +951,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Intervention_Rota_cul1"),
               label = "Rota-ablation",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = hold$Intervention_Rota_cul1,
               inline = TRUE
             )
@@ -961,7 +961,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Intervention_cd_cul1"),
               label = "Clinical Device Success",
-              choices = c("Yes" = 0, "No" = 1, "NA" = 2),
+              choices = c("Yes", "No", "NA"),
               selected = hold$Intervention_cd_cul1,
               inline = TRUE
             )
@@ -971,14 +971,14 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Intervention_cl_cul1"),
               label = "Clinical Lesion Success",
-              choices = c("Yes" = 0, "No" = 1, "NA" = 2),
+              choices = c("Yes" , "No" , "NA" ),
               selected = hold$Intervention_cl_cul1,
               inline = TRUE
             )
           )
         ),
         conditionalPanel(
-          "input.Intervention_cl_cul1 == 1",
+          "input.Intervention_cl_cul1 == 'No'",
           ns = ns,
           fluidRow(
             column(
@@ -986,7 +986,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention_SRS_cul1"),
                 label = "Significant Residual Stenosis",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = hold$Intervention_SRS_cul1,
                 inline = TRUE
               )
@@ -996,7 +996,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention_NR_cul1"),
                 label = "No Reflow",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = hold$Intervention_NR_cul1,
                 inline = TRUE
               )
@@ -1006,7 +1006,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention_D_cul1"),
                 label = "Dissection",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = hold$Intervention_D_cul1,
                 inline = TRUE
               )
@@ -1016,7 +1016,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention_AC_cul1"),
                 label = "Acute Closure",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = hold$Intervention_AC_cul1,
                 inline = TRUE
               )
@@ -1028,7 +1028,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Intervention_O_cul1"),
                 label = "Other",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = ifelse(is.null(hold), character(0), hold$Intervention_O_cul1),
                 inline = TRUE
               )
@@ -1036,7 +1036,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             column(
               width = 3,
               conditionalPanel(
-                "Intervention_O_cul1 == 0",
+                "Intervention_O_cul1 == 'Yes'",
                 ns = ns,
                 textInput(
                   ns("Intervention_O_detail_cul1"),
@@ -1045,22 +1045,12 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 )
               )
             ),
-            # column(
-            #   width = 3,
-            #   radioButtons(
-            #     ns("Intervention_P_cul1"),
-            #     label = "Perforation",
-            #     choices = c("Yes" = 0, "No" = 1),
-            #     selected = hold$Intervention_P_cul1,
-            #     inline = TRUE
-            #   )
-            # ),
             column(
               width = 3,
               radioButtons(
                 ns("Intervention_CPS_cul1"),
                 label = "Clinical Procedureal Success",
-                choices = c("Yes" = 0, "No" = 1, "NA" = 2),
+                choices = c("Yes" , "No" , "NA" ),
                 selected = hold$Intervention_CPS_cul1,
                 inline = TRUE
               )
@@ -1073,7 +1063,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Trombosuction_cul1"),
               label = "Trombosuction",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = hold$Trombosuction_cul1,
               inline = TRUE
             )
@@ -1083,7 +1073,7 @@ cul1_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Perforation_cul1"),
               label = "Perforation",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = hold$Perforation_cul1,
               inline = TRUE
             )

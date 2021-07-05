@@ -162,7 +162,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("HTN"), # Hypertension
               label = "Hypertension",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$HTN), character(0), hold$HTN),
               inline = TRUE
             )
@@ -172,7 +172,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Hld_adm"), # Hyperlipidemia
               label = "Hyperlipidemia",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$Hld_adm), character(0), hold$Hld_adm),
               inline = TRUE
             )
@@ -182,7 +182,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Smoking"), # Current Smoking
               label = "Smoking",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$Smoking), character(0), hold$Smoking),
               inline = TRUE
             )
@@ -193,7 +193,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               radioButtons(
                 ns("Diabetes_adm"),
                 label = "Diabetes",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes" = "Yes", "No" = "No"),
                 selected = hold$DM, # character(0),
                 inline = TRUE
               )
@@ -202,12 +202,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 4,
               conditionalPanel(
-                "input.Diabetes_adm == 0",
+                "input.Diabetes_adm == 'Yes'",
                 ns = ns,
                 checkboxGroupInput(
                   ns("Diabetes_detail_adm"),
                   label = "Diabetes: Detail",
-                  choices = c("Diet Only" = 0, "OHA" = 1, "Insulin" = 2),
+                  choices = c("Diet Only" = "Diet Only", "OHA" = "OHA", "Insulin" = "Insulin"),
                   inline = TRUE,
                   selected = ifelse(is.null(hold$Diabetes_detail_adm), character(0), hold$Diabetes_detail_adm),
                 )
@@ -220,7 +220,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("FHC_adm"), # Family History of CAD
               label = "Family History of CAD",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$FHC_adm), character(0), hold$FHC_adm),
               inline = TRUE
             )
@@ -230,7 +230,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("PCHF_adm"), # Previous CHF
               label = "Previous CHF Admission",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$PCHF_adm), character(0), hold$PCHF_adm),
               inline = TRUE
             )
@@ -240,7 +240,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Pvd_adm"), # Peripheral vascular ds.
               label = "Peripheral Vascular ds.",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$Pvd_adm), character(0), hold$Pvd_adm),
               inline = TRUE
             )
@@ -250,7 +250,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("PCI_adm"), # Previous PCI
               label = "Previous PCI",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$PCI_adm), character(0), hold$PCI_adm),
               inline = TRUE
             )
@@ -262,7 +262,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("PCABG_adm"), # Previous CABG
               label = "Previous CABG",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$PCABG_adm), character(0), hold$PCABG_adm),
               inline = TRUE
             )
@@ -273,7 +273,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("PCVA_adm"), # Previous CVA
               label = "Previous CVA",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$PCVA_adm), character(0), hold$PCVA_adm),
               inline = TRUE
             )
@@ -283,7 +283,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("CRF_adm"), # CRF
               label = "CRF (eGFR < 60ml/min/1.73m2)",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$CRF_adm), character(0), hold$CRF_adm),
               inline = TRUE
             )
@@ -293,7 +293,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("PNTB_adm"),
               label = "Previous Spontaneuous Bleeding (BARC>=2)",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$PNTB_adm), character(0), hold$PNTB_adm),
               inline = TRUE
             )
@@ -330,7 +330,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Aspirin_adm"),
               label = "Aspirin",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Aspirin_adm),character(0), hold$Aspirin_adm),
               inline = T
             )
@@ -340,7 +340,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Trimetazidine_adm"),
               label = "Trimetazidine (Vastinan)",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Trimetazidine_adm),character(0), hold$Trimetazidine_adm),
               inline = T
             )
@@ -350,7 +350,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Clopidogrel_adm"),
               label = "Clopidogrel",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Clopidogrel_adm),character(0), hold$Clopidogrel_adm),
               inline = T
             )
@@ -360,7 +360,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Nitrate_adm"),
               label = "Nitrate",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Nitrate_adm),character(0), hold$Nitrate_adm),
               inline = T
             )
@@ -372,7 +372,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Prasugrel_adm"),
               label = "Prasugrel",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Prasugrel_adm),character(0), hold$Prasugrel_adm),
               inline = T
             )
@@ -382,7 +382,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Ticagrelor_adm"),
               label = "Ticagrelor",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Ticagrelor_adm),character(0), hold$Ticagrelor_adm),
               inline = T
             )
@@ -392,7 +392,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Wafarin_adm"),
               label = "Wafarin",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Wafarin_adm),character(0), hold$Wafarin_adm),
               inline = T
             )
@@ -402,7 +402,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Nicorandil_adm"),
               label = "Nicorandil",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Nicorandil_adm),character(0), hold$Nicorandil_adm),
               inline = T
             )
@@ -414,12 +414,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("NOAC_adm"),
               label = "NOAC",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$NOAC_adm),character(0), hold$NOAC_adm),
               inline = T
             ),
             conditionalPanel(
-              "input.NOAC_adm == 0",
+              "input.NOAC_adm == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -449,12 +449,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Statin_adm"),
               label = "Statin",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Statin_adm),character(0), hold$Statin_adm),
               inline = T
             ),
             conditionalPanel(
-              "input.Statin_adm == 0",
+              "input.Statin_adm == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -484,12 +484,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons( # Beta Blocker
               ns("BB_adm"),
               label = "Beta Blocker",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$BB_adm), character(0), hold$BB_adm),
               inline = T
             ),
             conditionalPanel(
-              "input.BB_adm == 0",
+              "input.BB_adm == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -519,7 +519,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Insulin_adm"),
               label = "Insulin",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Insulin_adm),character(0), hold$Insulin_adm),
               inline = T
             )
@@ -531,12 +531,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("ACE_adm"),
               label = "ACE Inhibitor or ARB",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$ACE_adm),character(0), hold$ACE_adm),
               inline = T
             ),
             conditionalPanel(
-              "input.ACE_adm == 0",
+              "input.ACE_adm == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -566,12 +566,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("DPP4_adm"),
               label = "DPP4 Inhibitor",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$DPP4_adm),character(0), hold$DPP4_adm),
               inline = T
             ),
             conditionalPanel(
-              "input.DPP4_adm == 0",
+              "input.DPP4_adm == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -601,12 +601,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Calcium_adm"),
               label = "Calcium channel blocker",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Calcium_adm),character(0), hold$Calcium_adm),
               inline = T
             ),
             conditionalPanel(
-              "input.Calcium_adm == 0",
+              "input.Calcium_adm == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -636,12 +636,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Metformin_adm"),
               label = "Metformin",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Metformin_adm),character(0), hold$Metformin_adm),
               inline = T
             ),
             conditionalPanel(
-              "input.Metformin_adm == 0",
+              "input.Metformin_adm == 'Yes'",
               ns = ns,
               numericInput(
                 ns("Metformin_dose_adm"),
@@ -660,12 +660,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Sulf_adm"),
               label = "Sulfonylurea",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Sulf_adm),character(0), hold$Sulf_adm),
               inline = T
             ),
             conditionalPanel(
-              "input.Sulf_adm == 0",
+              "input.Sulf_adm == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -695,12 +695,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Thia_adm"),
               label = "Thiazolidinedione",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Thia_adm),character(0), hold$Thia_adm),
               inline = T
             ),
             conditionalPanel(
-              "input.Thia_adm == 0",
+              "input.Thia_adm == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -730,12 +730,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("GLP_adm"),
               label = "GLP-1 Agonist",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$GLP_adm),character(0), hold$GLP_adm),
               inline = T
             ),
             conditionalPanel(
-              "input.GLP_adm == 0",
+              "input.GLP_adm == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -765,12 +765,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Alpha_adm"),
               label = "Alpha-glucosidase inhibitor",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.na(hold$Alpha_adm),character(0), hold$Alpha_adm),
               inline = T
             ),
             conditionalPanel(
-              "input.Alpha_adm == 0",
+              "input.Alpha_adm == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -1126,7 +1126,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("hCG_adm"),
               label = "hCG",
-              choices = c("Positive" = 0, "Negative" = 1, "NA" = 2),
+              choices = c("Positive" , "Negative", "NA"),
               selected = ifelse(is.null(hold$hCG_adm), character(0), hold$hCG_adm),
               inline = TRUE
             )
@@ -1268,7 +1268,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("ECG_Rhythm_adm"),
               label = "",
-              choices = c("Sinus" = 0, "Atrial Fibrillation" = 1, "Others" = 2),
+              choices = c("Sinus", "Atrial Fibrillation", "Others"),
               selected = ifelse(is.null(hold$ECG_Rhythm_adm), character(0), hold$ECG_Rhythm_adm),
               inline = TRUE
             ),
@@ -1276,7 +1276,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 8,
             conditionalPanel(
-              "input.ECG_Rhythm_adm == 2", # if other
+              "input.ECG_Rhythm_adm == 'Others'", # if other
               ns = ns,
               textAreaInput(
                 ns("ECG_Rhythm_others_adm"),
@@ -1312,7 +1312,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("MSPECT_adm"),
               label = "SPECT",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$MSPECT_adm), character(0), hold$MSPECT_adm),
               inline = TRUE
             )
@@ -1320,12 +1320,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 8,
             conditionalPanel(
-              "input.MSPECT_adm == 0",
+              "input.MSPECT_adm == 'Yes'",
               ns = ns,
               radioButtons(
                 ns("MSPECT_detail_adm"),
                 "",
-                choices = c("Positive" = 0, "Negative" = 1),
+                choices = c("Positive", "Negative"),
                 selected = ifelse(is.null(hold$MSPECT_detail_adm), character(0), hold$MSPECT_detail_adm),
                 inline = T
               )
@@ -1334,7 +1334,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 2,
             conditionalPanel(
-              "input.MSPECT_adm == 0",
+              "input.MSPECT_adm == 'Yes'",
               ns = ns,
               dateInput(
                 ns("MSPECT_Date_adm"),
@@ -1351,7 +1351,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("TMT_adm"),
               label = "TMT",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$TMT_adm), character(0), hold$TMT_adm),
               inline = TRUE
             )
@@ -1359,12 +1359,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 8,
             conditionalPanel(
-              "input.TMT_adm == 0",
+              "input.TMT_adm == 'Yes'",
               ns = ns,
               radioButtons(
                 ns("TMT_detail_adm"),
                 "",
-                choices = c("Positive" = 0, "Negative" = 1, "Suggestive Positivie" = 2, "Incomplete (Inadequate)" = 3),
+                choices = c("Positive", "Negative", "Suggestive Positivie", "Incomplete (Inadequate)"),
                 selected = ifelse(is.null(hold$TMT_detail_adm), character(0), hold$TMT_detail_adm),
                 inline = T
               )
@@ -1373,7 +1373,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 2,
             conditionalPanel(
-              "input.TMT_adm == 0",
+              "input.TMT_adm == 'Yes'",
               ns = ns,
               dateInput(
                 ns("TMT_Date_adm"),
@@ -1390,7 +1390,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("EEcho_adm"),
               label = "Stress Echo",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$EEcho_adm), character(0), hold$EEcho_adm),
               inline = TRUE
             )
@@ -1398,12 +1398,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 8,
             conditionalPanel(
-              "input.EEcho_adm == 0",
+              "input.EEcho_adm == 'Yes'",
               ns = ns,
               radioButtons(
                 ns("EEcho_detail_adm"),
                 "",
-                choices = c("Positive" = 0, "Negative" = 1, "Equivocal" = 2, "Incomplete" = 3),
+                choices = c("Positive", "Negative", "Equivocal", "Incomplete"),
                 selected = ifelse(is.null(hold$EEcho_detail_adm), character(0), hold$EEcho_detail_adm),
                 inline = T
               )
@@ -1412,7 +1412,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 2,
             conditionalPanel(
-              "input.EEcho_adm == 0",
+              "input.EEcho_adm == 'Yes'",
               ns = ns,
               dateInput(
                 ns("EEcho_Date_adm"),
@@ -1429,7 +1429,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("APET_adm"),
               label = "PET",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$APET_adm), character(0), hold$APET_adm),
               inline = TRUE
             )
@@ -1437,12 +1437,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 8,
             conditionalPanel(
-              "input.APET_adm == 0",
+              "input.APET_adm == 'Yes'",
               ns = ns,
               radioButtons(
                 ns("APET_detail_adm"),
                 "",
-                choices = c("Positive" = 0, "Negative" = 1, "Equivocal" = 2),
+                choices = c("Positive", "Negative", "Equivocal"),
                 selected = ifelse(is.null(hold$APET_detail_adm), character(0), hold$APET_detail_adm),
                 inline = T
               )
@@ -1451,7 +1451,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 2,
             conditionalPanel(
-              "input.APET_adm == 0",
+              "input.APET_adm == 'Yes'",
               ns = ns,
               dateInput(
                 ns("APET_Date_adm"),
@@ -1470,7 +1470,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("CMR_adm"),
               label = "CMR",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes" = "Yes", "No" = "No"),
               selected = ifelse(is.null(hold$CMR_adm), character(0), hold$CMR_adm),
               inline = TRUE
             )
@@ -1478,12 +1478,12 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 8,
             conditionalPanel(
-              "input.CMR_adm == 0",
+              "input.CMR_adm == 'Yes'",
               ns = ns,
               radioButtons(
                 ns("CMR_detail_adm"),
                 "",
-                choices = c("Positive" = 0, "Negative" = 1),
+                choices = c("Positive", "Negative"),
                 selected = ifelse(is.null(hold$CMR_detail_adm), character(0), hold$CMR_detail_adm),
                 inline = T
               )
@@ -1492,7 +1492,7 @@ adm_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 2,
             conditionalPanel(
-              "input.CMR_adm == 0",
+              "input.CMR_adm == 'Yes'",
               ns = ns,
               dateInput(
                 ns("CMR_Date_adm"),

@@ -73,7 +73,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
                 radioButtons(
                   inputId = ns("DM"),
                   label = "Previous DM",
-                  choices = c("Yes" = 0, "No" = 1),
+                  choices = c("Yes" = "Yes", "No" = "No"),
                   selected = hold$DM,
                   inline = T
                 )
@@ -158,7 +158,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
               radioButtons(
                 inputId = ns("Withdrawal"),
                 label = "Withdrawal of Study",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes" = "Yes", "No" = "No"),
                 selected = ifelse(is.null(hold), character(0), hold$Withdrawal),
                 inline = T
               )
@@ -166,7 +166,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             column(
               width = 2,
               conditionalPanel(
-                condition = "input.Withdrawal == 0",
+                condition = "input.Withdrawal == 'Yes'",
                 ns = ns,
                 dateInput(
                   inputId = "Withdrawal_date",
@@ -179,7 +179,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             column(
               width = 2,
               conditionalPanel(
-                condition = "input.Withdrawal == 0",
+                condition = "input.Withdrawal == 'Yes'",
                 ns = ns,
                 textInput(
                   inputId = "Withdrawal_reason",
@@ -297,12 +297,12 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
               radioButtons(
                 inputId = ns("Withdrawal"),
                 label = "Withdrawal of Study",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes" = "Yes", "No" = "No"),
                 selected = hold$Withdrawal,
                 inline = T
               ),
               conditionalPanel(
-                "input.Withdrawal == 0",
+                "input.Withdrawal == 'Yes'",
                 ns = ns,
                 dateInput(
                   inputId = "Withdrawal_date",
