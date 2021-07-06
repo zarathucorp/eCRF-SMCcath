@@ -58,7 +58,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Procedure_type_ang"),
               label = "Procedure Type",
-              choices = c("Transradial" = 0, "Transfemoral" = 1),
+              choices = c("Transradial", "Transfemoral"),
               selected = ifelse(is.null(hold$Procedure_type_ang), character(0), hold$Procedure_type_ang),
               inline = TRUE
             )
@@ -98,12 +98,12 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Aspirin_ang"),
               label = "Aspirin",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.null(hold$Aspirin_ang), character(0), hold$Aspirin_ang),
               inline = TRUE
             ),
             conditionalPanel(
-              "input.Aspirin_ang == 0",
+              "input.Aspirin_ang == 'Yes'",
               ns = ns,
               textInput(
                 ns("Aspirin_loading_ang"),
@@ -125,12 +125,12 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Clopidogrel_ang"),
               label = "Clopidogrel",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.null(hold$Clopidogrel_ang), character(0), hold$Clopidogrel_ang),
               inline = TRUE
             ),
             conditionalPanel(
-              "input.Clopidogrel_ang == 0",
+              "input.Clopidogrel_ang == 'Yes'",
               ns = ns,
               textInput(
                 ns("Clopidogrel_loading_ang"),
@@ -141,7 +141,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               radioButtons(
                 ns("Clopidogrel_detail_ang"),
                 label = "Loading Time",
-                choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
+                choices = c("Before Cathlab Arrival", "After CAG before PCI", "After PCI"),
                 selected = ifelse(is.null(hold$Clopidogrel_detail_ang), character(0), hold$Clopidogrel_detail_ang),
                 inline = TRUE
               )
@@ -152,12 +152,12 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Prasugrel_ang"),
               label = "Prasugrel",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.null(hold$Prasugrel_ang), character(0), hold$Prasugrel_ang),
               inline = TRUE
             ),
             conditionalPanel(
-              "input.Prasugrel_ang == 0",
+              "input.Prasugrel_ang == 'Yes'",
               ns = ns,
               textInput(
                 ns("Prasugrel_loading_ang"),
@@ -168,7 +168,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               radioButtons(
                 ns("Prasugrel_detail_ang"),
                 label = "Loading Time",
-                choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
+                choices = c("Before Cathlab Arrival", "After CAG before PCI", "After PCI"),
                 selected = ifelse(is.null(hold$Prasugrel_detail_ang), character(0), hold$Prasugrel_detail_ang),
                 inline = TRUE
               )
@@ -179,12 +179,12 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Ticagrelor_ang"),
               label = "Ticagrelor",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.null(hold$Ticagrelor_ang), character(0), hold$Ticagrelor_ang),
               inline = TRUE
             ),
             conditionalPanel(
-              "input.Ticagrelor_ang == 0",
+              "input.Ticagrelor_ang == 'Yes'",
               ns = ns,
               textInput(
                 ns("Ticagrelor_loading_ang"),
@@ -195,7 +195,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
               radioButtons(
                 ns("Ticagrelor_detail_ang"),
                 label = "Loading Time",
-                choices = c("Before Cathlab Arrival" = 0, "After CAG before PCI" = 1, "After PCI" = 2),
+                choices = c("Before Cathlab Arrival", "After CAG before PCI", "After PCI"),
                 selected = ifelse(is.null(hold$Ticagrelor_detail_ang), character(0), hold$Ticagrelor_detail_ang),
                 inline = TRUE
               )
@@ -227,7 +227,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Disease_extent_ang"),
               label = "Angiographica Disease Extent",
-              choices = c("1 VD" = 0, "2 VD" = 1, "3 VD" = 2),
+              choices = c("1 VD", "2 VD", "3 VD"),
               selected = ifelse(is.null(hold$Disease_extent_ang), character(0), hold$Disease_extent_ang),
               inline = TRUE
             )
@@ -237,7 +237,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Left_main_ang"),
               label = "Left Main Disease",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.null(hold$Left_main_ang), character(0), hold$Left_main_ang),
               inline = TRUE
             )
@@ -308,7 +308,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("staged_PCI_ang"),
               label = "Staged PCI",
-              choices = c("Performed" = 0, "Not Performed" = 1),
+              choices = c("Performed", "Not Performed"),
               selected = ifelse(is.null(hold$staged_PCI_ang), character(0), hold$staged_PCI_ang),
               inline = TRUE
             )
@@ -316,7 +316,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 2,
             conditionalPanel(
-              "input.staged_PCI_ang == 0",
+              "input.staged_PCI_ang == 'Yes'",
               ns = ns,
               numericInput(
                 ns("stagedPCI_count_ang"),
@@ -330,7 +330,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           )
         ),
         conditionalPanel(
-          "input.staged_PCI_ang == 0",
+          "input.staged_PCI_ang == 'Yes'",
           ns = ns,
           tags$div(
             HTML(
@@ -589,7 +589,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
             radioButtons(
               ns("Gp_ang"),
               label = "Gp IIb/IIIa inhibitor	",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.null(hold$Gp_ang), character(0), hold$Gp_ang),
               inline = TRUE
             )
@@ -597,7 +597,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           column(
             width = 8,
             conditionalPanel(
-              "input.Gp_ang == 0",
+              "input.Gp_ang == 'Yes'",
               ns = ns,
               checkboxGroupInput(
                 ns("Gp_detail_ang"),

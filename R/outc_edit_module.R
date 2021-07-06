@@ -58,7 +58,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("General_out"),
               label = "General Complication",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               inline = TRUE,
               selected = ifelse(is.null(hold$General_out), character(0), hold$General_out)
             )
@@ -70,23 +70,23 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           )
         ),
         conditionalPanel(
-          "input.General_out == 0",
+          "input.General_out == 'Yes'",
           ns = ns,
           checkboxGroupInput(
             ns("General_detail_out"),
             label = "",
             choices = c(
-              "CHF" = 0, "Emergency PCI" = 1, "Emergency CABG" = 2, "Cardiogenic Shock" = 3,
-              "Contrast Allergic Reaction" = 4, "Tamponade" = 5, "Bleeding at Access Site" = 6,
-              "Retroperitoneal Bleeding" = 7, "Access Site Occlusion" = 8, "Dissection" = 9,
-              "AV Fistula" = 10, "Peripheral Embolization" = 11, "Pseudoaneurysm" = 12,
-              "CIN" = 13, "Others" = 14
+              "CHF" , "Emergency PCI" , "Emergency CABG" , "Cardiogenic Shock" ,
+              "Contrast Allergic Reaction" , "Tamponade" , "Bleeding at Access Site" ,
+              "Retroperitoneal Bleeding" , "Access Site Occlusion" , "Dissection",
+              "AV Fistula" , "Peripheral Embolization" , "Pseudoaneurysm" ,
+              "CIN" , "Others"
             ),
             selected = strsplit(ifelse(is.null(hold$General_detail_out), character(0), hold$General_detail_out), ',')[[1]],
             inline = TRUE
           ),
           conditionalPanel(
-            "input.General_detail_out == 14",
+            "input.General_detail_out == 'Others'",
             ns = ns,
             textInput(
               "General_detail_others_out",
@@ -120,7 +120,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Aspirin_out"),
               label = "Aspirin",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Aslirin_out), character(0), hold$Aspirin_out),
               inline = T
             )
@@ -130,7 +130,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Trimetazidine_out"),
               label = "Trimetazidine (Vastinan)",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Trimetazidine_out),character(0), hold$Trimetazidine_out),
               inline = T
             )
@@ -140,7 +140,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Clopidogrel_out"),
               label = "Clopidogrel",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Clopidogrel_out),character(0), hold$Clopidogrel_out),
               inline = T
             )
@@ -150,7 +150,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Nitrate_out"),
               label = "Nitrate",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Nitrate_out),character(0), hold$Nitrate_out),
               inline = T
             )
@@ -162,7 +162,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Prasugrel_out"),
               label = "Prasugrel",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Prasugrel_out),character(0), hold$Prasugrel_out),
               inline = T
             )
@@ -173,7 +173,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Ticagrelor_out"),
               label = "Ticagrelor",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Ticagrelor_out),character(0), hold$Ticagrelor_out),
               inline = T
             )
@@ -183,7 +183,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Wafarin_out"),
               label = "Wafarin",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Wafarin_out),character(0), hold$Wafarin_out),
               inline = T
             )
@@ -193,7 +193,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Nicorandil_out"),
               label = "Nicorandil",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Nicorandil_out),character(0), hold$Nicorandil_out),
               inline = T
             )
@@ -205,12 +205,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("NOAC_out"),
               label = "NOAC",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$NOAC_out),character(0), hold$NOAC_out),
               inline = T
             ),
             conditionalPanel(
-              "input.NOAC_out == 0",
+              "input.NOAC_out == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -240,12 +240,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Statin_out"),
               label = "Statin",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Statin_out),character(0), hold$Statin_out),
               inline = T
             ),
             conditionalPanel(
-              "input.Statin_out == 0",
+              "input.Statin_out == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -275,12 +275,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons( # Beta Blocker
               ns("BB_out"),
               label = "Beta Blocker",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.null(hold$BB_out), character(0), hold$BB_out),
               inline = T
             ),
             conditionalPanel(
-              "input.BB_out == 0",
+              "input.BB_out == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -310,7 +310,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Insulin_out"),
               label = "Insulin",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Insulin_out),character(0), hold$Insulin_out),
               inline = T
             )
@@ -322,12 +322,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("ACE_out"),
               label = "ACE Inhibitor or ARB",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$ACE_out),character(0), hold$ACE_out),
               inline = T
             ),
             conditionalPanel(
-              "input.ACE_out == 0",
+              "input.ACE_out == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -357,12 +357,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("DPP4_out"),
               label = "DPP4 Inhibitor",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$DPP4_out),character(0), hold$DPP4_out),
               inline = T
             ),
             conditionalPanel(
-              "input.DPP4_out == 0",
+              "input.DPP4_out == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -392,12 +392,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Calcium_out"),
               label = "Calcium channel blocker",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Calcium_out),character(0), hold$Calcium_out),
               inline = T
             ),
             conditionalPanel(
-              "input.Calcium_out == 0",
+              "input.Calcium_out == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -427,12 +427,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Metformin_out"),
               label = "Metformin",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Metformin_out),character(0), hold$Metformin_out),
               inline = T
             ),
             conditionalPanel(
-              "input.Metformin_out == 0",
+              "input.Metformin_out == 'Yes'",
               ns = ns,
               numericInput(
                 ns("Metformin_dose_out"),
@@ -451,12 +451,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Sulf_out"),
               label = "Sulfonylurea",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Sulf_out),character(0), hold$Sulf_out),
               inline = T
             ),
             conditionalPanel(
-              "input.Sulf_out == 0",
+              "input.Sulf_out == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -486,12 +486,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Thia_out"),
               label = "Thiazolidinedione",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Thia_out),character(0), hold$Thia_out),
               inline = T
             ),
             conditionalPanel(
-              "input.Thia_out == 0",
+              "input.Thia_out == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -521,12 +521,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("GLP_out"),
               label = "GLP-1 Agonist",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$GLP_out),character(0), hold$GLP_out),
               inline = T
             ),
             conditionalPanel(
-              "input.GLP_out == 0",
+              "input.GLP_out == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -556,12 +556,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Alpha_out"),
               label = "Alpha-glucosidase inhibitor",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               selected = ifelse(is.na(hold$Alpha_out),character(0), hold$Alpha_out),
               inline = T
             ),
             conditionalPanel(
-              "input.Alpha_out == 0",
+              "input.Alpha_out == 'Yes'",
               ns = ns,
               fluidRow(
                 column(
@@ -613,7 +613,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
             radioButtons(
               ns("Events_out"),
               label = "Clinical Events",
-              choices = c("Yes" = 0, "No" = 1),
+              choices = c("Yes", "No"),
               inline = TRUE,
               selected = ifelse(is.null(hold$Events_out), character(0), hold$Events_out)
             )
@@ -621,12 +621,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           column(
             width = 10,
             conditionalPanel(
-              "input.Events_out == 0 ",
+              "input.Events_out == 'Yes'",
               ns = ns,
               checkboxGroupInput(
                 ns("Events_detail_out"),
                 label = "Detail",
-                choices = c("Death" = 0, "MI" = 1, "Repeat Revascularization" = 2, "Stent Thrombosis" = 3, "CVA" = 4, "Bleeding" = 5),
+                choices = c("Death", "MI" , "Repeat Revascularization" , "Stent Thrombosis" , "CVA" , "Bleeding" ),
                 selected = strsplit(ifelse(is.null(hold$Events_detail_out), character(0), hold$Events_detail_out), ',')[[1]],
                 inline = TRUE
               )
@@ -634,7 +634,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           )
         ),
         conditionalPanel(
-          'input.Events_detail_out.includes("0")',
+          'input.Events_detail_out.includes("Death")',
           ns = ns,
           tags$div(
             HTML(
@@ -670,7 +670,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("Death_cause_out"),
                 "Cause",
-                choices = c("Cardiac Death" = 0, "Non-Cardiovascular Death" = 1, "Unknown Origin Death" = 2),
+                choices = c("Cardiac Death" , "Non-Cardiovascular Death" , "Unknown Origin Death" ),
                 selected = ifelse(is.null(hold$Death_cause_out), character(0),hold$Death_cause_out),
                 inline = TRUE
               )
@@ -682,7 +682,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
         # Myocardial Infarction
 
         conditionalPanel(
-          'input.Events_detail_out.includes("1")',
+          'input.Events_detail_out.includes("MI")',
           ns = ns,
           tags$div(
             HTML(
@@ -726,7 +726,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("MI_Type_out"),
                 "Type",
-                choices = c("STEMI" = 0, "NSTEMI" = 1),
+                choices = c("STEMI" , "NSTEMI" ),
                 selected = ifelse(is.null(hold$MI_Type_out),character(0),hold$MI_Type_out),
                 inline = TRUE
               )
@@ -736,7 +736,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("MI_Pre_out"),
                 "Pre Procedural MI",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = ifelse(is.null(hold$MI_Pre_out), character(0),hold$MI_Pre_out),
                 inline = TRUE
               )
@@ -748,7 +748,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("MI_ST_out"),
                 "Related with Stent Thrombosis",
-                choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
+                choices = c("Unknown" , "No" , "Yes" ),
                 selected = ifelse(is.null(hold$MI_ST_out), character(0),hold$MI_ST_out),
                 inline = TRUE
               )
@@ -758,7 +758,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("MI_TL_out"),
                 "Related with Target Lesion",
-                choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
+                choices = c("Unknown" , "No" , "Yes" ),
                 selected = ifelse(is.null(hold$MI_TL_out), character(0),hold$MI_TL_out),
                 inline = TRUE
               )
@@ -768,7 +768,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("MI_TV_out"),
                 "Related with Target Vessel",
-                choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
+                choices = c("Unknown" , "No" , "Yes" ),
                 selected = ifelse(is.null(hold$MI_TV_out), character(0),hold$MI_TV_out),
                 inline = TRUE
               )
@@ -780,7 +780,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               checkboxGroupInput(
                 ns("MI_Treat_out"),
                 label = "Type of Treatment",
-                choices = c("Medication Only" = 0, "Thrombolysis" = 1, "only Ballooning" = 2, "Stenting" = 3, "Bypass Surgery" = 4),
+                choices = c("Medication Only" , "Thrombolysis" , "only Ballooning" , "Stenting" , "Bypass Surgery" ),
                 selected = strsplit(ifelse(is.null(hold$MI_Treat_out), character(0), hold$MI_Treat_out), ',')[[1]],
                 inline = TRUE
               ),
@@ -790,7 +790,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("MI_After_out"),
                 "After Treatment",
-                choices = c("Recovered" = 0, "Death" = 1, "Unknown" = 2),
+                choices = c("Recovered" , "Death" , "Unknown" ),
                 selected = ifelse(is.null(hold$MI_After_out), character(0),hold$MI_After_out),
                 inline = TRUE
               )
@@ -798,7 +798,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           )
         ),
         conditionalPanel(
-          'input.Events_detail_out.includes("2")',
+          'input.Events_detail_out.includes("Repeat Revascularization")',
           ns = ns,
           tags$div(
             HTML(
@@ -842,7 +842,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("RV_CD_out"),
                 "Clinically Driven",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = ifelse(is.null(hold$RV_CD_out), "", hold$RV_CD_out),
                 inline = TRUE
               )
@@ -852,7 +852,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("RV_ID_out"),
                 "Ischemia Driven",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = ifelse(is.null(hold$RV_ID_out), "", hold$RV_ID_out),
                 inline = TRUE
               )
@@ -864,7 +864,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               checkboxGroupInput(
                 ns("RV_Treat_out"),
                 label = "Type of Treatment",
-                choices = c("only Ballooning" = 0, "Stenting" = 1, "Bypass Surgery" = 2),
+                choices = c("only Ballooning" , "Stenting" , "Bypass Surgery" ),
                 selected = strsplit(ifelse(is.null(hold$RV_Treat_out), character(0), hold$RV_Treat_out), ',')[[1]],
                 inline = TRUE
               )
@@ -874,7 +874,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("RV_TL_out"),
                 "Related with Target Lesion",
-                choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
+                choices = c("Unknown" , "No" , "Yes" ),
                 selected = ifelse(is.null(hold$RV_TL_out), "", hold$RV_TL_out),
                 inline = TRUE
               )
@@ -884,7 +884,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("RV_TV_out"),
                 "Related with Target Vessel",
-                choices = c("Unknown" = 0, "No" = 1, "Yes" = 2),
+                choices = c("Unknown" , "No" , "Yes" ),
                 selected = ifelse(is.null(hold$RV_TV_out), "", hold$RV_TV_out),
                 inline = TRUE
               )
@@ -894,7 +894,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("RV_AVP_out"),
                 "Another Vessel PCI",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = ifelse(is.null(hold$RV_AVP_out), "", hold$RV_AVP_out),
                 inline = TRUE
               )
@@ -902,7 +902,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           )
         ),
         conditionalPanel(
-          'input.Events_detail_out.includes("3")',
+          'input.Events_detail_out.includes("Stent Thrombosis")',
           ns = ns,
           tags$div(
             HTML(
@@ -946,7 +946,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("ST_Type_out"),
                 "Type",
-                choices = c("Acute (< 1d)" = 0, "Subacute (1-30d)" = 1, "Late (>1m)" = 2, "Very Late(>1y)" = 3),
+                choices = c("Acute (< 1d)" , "Subacute (1-30d)" , "Late (>1m)" , "Very Late(>1y)" ),
                 selected = ifelse(is.null(hold$ST_Type_out), "", hold$ST_Type_out),
                 inline = TRUE
               )
@@ -958,7 +958,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("ST_ARC_out"),
                 "ARC",
-                choices = c("Definite/Confirmed" = 0, "Probable" = 1, "Possible" = 2),
+                choices = c("Definite/Confirmed" , "Probable" , "Possible" ),
                 selected = ifelse(is.null(hold$ST_ARC_out), "", hold$ST_ARC_out),
                 inline = TRUE
               )
@@ -968,12 +968,12 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               checkboxGroupInput(
                 ns("ST_Clinical_out"),
                 label = "Clinical Features",
-                choices = c("Sudden Death" = 0, "STEMI" = 1, "NSTEMI" = 2, "Unstable Angina" = 3, "Stable Angina" = 4, "Other" = 5),
+                choices = c("Sudden Death" , "STEMI" , "NSTEMI" , "Unstable Angina" , "Stable Angina" , "Other" ),
                 selected = strsplit(ifelse(is.null(hold$ST_Clinical_out), character(0), hold$ST_Clinical_out), ',')[[1]],
                 inline = TRUE
               ),
               conditionalPanel(
-                "input.ST_Clinical_out == 5",
+                "input.ST_Clinical_out == 'Other'",
                 ns = ns,
                 textInput(
                   ns("ST_Clinical_other_out"),
@@ -985,7 +985,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           )
         ),
         conditionalPanel(
-          'input.Events_detail_out.includes("4")',
+          'input.Events_detail_out.includes("CVA")',
           ns = ns,
           tags$div(
             HTML(
@@ -1021,7 +1021,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("CVA_Type_out"),
                 "Type",
-                choices = c("Ischemic" = 0, "Hemorrhagic" = 1, "Unknown" = 2),
+                choices = c("Ischemic" , "Hemorrhagic" , "Unknown" ),
                 selected = ifelse(is.null(hold$CVA_Type_out), character(0), hold$CVA_Type_out),
                 inline = TRUE
               )
@@ -1031,7 +1031,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("CVA_VIS_out"),
                 "Verified with Imaging Studies",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = ifelse(is.null(hold$CVA_VIS_out), character(0), hold$CVA_VIS_out),
                 inline = TRUE
               )
@@ -1041,7 +1041,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
         
         # Bleeding
         conditionalPanel(
-          'input.Events_detail_out.includes("5")',
+          'input.Events_detail_out.includes("Bleeding")',
           ns = ns,
           tags$div(
             HTML(
@@ -1093,7 +1093,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 radioButtons(
                   ns("BARC1_Type_out"),
                   "BARC Type",
-                  choices = c("BARC 2" = 0, "BARC 3" = 1, "BARC 5" = 2),
+                  choices = c("BARC 2" , "BARC 3" , "BARC 5" ),
                   selected = ifelse(is.null(hold$BARC1_Type_out), character(0), hold$BARC1_Type_out),
                   inline = TRUE
                 )
@@ -1103,7 +1103,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 radioButtons(
                   ns("BARC1_ST_out"),
                   "Spontaneous or Traumatic",
-                  choices = c("Spontaneous" = 0, "Traumatic" = 1),
+                  choices = c("Spontaneous" , "Traumatic" ),
                   selected = ifelse(is.null(hold$BARC1_ST_out), character(0), hold$BARC1_ST_out),
                   inline = TRUE
                 )
@@ -1113,7 +1113,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 radioButtons(
                   ns("BARC1_HT_out"),
                   "Requiring hospitalization or transfusion",
-                  choices = c("Yes" = 0, "No" = 1),
+                  choices = c("Yes", "No"),
                   selected = ifelse(is.null(hold$BARC1_HT_out), character(0), hold$BARC1_HT_out),
                   inline = TRUE
                 )
@@ -1131,7 +1131,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 radioButtons(
                   ns("BARC1_AT_out"),
                   "After Treatment",
-                  choices = c("Recovered" = 0, "Death" = 1),
+                  choices = c("Recovered" , "Death" ),
                   selected = ifelse(is.null(hold$BARC1_AT_out), character(0), hold$BARC1_AT_out),
                   inline = TRUE
                 )
@@ -1157,7 +1157,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("BARC2_Type_out"),
                 "BARC Type",
-                choices = c("BARC 2" = 0, "BARC 3" = 1, "BARC 5" = 2),
+                choices = c("BARC 2" , "BARC 3" , "BARC 5" ),
                 selected = ifelse(is.null(hold$BARC2_Type_out), character(0), hold$BARC2_Type_out),
                 inline = TRUE
               )
@@ -1167,7 +1167,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("BARC2_ST_out"),
                 "Spontaneous or Traumatic",
-                choices = c("Spontaneous" = 0, "Traumatic" = 1),
+                choices = c("Spontaneous" , "Traumatic" ),
                 selected = ifelse(is.null(hold$BARC2_ST_out), character(0), hold$BARC2_ST_out),
                 inline = TRUE
               )
@@ -1177,7 +1177,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("BARC2_HT_out"),
                 "Requiring hospitalization or transfusion",
-                choices = c("Yes" = 0, "No" = 1),
+                choices = c("Yes", "No"),
                 selected = ifelse(is.null(hold$BARC2_HT_out), character(0), hold$BARC2_HT_out),
                 inline = TRUE
               )
@@ -1195,7 +1195,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
               radioButtons(
                 ns("BARC2_AT_out"),
                 "After Treatment",
-                choices = c("Recovered" = 0, "Death" = 1),
+                choices = c("Recovered" , "Death" ),
                 selected = ifelse(is.null(hold$BARC2_AT_out), character(0), hold$BARC2_AT_out),
                 inline = TRUE
               )
