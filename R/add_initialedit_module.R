@@ -34,7 +34,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
               radioButtons(
                 ns("DM_random"),
                 "DM",
-                c("No" = "0", "Yes" = "1"),
+                c("No","Yes"),
                 inline = T,
                 selected = character(0)
               ),
@@ -395,7 +395,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
         req(input$DM_random)
         req(input$STEMI_random)
         type.strata <- ifelse(
-          input$DM_random == "0",
+          input$DM_random == "No",
           ifelse(input$STEMI_random == "NSTEMI", "R-NDNST", "R-NDST"),
           ifelse(input$STEMI_random == "NSTEMI", "R-DNST", "R-DST")
         )
