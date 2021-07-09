@@ -154,10 +154,10 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
               )
             ),
             column(
-              width = 3,
+              width = 2,
               radioButtons(
                 inputId = ns("Withdrawal"),
-                label = "Withdrawal of Study",
+                label = "Withdrawal",
                 choices = c("Yes" = "Yes", "No" = "No"),
                 selected = ifelse(is.null(hold), character(0), hold$Withdrawal),
                 inline = T
@@ -186,6 +186,15 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
                   label = "Reason",
                   value = ifelse(is.null(hold), "", hold$Withdrawal_reason)
                 ),
+              )
+            ),
+            column(
+              width = 2,
+              radioButtons(
+                inputId = ns("SGLT"),
+                label = "SGLT2 Timing",
+                choices = c("Pre-PCI", "Post-PCI"),
+                selected = ifelse(is.null(hold$SGLT), character(0), hold$SGLT)
               )
             )
           ),
@@ -377,6 +386,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
       "Age" = ifelse(is.null(input$Age), "", input$Age),
       "Sex" = ifelse(is.null(input$Sex), "", input$Sex),
       "Withdrawal" = ifelse(is.null(input$Withdrawal), "", input$Withdrawal),
+      "SGLT" = ifelse(is.null(input$SGLT), "", input$SGLT),
       "Withdrawal_date" = ifelse(is.null(input$Withdrawal_date), "", input$Withdrawal_date),
       "Withdrawal_reason" = ifelse(is.null(input$Withdrawal_reason), "", input$Withdrawal_reason)
     )
