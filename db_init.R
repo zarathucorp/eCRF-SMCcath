@@ -25,6 +25,7 @@ create_rct_query <- "CREATE TABLE rct (
   Agree_Date                      DATE,
   Index_PCI_Date                  DATE,
   Withdrawal                      TEXT,
+  SGLT                            TEXT,
   Withdrawal_date                 DATE,
   Withdrawal_reason               TEXT,
 
