@@ -165,15 +165,6 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             ),
             column(
               width = 2,
-              radioButtons(
-                inputId = ns("SGLT"),
-                label = "SGLT2 Timing",
-                choices = c("Pre-PCI", "Post-PCI"),
-                selected = ifelse(is.null(hold$SGLT), character(0), hold$SGLT)
-              )
-            ),
-            column(
-              width = 2,
               conditionalPanel(
                 condition = "input.Withdrawal == 'Yes'",
                 ns = ns,
@@ -195,6 +186,15 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
                   label = "Reason",
                   value = ifelse(is.null(hold), "", hold$Withdrawal_reason)
                 ),
+              )
+            ),
+            column(
+              width = 2,
+              radioButtons(
+                inputId = ns("SGLT"),
+                label = "SGLT2 Timing",
+                choices = c("Pre-PCI", "Post-PCI"),
+                selected = ifelse(is.null(hold$SGLT), character(0), hold$SGLT)
               )
             )
           ),
