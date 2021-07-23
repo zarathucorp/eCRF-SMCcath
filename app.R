@@ -1,6 +1,7 @@
 source("global.R")
 library(shinymanager)
 library(bslib)
+library(bs4Dash)
 # credentials <- data.frame(
 #  user = c("admin", "chkh"),
 #  password = c("zarathuadmin", "chkh"),
@@ -10,41 +11,18 @@ library(bslib)
 
 # create_db(credentials_data = credentials, sqlite_path = "data/database.sqlite")
 
-ui <- tagList(
-  shinyFeedback::useShinyFeedback(),
-  shinyjs::useShinyjs(),
-  
-  # ICON
-  tags$head(
-    tags$link(rel = "icon", type = "image/png", sizes = "32x32", href = "/ci_slogan_new05.png")
-  ),
-  
-  navbarPage(
-    title = "PRESTIGE-AMI",
-    theme = bslib::bs_theme(
-      version = 3,
-      primary = "#3466A1",
-      # secondary = '#595f6a',
-      success = "#71c4ad",
-      warning = "#f4c25b",
-      danger = "#ec7377"
-    ) %>%
-      bs_add_rules(".navbar-static-top { background-color : #3466A1 !important}") %>%
-      # bs_add_rules('.navbar-static-top { background-color : #6791CA !important}') %>%
-      bs_add_rules(".navbar-static-top .active a {color : #000 !important}") %>%
-      bs_add_rules(".navbar-static-top a {color : #FFF !important}") %>%
-      bs_add_rules(".navbar-brand {color : #FFF !important}") %>%
-      bs_add_rules(".container-fab button {background-color : #945ab5; color :#FFF}") # %>%
-    # bs_add_rules('#.shinymanager_logout {background-color : #945ab5}')
-    ,
-    # theme = 'custom.css',
-    tabPanel("RCT",
-      icon = icon("table"),
-      cars_table_module_ui("table_rct")
-    ),
-    tabPanel("Prospective",
-      icon = icon("table"),
-      cars_table_module_ui("table_pros")
+ui <- dashboardPage(
+  dashboardHeader(title = "Basic dashboard"),
+  dashboardSidebar(),
+  dashboardBody(
+    # Boxes need to be put in a row (or column)
+    fluidRow(
+      box(plotOutput("plot1", height = 250)),
+
+      box(
+        title = "Controls",
+        sliderInput("slider", "Number of observations:", 1, 100, 50)
+      )
     )
   )
 )
