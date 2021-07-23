@@ -12,19 +12,51 @@ library(bs4Dash)
 # create_db(credentials_data = credentials, sqlite_path = "data/database.sqlite")
 
 ui <- dashboardPage(
-  dashboardHeader(title = "Basic dashboard"),
-  dashboardSidebar(),
-  dashboardBody(
-    # Boxes need to be put in a row (or column)
-    fluidRow(
-      box(plotOutput("plot1", height = 250)),
-
-      box(
-        title = "Controls",
-        sliderInput("slider", "Number of observations:", 1, 100, 50)
+    title = "Basic Dashboard",
+    fullscreen = TRUE,
+    header = dashboardHeader(
+      title = dashboardBrand(
+        title = "bs4Dash",
+        color = "primary",
+        href = "https://www.google.fr",
+        image = "https://adminlte.io/themes/AdminLTE/dist/img/user2-160x160.jpg"
+      ),
+      skin = "light",
+      status = "white",
+      border = TRUE,
+      sidebarIcon = icon("bars"),
+      controlbarIcon = icon("th"),
+      fixed = FALSE
+    ),
+    sidebar = dashboardSidebar(
+      skin = "light",
+      status = "primary",
+      elevation = 3,
+      sidebarUserPanel(
+        image = "https://image.flaticon.com/icons/svg/1149/1149168.svg",
+        name = "Welcome Onboard!"
+      ),
+      sidebarMenu(
+        menuItem(
+          "Item 1",
+          tabName = "item1",
+          icon = icon("sliders")
+        ),
+        menuItem(
+          "Item 2",
+          tabName = "item2",
+          icon = icon("id-card")
+        )
       )
-    )
-  )
+    ),
+    body = dashboardBody(
+      tabItems(
+        tabItem(
+          tabName = "item2",
+          cars_table_module_ui("table_rct")
+        )
+      )
+   )
 )
 
 # ui <- secure_app(ui, enable_admin = T, theme = "cosmo")
