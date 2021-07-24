@@ -140,7 +140,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
                   ns('CENTER'),
                   'Center',
                   c('삼성서울병원','전남대병원'),
-                  selected = hold$CENTER
+                  selected = hold$Center
                 )
               )
             )
@@ -344,7 +344,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
                   ns('CENTER'),
                   'Center',
                   c('삼성서울병원','전남대병원'),
-                  selected = hold$CENTER
+                  selected = hold$Center
                 )
               )
             )
