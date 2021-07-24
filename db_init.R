@@ -14,6 +14,7 @@ create_rct_query <- "CREATE TABLE rct (
   -- Initial Add
   pid                             TEXT PRIMARY KEY,
   'Group'                           TEXT,
+  Center                          TEXT,
   DM                              TEXT,
   AMI_Type                        TEXT,
   
