@@ -30,7 +30,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
           uiOutput(ns("pidui")),
           fluidRow(
             column(
-              width = 4,
+              width = 3,
               radioButtons(
                 ns("DM_random"),
                 "DM",
@@ -40,7 +40,7 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
               ),
             ),
             column(
-              width = 4,
+              width = 3,
               radioButtons(
                 ns("STEMI_random"),
                 "AMI Type",
@@ -50,7 +50,17 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
               ),
             ),
             column(
-              width = 4,
+              width = 3,
+              radioButtons(
+                ns('Center'),
+                'Center',
+                c('삼성서울병원','전남대병원'),
+                inline = T,
+                selected = character(0)
+              )
+            ),
+            column(
+              width = 3,
               radioButtons(
                 ns("Sex"),
                 "Sex",
@@ -472,18 +482,18 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
       dat <- list(
         "pid" = input$pid,
         "Group" = input$Group,
+        "Center" = input$Center,
         
         # Essentials
-        "Index_PCI_Date" = lubridate::as_date(input$Index_PCI_Date),
-        "Agree_Date" = lubridate::as_date(input$Agree_Date),
         "Initial" = input$Initial,
-        "Age" = as.period(interval(start = lubridate::as_date(input$Birthday), end = Sys.Date()))$year,
         "Birthday" = lubridate::as_date(input$Birthday),
-        "Sex" = input$Sex
+        "Age" = as.period(interval(start = lubridate::as_date(input$Birthday), end = Sys.Date()))$year,
+        "Sex" = input$Sex,
+        "Agree_Date" = lubridate::as_date(input$Agree_Date),
+        "Index_PCI_Date" = lubridate::as_date(input$Index_PCI_Date)
         
         # index_PCI_Date 필수 입력
         # "Index_PCI_Date" = ifelse(is.null(input$Index_PCI_Date), "", as.character(input$Index_PCI_Date)),
-        
       )
       if (tbl == "rct") {
         dat$DM <- input$DM_random
@@ -525,9 +535,26 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
       
       # sqlsub <- paste(paste0(names(dat$data), "=$", 1:length(dat$data)), collapse = ",")
       
-      code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Agree_Date, Initial, Age, Birthday, Sex, DM, AMI_Type, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)")
+      # [1] "pid"               "Group"             "CENTER"            "DM"                "AMI_Type"          "Initial"          
+      # [7] "Birthday"          "Age"               "Sex"               "Agree_Date"        "Index_PCI_Date"    "Withdrawal"       
+      # [13] "SGLT"              "Withdrawal_date"   "Withdrawal_reason" "Date_adm"          "Height"            "Weight"           
+      # [19] "BMI"               "BSA_adm"     
+      
+      code.sql <- paste0(
+        "INSERT INTO ", 
+        tbl, 
+        " (pid, 'Group', Center, Initial, ",
+        " Birthday, Age, Sex, Agree_Date, Index_PCI_Date, DM, AMI_Type, created_at, created_by, modified_at, modified_by)",
+        " VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)")
+        # " (pid, 'Group', Index_PCI_Date, Agree_Date, Initial, Age, Birthday, Sex, CENTER, DM, AMI_Type, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)")
       if (tbl == "pros") {
-        code.sql <- paste0("INSERT INTO ", tbl, " (pid, 'Group', Index_PCI_Date, Agree_Date, Initial, Age, Birthday, Sex, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)")
+        code.sql <- paste0(
+          "INSERT INTO ", 
+          tbl, 
+          " (pid, 'Group', Center, Initial, ",
+          " Birthday, Age, Sex, Agree_Date, Index_PCI_Date, created_at, created_by, modified_at, modified_by)",
+          " VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)")
+        # " (pid, 'Group', Index_PCI_Date, Agree_Date, Initial, Age, Birthday, Sex, CENTER, created_at, created_by, modified_at, modified_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)")
       }
       
       tryCatch(
