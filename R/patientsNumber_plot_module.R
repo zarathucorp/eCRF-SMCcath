@@ -1,4 +1,8 @@
-patientsNumber_plot_module <- function(id) {
+library(shiny)
+library(dplyr)
+library(echarts4r)
+
+patientsNumber_plot_module_ui <- function(id) {
   ns <- NS(id)
   
   fluidRow(
