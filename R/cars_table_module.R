@@ -506,12 +506,11 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     # out <- out %>%
     #  select(-pid)
     
-    # print(colnames(out)[500:ncol(out)])
     
     # Set the Action Buttons row to the first column of the `mtcars` table
     out <- cbind(
       tibble(" " = deletes),
-      out[, c(1,2,4,8,9)], # pid, Group, Initial, Age, Sex
+      out[, c(1, 2, 3, 6, 8, 9)], # pid, Group, CENTER, Initial, Age, Sex
       `Demographics` = actions,
       `Admission` = adm,
       `Angiographics` = ang,
@@ -550,7 +549,7 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
     datatable(
       out,
       rownames = FALSE,
-      colnames = c(names(out)),
+      colnames = names(out),
       selection = "none",
       class = "compact stripe row-border nowrap",
       # Escape the HTML in all except 1st column (which has the buttons)
@@ -562,16 +561,6 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       options = list(
         scrollX = TRUE,
         dom = "Bftip",
-        # buttons = list(
-        #   list(
-        #     extend = "csv",
-        #     text = "Download",
-        #     title = paste0(tbl, "-", Sys.Date()),
-        #     exportOptions = list(
-        #       columns = 1:(length(out) - 1)
-        #     )
-        #   )
-        # ),
         columnDefs = list(
           # not sortable columns 
           list(
@@ -585,11 +574,13 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
           # show these columns
           list(
             targets = which(!(names(out) %in% 
-                                c(" ", "Demographics", "Admission", 
+                                c(" ", 
+                                  "pid", "Group", "Center", "Initial", "Age", "Sex",
+                                  "Demographics", "Admission", 
                                   "Angiographics", "Culprit1", "Culprit2", 
                                   "Non-Culprit1", "Non-Culprit2", "Non-Culprit3", "Non-Culprit4", 
                                   "Discharge", "1m-fu", "3m-fu", "6m-fu", "scv", 
-                                  "pid", "Group", "Initial", "Age", "Sex", "created_at", "created_by", "modified_at", "modified_by"))) - 1, 
+                                  "created_at", "created_by", "modified_at", "modified_by"))) - 1, 
             visible = F
           )
         ),

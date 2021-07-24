@@ -94,7 +94,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
           ),
           fluidRow(
             column(
-              width = 3,
+              width = 2,
               textInput(
                 inputId = ns("Initial"),
                 label = "Initial",
@@ -102,7 +102,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
               )
             ),
             column(
-              width = 3,
+              width = 2,
               dateInput(
                 inputId = ns("Birthday"),
                 label = "Date of Birth",
@@ -111,7 +111,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
               )
             ),
             column(
-              width = 3,
+              width = 2,
               disabled(
                 numericInput(
                   inputId = ns("Age"),
@@ -124,13 +124,24 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
               )
             ),
             column(
-              width = 3,
+              width = 2,
               radioButtons(
                 inputId = ns("Sex"),
                 label = "Sex",
                 choices = c("M", "F"),
                 selected = hold$Sex,
                 inline = T
+              )
+            ),
+            column(
+              width = 2,
+              disabled(
+                radioButtons(
+                  ns('CENTER'),
+                  'Center',
+                  c('삼성서울병원','전남대병원'),
+                  selected = hold$Center
+                )
               )
             )
           ),
@@ -298,7 +309,8 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
                 selected = hold$Sex,
                 inline = T
               )
-            )
+            ),
+            
           ),
           fluidRow(
             column(
@@ -323,6 +335,17 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
                   label = "Reason",
                   value = ifelse(is.null(hold), "", hold$Withdrawal_reason)
                 ),
+              )
+            ),
+            column(
+              width = 2,
+              disabled(
+                radioButtons(
+                  ns('CENTER'),
+                  'Center',
+                  c('삼성서울병원','전남대병원'),
+                  selected = hold$Center
+                )
               )
             )
           ),
