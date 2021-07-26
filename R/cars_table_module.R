@@ -538,9 +538,15 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       # table without rerendering the entire table
       replaceData(car_table_proxy, out, resetPaging = FALSE, rownames = FALSE)
     }
+    
+    patientsPerHospital <- as.data.frame(table(out[, "Center"]))
+    colnames(patientsPerHospital) <- c("hospital", "patients")
+    callModule(
+      patientsNumber_plot_module,
+      "Hospital1",
+      data = patientsPerHospital
+    )
   })
-
-  
   
   output$car_table <- renderDT({
     req(car_table_prep())

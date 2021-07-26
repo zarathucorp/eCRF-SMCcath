@@ -13,16 +13,12 @@ patientsNumber_plot_module_ui <- function(id) {
   )
 }
 
-patientsNumber_plot_module <- function(input, output, session) {
-  hospital <- c("Samsung", "Asan")
-  patients <- c(20, 70)
-  patientsNumber <- data.frame(hospital, patients)
-  print(patientsNumber)
-  
+patientsNumber_plot_module <- function(input, output, session, data) {
+  print(data)
   output$patientsNumber <- renderEcharts4r({
-    patientsNumber %>%
-      e_charts(hospital) %>%
-      e_bar(patients) %>%
-      e_title("Patients Number")
+    data %>%
+    e_charts(hospital) %>%
+    e_bar(patients) %>%
+    e_title("Patients Number")
   })
 }

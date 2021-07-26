@@ -53,7 +53,7 @@ ui <- dashboardPage(
       tabItems(
         tabItem(
           tabName ="item1",
-          patientsNumber_plot_module_ui("Hospital1")
+          patientsNumber_plot_module_ui("table_rct-Hospital1")
         ),
         tabItem(
           tabName = "item2",
@@ -81,7 +81,6 @@ server <- function(input, output, session) {
   # Call the server function portion of the `cars_table_module.R` module file
   callModule(cars_table_module, "table_rct", "rct", sessionid = res_auth$user)
   callModule(cars_table_module, "table_pros", "pros", sessionid = res_auth$user)
-  callModule(patientsNumber_plot_module, "Hospital1")
 }
 
 shinyApp(ui, server)
