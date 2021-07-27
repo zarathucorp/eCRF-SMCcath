@@ -7,7 +7,7 @@ patientsNumber_plot_module_ui <- function(id) {
   
   fluidRow(
     column(
-      width = 6,
+      width = 12,
       echarts4rOutput(ns("patientsNumber")) %>%
       withSpinner()
     )
