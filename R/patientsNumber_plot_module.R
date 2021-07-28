@@ -15,7 +15,7 @@ patientsNumber_plot_module_ui <- function(id) {
 }
 
 patientsNumber_plot_module <- function(input, output, session, data) {
-  patientsPerHospital <- as.data.frame(table(data[, "Center"]))
+  patientsPerHospital <- as.data.frame(table(data$Center))
   colnames(patientsPerHospital) <- c("hospital", "patients")
   
   output$patientsNumber <- renderEcharts4r({
