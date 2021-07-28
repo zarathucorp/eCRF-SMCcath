@@ -8,10 +8,10 @@ date_select_module_ui <- function(id) {
 }
 
 date_select_module <- function(input, output, session) {
-  return {
+  return (
     list(
       month = reactive({input$month}),
       year = reactive({input$year})
     )
-  }
+  )
 }
