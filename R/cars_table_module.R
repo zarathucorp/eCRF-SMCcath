@@ -544,6 +544,12 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       "Hospital1",
       data = out[, c("Center", "created_at")]
     )
+    
+    callModule(
+      patientsByDate_plot_module,
+      "Date",
+      data = out[, c("Center", "created_at")]
+    )
   })
   
   output$car_table <- renderDT({

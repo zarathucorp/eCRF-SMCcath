@@ -53,7 +53,9 @@ ui <- dashboardPage(
       tabItems(
         tabItem(
           tabName ="item1",
-          patientsNumber_plot_module_ui("table_rct-Hospital1")
+          patientsNumber_plot_module_ui("table_rct-Hospital1"),
+          date_select_module_ui("table_rct-Date-date_selector"),
+          patientsByDate_plot_module_ui("table_rct-Date")
         ),
         tabItem(
           tabName = "item2",
