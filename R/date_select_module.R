@@ -2,7 +2,7 @@ date_select_module_ui <- function(id) {
   ns <- NS(id)
   
   fluidRow(
-    selectInput(ns("month"), "Month", c(1:12)),
+    selectInput(ns("month"), "Month", c(sprintf("%02d", 1:12))),
     selectInput(ns("year"), "Year", c(2020:2025))
   )
 }
