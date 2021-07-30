@@ -16,13 +16,16 @@ patientsByDate_plot_module <- function(input, output, session, data) {
     observeEvent(date$year(), {
       dateQuery <- paste0(date$month(), "/", date$year())
       
-      data$created_at = format(data$created_at, "%m/%Y")
+      data$created_at <- format(data$created_at, "%m/%Y")
       subset <- filter(data, data$created_at == dateQuery)
       selectedPatients <- as.data.frame(table(subset$Center))
       
       patientsPerDate <- data.frame(hospital = unique(data$Center), patients = 0)
-      for(i in 1:nrow(selectedPatients)) {
-        patientsPerDate[i, "patients"] = 1
+      if (nrow(selectedPatients) > 0) {
+        for(i in 1:nrow(selectedPatients)) {
+          rowIndex <- which(patientsPerDate$hospital == selectedPatients[i, 1])
+          patientsPerDate[rowIndex, "patients"] = selectedPatients[i, 2]
+        }
       }
 
       output$PatientsNumber <- renderEcharts4r({
