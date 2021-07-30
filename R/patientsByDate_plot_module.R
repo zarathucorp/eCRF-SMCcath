@@ -27,7 +27,8 @@ patientsByDate_plot_module <- function(input, output, session, data) {
           patientsPerDate[rowIndex, "patients"] = selectedPatients[i, 2]
         }
       }
-
+      
+      patientsPerDate <- patientsPerDate[order(patientsPerDate$hospital), ]
       output$PatientsNumber <- renderEcharts4r({
         patientsPerDate %>%
           e_charts(hospital) %>%
