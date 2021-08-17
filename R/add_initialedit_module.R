@@ -326,6 +326,13 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
             selected = character(0),
             inline = T
           ),
+          radioButtons(
+            ns('Center'),
+            'Center',
+            c('삼성서울병원','전남대병원'),
+            inline = T,
+            selected = character(0)
+          ),
           title = modal_title,
           size = "m",
           footer = list(
