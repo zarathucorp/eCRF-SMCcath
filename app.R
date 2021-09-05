@@ -12,14 +12,14 @@ library(bs4Dash)
 # create_db(credentials_data = credentials, sqlite_path = "data/database.sqlite")
 
 ui <- dashboardPage(
-    title = "Basic Dashboard",
+    title = "eCRF DashBoard",
     fullscreen = TRUE,
     header = dashboardHeader(
       title = dashboardBrand(
-        title = "bs4Dash",
+        title = "eCRF DashBoard",
         color = "primary",
-        href = "https://www.google.fr",
-        image = "https://adminlte.io/themes/AdminLTE/dist/img/user2-160x160.jpg"
+        href = "https://www.zarathu.com/",
+        image = "https://github.com/zarathucorp/blog/blob/master/img/logo.png"
       ),
       skin = "light",
       status = "white",
@@ -32,20 +32,14 @@ ui <- dashboardPage(
       skin = "light",
       status = "primary",
       elevation = 3,
-      sidebarUserPanel(
-        image = "https://image.flaticon.com/icons/svg/1149/1149168.svg",
-        name = "Welcome Onboard!"
-      ),
       sidebarMenu(
         menuItem(
           "Dashboard",
-          tabName = "Dashboard",
-          icon = icon("sliders")
+          tabName = "Dashboard"
         ),
         menuItem(
           "eCRF",
-          tabName = "eCRF",
-          icon = icon("id-card")
+          tabName = "eCRF"
         )
       )
     ),
@@ -80,7 +74,7 @@ ui <- dashboardPage(
               cars_table_module_ui("table_rct")
             ),
             tabPanel(
-              title = "RCT",
+              title = "Pros",
               cars_table_module_ui("table_pros")
             )
           )
