@@ -272,7 +272,6 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
               ns("submit"),
               "Randomization & submit",
               class = "btn btn-primary",
-              style = "color: white"
             )
           )
         )
@@ -334,7 +333,6 @@ add_initialedit_module <- function(input, output, session, modal_title, car_to_e
               ns("submit"),
               "Submit",
               class = "btn btn-primary",
-              style = "color: white"
             )
           )
         )
