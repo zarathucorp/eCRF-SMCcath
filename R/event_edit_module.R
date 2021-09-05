@@ -108,8 +108,7 @@ event_edit_module <- function(input, output, session, modal_title, car_to_edit, 
           actionButton(
             ns('submit'),
             'Submit',
-            class = "btn btn-primary",
-            style = "color: white"
+            class = "btn btn-primary"
           )
         )
       )

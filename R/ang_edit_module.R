@@ -37,7 +37,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("submit0"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
-                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                style = "float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
             "</h3>"
@@ -86,7 +86,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("submit1"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
-                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                style = "float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
             "</h3>"
@@ -215,7 +215,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("submit2"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
-                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                style = "float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
             "</h3>"
@@ -345,7 +345,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   ns("submit3"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
-                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                  style = "float:right; margin-right:10px; background-color : #27ae60;"
                 )
               ),
               "</h3>"
@@ -462,7 +462,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                   ns("submit4"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
-                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                  style = "float:right; margin-right:10px; background-color : #27ae60;"
                 )
               ),
               "</h3>"
@@ -576,7 +576,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
                 ns("submit5"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
-                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                style = "float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
             "</h3>"
@@ -640,8 +640,7 @@ ang_edit_module <- function(input, output, session, modal_title, car_to_edit, mo
           actionButton(
             ns("submit"),
             "Submit",
-            class = "btn btn-primary",
-            style = "color: white"
+            class = "btn btn-primary"
           )
         )
       )

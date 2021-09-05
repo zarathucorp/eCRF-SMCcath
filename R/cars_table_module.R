@@ -31,7 +31,6 @@ cars_table_module_ui <- function(id) {
           ns("add_patient"),
           "Add Patient",
           class = "btn-success",
-          style = "color: #fff;",
           icon = icon("plus"),
           width = "100%"
         ),
@@ -538,9 +537,19 @@ cars_table_module <- function(input, output, session, tbl = "rct", sessionid) {
       # table without rerendering the entire table
       replaceData(car_table_proxy, out, resetPaging = FALSE, rownames = FALSE)
     }
+    
+    callModule(
+      patientsNumber_plot_module,
+      "Hospital1",
+      data = out[, c("Center", "created_at")]
+    )
+    
+    callModule(
+      patientsByDate_plot_module,
+      "Date",
+      data = out[, c("Center", "created_at")]
+    )
   })
-
-  
   
   output$car_table <- renderDT({
     req(car_table_prep())
