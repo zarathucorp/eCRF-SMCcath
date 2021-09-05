@@ -12,6 +12,8 @@ patientsNumber_plot_module_ui <- function(id) {
       withSpinner()
     )
   )
+  echarts4rOutput(ns("patientsNumber")) %>%
+    withSpinner()
 }
 
 patientsNumber_plot_module <- function(input, output, session, data) {
@@ -21,7 +23,9 @@ patientsNumber_plot_module <- function(input, output, session, data) {
   output$patientsNumber <- renderEcharts4r({
     patientsPerHospital %>%
     e_charts(hospital) %>%
-    e_bar(patients) %>%
-    e_title("Patients Number")
+    e_bar(patients, name = "환자 수", label = list(fontWeight = "bold")) %>%
+    e_tooltip(trigger = "axis") %>%
+    e_labels(fontSize = 20, fontWeight = "bold") %>%
+    e_title("전체 병원별 환자 수")
   })
 }

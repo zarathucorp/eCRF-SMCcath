@@ -32,8 +32,10 @@ patientsByDate_plot_module <- function(input, output, session, data) {
       output$PatientsNumber <- renderEcharts4r({
         patientsPerDate %>%
           e_charts(hospital) %>%
-          e_bar(patients) %>%
-          e_title("Patients Number By Date")
+          e_bar(patients, name = "환자 수", label = list(fontWeight = "bold")) %>%
+          e_tooltip(trigger = "axis") %>%
+          e_labels(fontSize = 20, fontWeight = "bold") %>%
+          e_title("입력 날짜 기준 환자 수")
       })
     })
   })
