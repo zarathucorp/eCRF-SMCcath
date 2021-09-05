@@ -38,13 +38,13 @@ ui <- dashboardPage(
       ),
       sidebarMenu(
         menuItem(
-          "Item 1",
-          tabName = "item1",
+          "Dashboard",
+          tabName = "Dashboard",
           icon = icon("sliders")
         ),
         menuItem(
-          "Item 2",
-          tabName = "item2",
+          "eCRF",
+          tabName = "eCRF",
           icon = icon("id-card")
         )
       )
@@ -52,14 +52,38 @@ ui <- dashboardPage(
     body = dashboardBody(
       tabItems(
         tabItem(
-          tabName ="item1",
-          patientsNumber_plot_module_ui("table_rct-Hospital1"),
-          date_select_module_ui("table_rct-Date-date_selector"),
-          patientsByDate_plot_module_ui("table_rct-Date")
+          tabName ="Dashboard",
+          tabsetPanel(
+            id = "chart_panel",
+            selected = NULL,
+            tabPanel(
+              title = "RCT",
+              patientsNumber_plot_module_ui("table_rct-Hospital1"),
+              date_select_module_ui("table_rct-Date-date_selector"),
+              patientsByDate_plot_module_ui("table_rct-Date")
+            ),
+            tabPanel(
+              title = "Pros",
+              patientsNumber_plot_module_ui("table_pros-Hospital1"),
+              date_select_module_ui("table_pros-Date-date_selector"),
+              patientsByDate_plot_module_ui("table_pros-Date")
+            )
+          )
         ),
         tabItem(
-          tabName = "item2",
-          cars_table_module_ui("table_rct")
+          tabName = "eCRF",
+          tabsetPanel(
+            id = "editer_panel",
+            selected = NULL,
+            tabPanel(
+              title = "RCT",
+              cars_table_module_ui("table_rct")
+            ),
+            tabPanel(
+              title = "RCT",
+              cars_table_module_ui("table_pros")
+            )
+          )
         )
       )
    )
