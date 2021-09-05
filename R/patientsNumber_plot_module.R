@@ -12,8 +12,6 @@ patientsNumber_plot_module_ui <- function(id) {
       withSpinner()
     )
   )
-  echarts4rOutput(ns("patientsNumber")) %>%
-    withSpinner()
 }
 
 patientsNumber_plot_module <- function(input, output, session, data) {
