@@ -17,9 +17,9 @@ ui <- dashboardPage(
     header = dashboardHeader(
       title = dashboardBrand(
         title = "eCRF DashBoard",
-        color = "primary",
+        color = "white",
         href = "https://www.zarathu.com/",
-        image = "https://github.com/zarathucorp/blog/blob/master/img/logo.png"
+        image = "https://github.com/zarathucorp/blog/blob/master/img/logo.png?raw=true"
       ),
       skin = "light",
       status = "white",
