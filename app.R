@@ -12,21 +12,27 @@ library(shinydashboardPlus)
 # create_db(credentials_data = credentials, sqlite_path = "data/database.sqlite")
 
 ui <- dashboardPage(
+    skin = "black",
     title = "eCRF DashBoard",
-    header = dashboardHeader(),
+    header = dashboardHeader(title = "eCRF DashBoard"),
     sidebar = dashboardSidebar(
       sidebarMenu(
         menuItem(
           "Dashboard",
-          tabName = "Dashboard"
+          tabName = "Dashboard",
+          icon = icon("dashboard")
         ),
         menuItem(
           "eCRF",
-          tabName = "eCRF"
+          tabName = "eCRF",
+          icon = icon("th")
         )
       )
     ),
     body = dashboardBody(
+      tags$head(
+        tags$link(rel = "stylesheet", type = "text/css", href = "bootstrap.css")
+      ),
       tabItems(
         tabItem(
           tabName ="Dashboard",
