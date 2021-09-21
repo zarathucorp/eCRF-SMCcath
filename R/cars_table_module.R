@@ -30,7 +30,6 @@ cars_table_module_ui <- function(id) {
         actionButton(
           ns("add_patient"),
           "Add Patient",
-          class = "btn-success",
           icon = icon("plus"),
           width = "100%"
         ),
