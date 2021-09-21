@@ -1,7 +1,7 @@
 source("global.R")
 library(shinymanager)
-library(bslib)
-library(bs4Dash)
+library(shinydashboard)
+library(shinydashboardPlus)
 # credentials <- data.frame(
 #  user = c("admin", "chkh"),
 #  password = c("zarathuadmin", "chkh"),
@@ -12,38 +12,27 @@ library(bs4Dash)
 # create_db(credentials_data = credentials, sqlite_path = "data/database.sqlite")
 
 ui <- dashboardPage(
+    skin = "black",
     title = "eCRF DashBoard",
-    fullscreen = TRUE,
-    header = dashboardHeader(
-      title = dashboardBrand(
-        title = "eCRF DashBoard",
-        color = "white",
-        href = "https://www.zarathu.com/",
-        image = "https://github.com/zarathucorp/blog/blob/master/img/logo.png?raw=true"
-      ),
-      skin = "light",
-      status = "white",
-      border = TRUE,
-      sidebarIcon = icon("bars"),
-      controlbarIcon = icon("th"),
-      fixed = FALSE
-    ),
+    header = dashboardHeader(title = "eCRF DashBoard"),
     sidebar = dashboardSidebar(
-      skin = "light",
-      status = "primary",
-      elevation = 3,
       sidebarMenu(
         menuItem(
           "Dashboard",
-          tabName = "Dashboard"
+          tabName = "Dashboard",
+          icon = icon("dashboard")
         ),
         menuItem(
           "eCRF",
-          tabName = "eCRF"
+          tabName = "eCRF",
+          icon = icon("th")
         )
       )
     ),
     body = dashboardBody(
+      tags$head(
+        tags$link(rel = "stylesheet", type = "text/css", href = "bootstrap.css")
+      ),
       tabItems(
         tabItem(
           tabName ="Dashboard",
