@@ -1,6 +1,7 @@
 source("global.R")
 library(shinymanager)
-library(bslib)
+library(shinydashboard)
+library(shinydashboardPlus)
 # credentials <- data.frame(
 #  user = c("admin", "chkh"),
 #  password = c("zarathuadmin", "chkh"),
@@ -10,43 +11,67 @@ library(bslib)
 
 # create_db(credentials_data = credentials, sqlite_path = "data/database.sqlite")
 
-ui <- tagList(
-  shinyFeedback::useShinyFeedback(),
-  shinyjs::useShinyjs(),
-  
-  # ICON
-  tags$head(
-    tags$link(rel = "icon", type = "image/png", sizes = "32x32", href = "/ci_slogan_new05.png")
-  ),
-  
-  navbarPage(
-    title = "PRESTIGE-AMI",
-    theme = bslib::bs_theme(
-      version = 3,
-      primary = "#3466A1",
-      # secondary = '#595f6a',
-      success = "#71c4ad",
-      warning = "#f4c25b",
-      danger = "#ec7377"
-    ) %>%
-      bs_add_rules(".navbar-static-top { background-color : #3466A1 !important}") %>%
-      # bs_add_rules('.navbar-static-top { background-color : #6791CA !important}') %>%
-      bs_add_rules(".navbar-static-top .active a {color : #000 !important}") %>%
-      bs_add_rules(".navbar-static-top a {color : #FFF !important}") %>%
-      bs_add_rules(".navbar-brand {color : #FFF !important}") %>%
-      bs_add_rules(".container-fab button {background-color : #945ab5; color :#FFF}") # %>%
-    # bs_add_rules('#.shinymanager_logout {background-color : #945ab5}')
-    ,
-    # theme = 'custom.css',
-    tabPanel("RCT",
-      icon = icon("table"),
-      cars_table_module_ui("table_rct")
+ui <- dashboardPage(
+    skin = "black",
+    title = "eCRF DashBoard",
+    header = dashboardHeader(title = "eCRF DashBoard"),
+    sidebar = dashboardSidebar(
+      sidebarMenu(
+        menuItem(
+          "Dashboard",
+          tabName = "Dashboard",
+          icon = icon("dashboard")
+        ),
+        menuItem(
+          "eCRF",
+          tabName = "eCRF",
+          icon = icon("th")
+        )
+      )
     ),
-    tabPanel("Prospective",
-      icon = icon("table"),
-      cars_table_module_ui("table_pros")
-    )
-  )
+    body = dashboardBody(
+      shinyFeedback::useShinyFeedback(),
+      shinyjs::useShinyjs(),
+      tags$head(
+        tags$link(rel = "stylesheet", type = "text/css", href = "bootstrap.css")
+      ),
+      tabItems(
+        tabItem(
+          tabName ="Dashboard",
+          tabsetPanel(
+            id = "chart_panel",
+            selected = NULL,
+            tabPanel(
+              title = "RCT",
+              patientsNumber_plot_module_ui("table_rct-Hospital1"),
+              date_select_module_ui("table_rct-Date-date_selector"),
+              patientsByDate_plot_module_ui("table_rct-Date")
+            ),
+            tabPanel(
+              title = "Pros",
+              patientsNumber_plot_module_ui("table_pros-Hospital1"),
+              date_select_module_ui("table_pros-Date-date_selector"),
+              patientsByDate_plot_module_ui("table_pros-Date")
+            )
+          )
+        ),
+        tabItem(
+          tabName = "eCRF",
+          tabsetPanel(
+            id = "editer_panel",
+            selected = NULL,
+            tabPanel(
+              title = "RCT",
+              cars_table_module_ui("table_rct")
+            ),
+            tabPanel(
+              title = "Pros",
+              cars_table_module_ui("table_pros")
+            )
+          )
+        )
+      )
+   )
 )
 
 # ui <- secure_app(ui, enable_admin = T, theme = "cosmo")

@@ -37,7 +37,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("submit0"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
-                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                style = "float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
             "</h3>"
@@ -108,7 +108,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("submit1"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
-                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                style = "float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
             "</h3>"
@@ -601,7 +601,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                 ns("submit2"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
-                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                style = "float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
             "</h3>"
@@ -649,7 +649,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                   ns("submit3"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
-                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                  style = "float:right; margin-right:10px; background-color : #27ae60;"
                 )
               ),
               "</h3>"
@@ -697,7 +697,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                   ns("submit4"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
-                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                  style = "float:right; margin-right:10px; background-color : #27ae60;"
                 )
               ),
               "</h3>"
@@ -813,7 +813,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                   ns("submit5"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
-                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                  style = "float:right; margin-right:10px; background-color : #27ae60;"
                 )
               ),
               "</h3>"
@@ -917,7 +917,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                   ns("submit6"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
-                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                  style = "float:right; margin-right:10px; background-color : #27ae60;"
                 )
               ),
               "</h3>"
@@ -1000,7 +1000,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                   ns("submit7"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
-                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                  style = "float:right; margin-right:10px; background-color : #27ae60;"
                 )
               ),
               "</h3>"
@@ -1056,7 +1056,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
                   ns("submit8"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
-                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                  style = "float:right; margin-right:10px; background-color : #27ae60;"
                 )
               ),
               "</h3>"
@@ -1211,8 +1211,7 @@ outc_edit_module <- function(input, output, session, modal_title, car_to_edit, m
           actionButton(
             ns("submit"),
             "Submit",
-            class = "btn btn-primary",
-            style = "color: white"
+            class = "btn btn-primary"
           )
         )
       )

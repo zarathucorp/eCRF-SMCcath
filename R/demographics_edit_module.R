@@ -216,8 +216,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             actionButton(
               inputId = ns("submit"),
               label = "Submit",
-              class = "btn btn-primary",
-              style = "color: white"
+              class = "btn btn-primary"
             )
           )
         )
@@ -356,8 +355,7 @@ demographics_edit_module <- function(input, output, session, modal_title, car_to
             actionButton(
               ns("submit"),
               "Submit",
-              class = "btn btn-primary",
-              style = "color: white"
+              class = "btn btn-primary"
             )
           )
         )

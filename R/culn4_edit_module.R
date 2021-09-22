@@ -37,7 +37,7 @@ culn4_edit_module <- function(input, output, session, modal_title, car_to_edit, 
                 ns("submit0"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
-                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                style = "float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
             "</h3>"
@@ -81,7 +81,7 @@ culn4_edit_module <- function(input, output, session, modal_title, car_to_edit, 
                   ns("submit1"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
-                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                  style = "float:right; margin-right:10px; background-color : #27ae60;"
                 )
               ),
               "</h3>"
@@ -167,7 +167,7 @@ culn4_edit_module <- function(input, output, session, modal_title, car_to_edit, 
                 ns("submit2"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
-                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                style = "float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
             "</h3>"
@@ -226,7 +226,7 @@ culn4_edit_module <- function(input, output, session, modal_title, car_to_edit, 
                 ns("submit3"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
-                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                style = "float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
             "</h3>"
@@ -285,7 +285,7 @@ culn4_edit_module <- function(input, output, session, modal_title, car_to_edit, 
                 ns("submit4"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
-                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                style = "float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
             "</h3>"
@@ -608,7 +608,7 @@ culn4_edit_module <- function(input, output, session, modal_title, car_to_edit, 
                   ns("submit5"),
                   HTML('<i class="fas fa-check"></i>'),
                   class = "btn",
-                  style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                  style = "float:right; margin-right:10px; background-color : #27ae60;"
                 )
               ),
               "</h3>"
@@ -899,7 +899,7 @@ culn4_edit_module <- function(input, output, session, modal_title, car_to_edit, 
                 ns("submit6"),
                 HTML('<i class="fas fa-check"></i>'),
                 class = "btn",
-                style = "color: white; float:right; margin-right:10px; background-color : #27ae60;"
+                style = "float:right; margin-right:10px; background-color : #27ae60;"
               )
             ),
             "</h3>"
@@ -1086,8 +1086,7 @@ culn4_edit_module <- function(input, output, session, modal_title, car_to_edit, 
           actionButton(
             ns("submit"),
             "Submit",
-            class = "btn btn-primary",
-            style = "color: white"
+            class = "btn btn-primary"
           )
         )
       )
