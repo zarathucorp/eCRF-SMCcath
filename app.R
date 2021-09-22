@@ -30,6 +30,8 @@ ui <- dashboardPage(
       )
     ),
     body = dashboardBody(
+      shinyFeedback::useShinyFeedback(),
+      shinyjs::useShinyjs(),
       tags$head(
         tags$link(rel = "stylesheet", type = "text/css", href = "bootstrap.css")
       ),
