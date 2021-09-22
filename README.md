@@ -1,6 +1,12 @@
 # eCRF-SMCcath
 eCRF for SMC Cath lab
 
+## 발표 
+
+- [Shiny 환자데이터 입력웹 개발(1)](https://zarathucorp.github.io/eCRF-SMCcath/shinykorea/) 
+
+- [Shiny 환자데이터 입력웹 개발(2)](https://zarathucorp.github.io/eCRF-SMCcath/shinykorea2/)
+
 
 <!-- how to edit module  -->
 
